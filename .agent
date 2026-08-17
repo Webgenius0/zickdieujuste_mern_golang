@@ -1,0 +1,40 @@
+# ZICK Backend Architecture
+
+## Directory Structure
+This project follows a Feature-Based (or Domain-Driven) folder structure using Go and the Echo framework. 
+Every core feature (domain) encapsulates its own entity, handler, service, and repository.
+
+- `/cmd`
+  - `main.go`: Application entry point. Wires up config, database, and the HTTP server.
+- `/internal/config`
+  - `config.go`: Environment variable loading.
+- `/internal/domain`
+  - Contains sub-packages for each feature (e.g., `user`, `auth`, `content`, `schedule`, `subscription`).
+  - Inside each feature package, you will find:
+    - `entity.go`: The GORM structs and interfaces for the domain.
+    - `handler.go`: The Echo HTTP handlers for the feature (Presentation Layer). Includes Swagger annotations.
+    - `service.go`: The Business Logic Layer. Orchestrates calls to repositories.
+    - `repository.go`: The Data Access Layer. Concrete GORM implementations.
+    - `dto/` (optional): Request/Response DTOs specific to the feature.
+- `/internal/server`
+  - `http.go`: Initializes the Echo router, registers middleware, and calls `RegisterRoutes` for each feature.
+- `/internal/middlewares`
+  - Custom Echo middleware (e.g., JWT validation).
+- `/internal/httpresponse`
+  - Standardized JSON error and success wrappers.
+
+## Core Features
+Refer to `ERD.md` for exact schemas.
+- `auth`: Authentication logic, JWT generation, OTPs, Refresh Tokens.
+- `user`: Profile management.
+- `device`: FCM/APNS token registration.
+- `schedule`: Push Notifications & Timezones.
+- `content`: Library content, filtering, searching.
+- `subscription`: Payments, plans, receipts.
+
+## General Rules
+1. Every new API endpoint needs a corresponding Swagger doc block in the feature's `handler.go`.
+2. Services should only communicate with other services or repositories, never directly parse HTTP contexts.
+3. Media (Audio/Video/Images) uses Cloudinary URLs.
+4. Passwords must be hashed via `bcrypt`.
+5. Prefer UUIDs as primary keys generated via Postgres `gen_random_uuid()`.

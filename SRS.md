@@ -77,48 +77,44 @@
 
 ---
 
-## 5. Core Modules (Repository Pattern, Go/Echo)
+## 5. Core Modules
+
+**Stack correction:** GORM (not raw `pgx`/`sqlx`), Echo **v5**, Swaggo for API docs, per-domain feature folders — matching the existing `gotickets`-derived project convention already in use.
+
+**Domain count: 4**, one per primary business object (not one per table — related tables live inside their owning domain):
+
+| Domain | Owns |
+|---|---|
+| `domain/user` | `User`, `OTP`, `RefreshToken`, `DeviceToken` — profile **and** all auth flows (register/login/refresh/logout/forgot-password/reset-password/device registration). No separate `auth` domain — auth lives inside `user` and calls the shared `internal/auth/jwt.go` helper, matching how `gotickets` has no standalone auth domain. |
+| `domain/content` | `Content`, `ContentAudience`, `RelatedContent` — all 7 content types share one table/domain. |
+| `domain/schedule` | `UserSchedule` — kept separate from `user` because it has independent CRUD, timezone logic, and feeds the notification worker on its own. |
+| `domain/subscription` | `SubscriptionPlan`, `Subscription` — plan listing, receipt verification, webhook handling. |
+
+**Per-domain file layout** (identical across all 4 domains):
 
 ```
-/cmd
-  /api                 → main.go, wiring
-/internal
-  /domain              → entities + repository interfaces (no framework deps)
-    user.go
-    content.go
-    schedule.go
-    subscription.go
-  /repository
-    /postgres          → concrete pgx/sqlx implementations of domain interfaces
-      user_repo.go
-      content_repo.go
-      schedule_repo.go
-      subscription_repo.go
-      otp_repo.go
-      device_token_repo.go
-      refresh_token_repo.go
-  /service             → business logic, orchestrates repositories
-    auth_service.go
-    content_service.go
-    schedule_service.go
-    subscription_service.go
-  /handler             → Echo handlers, request/response DTOs, validation
-    auth_handler.go
-    content_handler.go
-    schedule_handler.go
-    subscription_handler.go
-    user_handler.go
-  /middleware          → JWT auth, RequirePremium, rate limiter, logging
-  /worker              → notification dispatcher (cron/queue consumer)
-  /platform
-    /db                → migrations, connection pool
-    /fcm                → push notification client
-    /storage            → S3 presigned URL generation
-    /store               → Apple/Google receipt validation clients
-/migrations            → SQL migration files (golang-migrate or goose)
+internal/domain/<name>/
+  entity.go       → GORM model struct(s), table tags
+  dto/
+    request.go    → incoming request DTOs, validator tags
+    response.go   → outgoing response DTOs (never expose GORM models directly)
+  repository.go   → interface + GORM implementation (interface first, concrete struct below it in the same file, matching gotickets convention)
+  service.go      → business logic, depends on the repository interface
+  handler.go      → Echo v5 handlers, swaggo doc comments above each handler
+  register.go     → registers this domain's routes onto the Echo group passed in; called from internal/server/http.go
 ```
 
-**Layering rule:** handlers depend on services; services depend on domain interfaces; postgres repositories implement those interfaces. This keeps the service layer testable via mock repositories and keeps Echo/pgx out of business logic.
+**Shared, cross-domain code stays where it already is:**
+- `internal/auth/jwt.go` — token issue/parse, used by `domain/user`
+- `internal/config` — env + DB (GORM) connection
+- `internal/httpresponse/error.go` — shared error envelope
+- `internal/middlewares/auth.go` — `RequireAuth` / `RequirePremium` Echo middleware
+- `internal/server/http.go` — wires Echo, calls each domain's `register.go`
+- `internal/server/swagger.go` — swaggo route
+
+**Migrations:** GORM `AutoMigrate` on startup (no `golang-migrate`/`goose` in `go.mod`) — each domain's `entity.go` model is passed to `AutoMigrate` from `internal/config/db.go` or a dedicated `internal/config/migrate.go`.
+
+**API docs:** every handler gets swaggo comment annotations (`@Summary`, `@Tags`, `@Accept`, `@Produce`, `@Param`, `@Success`, `@Failure`, `@Router`) so `docs/swagger.json`/`swagger.yaml` stay in sync via `swag init`.
 
 ---
 
@@ -136,6 +132,7 @@
 | User | PUT | `/api/v1/users/me` | Update profile info | Yes | User |
 | User | PUT | `/api/v1/users/me/password` | Change password | Yes | User |
 | User | DELETE | `/api/v1/users/me` | Soft-delete account | Yes | User |
+| User | POST | `/api/v1/users/me/avatar` | Upload avatar via Cloudinary, update `avatar_url` | Yes | User |
 | Device | POST | `/api/v1/devices` | Register/refresh FCM/APNS token | Yes | User |
 | Schedule | GET | `/api/v1/schedules/me` | Get current schedule | Yes | User |
 | Schedule | PUT | `/api/v1/schedules/me` | Update prayer times/timezone/push toggle | Yes | User |
@@ -151,10 +148,10 @@
 
 ## 7. Database Requirements
 
-- **Engine:** PostgreSQL 15+, using `pgx` driver with `sqlx` or plain `database/sql`.
-- **Migrations:** `golang-migrate` or `goose`, versioned in `/migrations`.
-- See `ERD.md` for full schema, relationships, and index plan.
-- UUIDs as primary keys (`gen_random_uuid()` via `pgcrypto`).
+- **Engine:** PostgreSQL 15+, via `gorm.io/driver/postgres` + `gorm.io/gorm`.
+- **Migrations:** GORM `AutoMigrate`, run at startup against each domain's `entity.go` models (no separate SQL migration tool in use).
+- See `ERD.md` for full schema, relationships, and index plan — translate table/column definitions there into GORM struct tags (`gorm:"..."`) per domain.
+- UUIDs as primary keys, generated via `github.com/google/uuid` in application code (assign in `BeforeCreate` GORM hook, or default via Postgres `pgcrypto` — pick one convention and apply it consistently across all 4 domains).
 
 ---
 
@@ -167,9 +164,13 @@
 
 ## 9. File & Media Management
 
-- Object storage: AWS S3 (or GCS), fronted by a CDN (CloudFront/Cloudflare).
-- Admin CMS uploads use presigned PUT URLs for direct-to-S3 upload of large audio/video files.
-- Client media access: premium content URLs are generated as short-lived presigned GET URLs at request time (not stored as public links) to prevent hotlinking.
+- **Provider (V1):** Cloudinary — used for avatar uploads now, and content media (audio/video/thumbnails) once the admin CMS ships.
+- **Provider (future):** AWS S3 + CDN (CloudFront/Cloudflare). The upload service is built behind a Go interface from day one specifically so this swap doesn't touch any domain code — only a new implementation + wiring change.
+- **Location:** `internal/upload/` — a shared, cross-cutting service at the same level as `internal/auth` and `internal/config`, not nested inside any single domain, since both `user` (avatars) and `content` (media, future) need it.
+- **Interface shape:** an `Uploader` interface (e.g. `Upload(ctx, file) (UploadResult, error)`, `Delete(ctx, publicID) error`) with a `cloudinary.go` implementation now; a future `s3.go` implementation satisfies the same interface with zero call-site changes.
+- **Config:** Cloudinary credentials loaded via env vars through `internal/config/config.go`, alongside everything else — see `.env.example` for the required keys.
+- **Uploads (admin CMS, future):** presigned/direct upload flow for large audio/video files — deferred until the CMS module is built (SRS §11 is still future scope).
+- **Client media access:** premium content URLs — for V1, Cloudinary's own URL is served directly; short-lived signed URLs (matching the original presigned-URL requirement) become relevant once S3 is in place.
 
 ---
 
