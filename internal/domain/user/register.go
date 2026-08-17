@@ -3,6 +3,7 @@ package user
 import (
 	"gotickets/internal/auth"
 	"gotickets/internal/config"
+	"gotickets/internal/email"
 	"gotickets/internal/middlewares"
 	"gotickets/internal/upload"
 
@@ -15,7 +16,14 @@ import (
 func RegisterRoutes(e *echo.Echo, db *gorm.DB, cfg *config.Config, uploader upload.Uploader) {
 	repo := NewRepository(db)
 	jwtSvc := auth.NewJWTService(cfg.JwtAccessSecret, cfg.JwtRefreshSecret, cfg.JwtAccessExpiry, cfg.JwtRefreshExpiry)
-	svc := NewService(repo, jwtSvc, uploader)
+
+	// Build Gmail mailer when SMTP credentials are present; nil otherwise (falls back to stdout log).
+	var mailer email.Mailer
+	if cfg.SMTPFromAddress != "" && cfg.SMTPAppPassword != "" {
+		mailer = email.NewGmailMailer(cfg.SMTPFromName, cfg.SMTPFromAddress, cfg.SMTPAppPassword)
+	}
+
+	svc := NewService(repo, jwtSvc, uploader, mailer)
 	h := NewHandler(svc, uploader)
 
 	authMW := middlewares.AuthMiddleware(jwtSvc)

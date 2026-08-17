@@ -72,7 +72,7 @@ func Start(db *gorm.DB, cfg *config.Config, uploader upload.Uploader) {
 
 	// Build a user service reference for domains that need premium checks or user ID resolution
 	userRepo := user.NewRepository(db)
-	userSvc := user.NewService(userRepo, jwtSvc, uploader)
+	userSvc := user.NewService(userRepo, jwtSvc, uploader, nil)
 
 	// Domain 2: Content
 	content.RegisterRoutes(e, db, jwtSvc, userSvc)

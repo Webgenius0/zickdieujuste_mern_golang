@@ -6,11 +6,13 @@ import (
 	"crypto/sha256"
 	"errors"
 	"fmt"
+	"log"
 	"math/big"
 	"time"
 
 	"gotickets/internal/auth"
 	"gotickets/internal/domain/user/dto"
+	"gotickets/internal/email"
 	"gotickets/internal/upload"
 
 	"github.com/google/uuid"
@@ -47,11 +49,12 @@ type service struct {
 	repo     Repository
 	jwt      auth.JWTService
 	uploader upload.Uploader // may be nil if upload not configured
+	mailer   email.Mailer   // may be nil — falls back to stdout log
 }
 
-// NewService creates a new user Service. uploader may be nil — avatar upload will return an error if so.
-func NewService(repo Repository, jwt auth.JWTService, uploader upload.Uploader) Service {
-	return &service{repo: repo, jwt: jwt, uploader: uploader}
+// NewService creates a new user Service. uploader and mailer may be nil.
+func NewService(repo Repository, jwt auth.JWTService, uploader upload.Uploader, mailer email.Mailer) Service {
+	return &service{repo: repo, jwt: jwt, uploader: uploader, mailer: mailer}
 }
 
 // ──────────────────────────────────────────────────────────────────────────────
@@ -159,8 +162,16 @@ func (s *service) ForgotPassword(req dto.ForgotPasswordRequest) error {
 		return fmt.Errorf("failed to create OTP: %w", err)
 	}
 
-	// TODO: dispatch email with OTP code (email provider integration goes here)
-	fmt.Printf("[OTP] Email: %s Code: %s (expires in 10m)\n", req.Email, code)
+	// Send OTP via Gmail SMTP when mailer is configured; log to stdout as fallback.
+	if s.mailer != nil {
+		if err := s.mailer.SendOTP(u.Email, u.Name, code); err != nil {
+			// Non-fatal: OTP is already stored. Log and continue — the user can retry.
+			log.Printf("[EMAIL] failed to send OTP to %s: %v", u.Email, err)
+		}
+	} else {
+		// [DEV_MODE] No mailer configured — print OTP to stdout.
+		fmt.Printf("[OTP][DEV_MODE] Email: %s Code: %s (expires in 10m)\n", req.Email, code)
+	}
 
 	return nil
 }

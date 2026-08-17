@@ -16,6 +16,11 @@ type Config struct {
 	CloudinaryCloudName string
 	CloudinaryApiKey    string
 	CloudinaryApiSecret string
+
+	// SMTP / Gmail App Password config
+	SMTPFromName    string
+	SMTPFromAddress string
+	SMTPAppPassword string
 }
 
 func LoadEnv() *Config {
@@ -34,5 +39,15 @@ func LoadEnv() *Config {
 		CloudinaryCloudName: os.Getenv("CLOUDINARY_CLOUD_NAME"),
 		CloudinaryApiKey:    os.Getenv("CLOUDINARY_API_KEY"),
 		CloudinaryApiSecret: os.Getenv("CLOUDINARY_API_SECRET"),
+		SMTPFromName:    getEnvWithDefault("SMTP_FROM_NAME", "ZICK App"),
+		SMTPFromAddress: os.Getenv("SMTP_FROM_ADDRESS"),
+		SMTPAppPassword: os.Getenv("SMTP_APP_PASSWORD"),
 	}
+}
+
+func getEnvWithDefault(key, fallback string) string {
+	if val := os.Getenv(key); val != "" {
+		return val
+	}
+	return fallback
 }
