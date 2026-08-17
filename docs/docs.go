@@ -9,15 +9,7 @@ const docTemplate = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "termsOfService": "http://swagger.io/terms/",
-        "contact": {
-            "name": "API Support",
-            "email": "support@gotickets.local"
-        },
-        "license": {
-            "name": "MIT",
-            "url": "https://opensource.org/licenses/MIT"
-        },
+        "contact": {},
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
@@ -43,9 +35,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/auth/login": {
+        "/api/v1/auth/forgot-password": {
             "post": {
-                "description": "Authenticates a user and returns access and refresh tokens.",
+                "description": "Sends a 5-digit OTP to the email (10-min expiry). Always returns 200 to prevent user enumeration.",
                 "consumes": [
                     "application/json"
                 ],
@@ -55,10 +47,50 @@ const docTemplate = `{
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Login user",
+                "summary": "Request password reset OTP",
                 "parameters": [
                     {
-                        "description": "User Login Details",
+                        "description": "Email address",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.ForgotPasswordRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.MessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/login": {
+            "post": {
+                "description": "Authenticates an EMAIL user. Returns access + refresh JWT pair.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Login",
+                "parameters": [
+                    {
+                        "description": "Login payload",
                         "name": "request",
                         "in": "body",
                         "required": true,
@@ -71,11 +103,17 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.Response"
+                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.AuthResponse"
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "Validation error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid credentials",
                         "schema": {
                             "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
                         }
@@ -83,9 +121,14 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/auth/refresh": {
+        "/api/v1/auth/logout": {
             "post": {
-                "description": "Generates a new access token using a valid refresh token.",
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Revokes the current refresh token, ending the session.",
                 "consumes": [
                     "application/json"
                 ],
@@ -95,19 +138,14 @@ const docTemplate = `{
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Refresh Access Token",
+                "summary": "Logout",
                 "parameters": [
                     {
-                        "description": "Refresh Token (Optional if provided in cookies)",
+                        "description": "Refresh token (omit if using cookie)",
                         "name": "request",
                         "in": "body",
                         "schema": {
-                            "type": "object",
-                            "properties": {
-                                "refresh_token": {
-                                    "type": "string"
-                                }
-                            }
+                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.RefreshRequest"
                         }
                     }
                 ],
@@ -115,7 +153,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.Response"
+                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.MessageResponse"
                         }
                     },
                     "401": {
@@ -127,9 +165,48 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/auth/refresh": {
+            "post": {
+                "description": "Rotates the refresh token: revokes the old one and issues a new access + refresh pair. Token may be sent in body or \"refresh_token\" cookie.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Refresh access token",
+                "parameters": [
+                    {
+                        "description": "Refresh token (omit if using cookie)",
+                        "name": "request",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.RefreshRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.AuthResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid or expired refresh token",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/auth/register": {
             "post": {
-                "description": "Creates a new user account and returns access and refresh tokens.",
+                "description": "Creates a new EMAIL-provider account. Returns access + refresh JWT pair. Duplicate email returns 409.",
                 "consumes": [
                     "application/json"
                 ],
@@ -142,12 +219,12 @@ const docTemplate = `{
                 "summary": "Register a new user",
                 "parameters": [
                     {
-                        "description": "User Registration Details",
+                        "description": "Registration payload",
                         "name": "request",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.CreateRequest"
+                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.RegisterRequest"
                         }
                     }
                 ],
@@ -155,74 +232,17 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.Response"
+                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.AuthResponse"
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/bookings": {
-            "post": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Reserves tickets for a specific event for the authenticated user.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Bookings"
-                ],
-                "summary": "Create a new booking",
-                "parameters": [
-                    {
-                        "description": "Booking Creation Details",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_booking_dto.CreateRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_booking_dto.Response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
+                        "description": "Validation error",
                         "schema": {
                             "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
                         }
                     },
                     "409": {
-                        "description": "Conflict",
+                        "description": "Email already registered",
                         "schema": {
                             "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
                         }
@@ -236,28 +256,442 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/bookings/me": {
+        "/api/v1/auth/reset-password": {
+            "post": {
+                "description": "Verifies the 5-digit OTP and updates the user password.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Reset password with OTP",
+                "parameters": [
+                    {
+                        "description": "Email + OTP + new password",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.ResetPasswordRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.MessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid or expired OTP",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/content": {
             "get": {
                 "security": [
                     {
                         "BearerAuth": []
                     }
                 ],
-                "description": "Retrieves all bookings made by the currently authenticated user.",
+                "description": "Returns a paginated, filterable list of content items. Supports ` + "`" + `type` + "`" + `, ` + "`" + `sub_type` + "`" + `, ` + "`" + `audience` + "`" + `, ` + "`" + `category_tag` + "`" + `, and ` + "`" + `q` + "`" + ` (full-text search) query parameters.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "Bookings"
+                    "Content"
                 ],
-                "summary": "List my bookings",
+                "summary": "List content",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Content type (PRAYER, MOTIVATION, WORSHIP, PROVERB, DAILY_QUOTE, ILLUSTRATION, ENCOURAGEMENT)",
+                        "name": "type",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Sub-type (e.g. Morning, Night)",
+                        "name": "sub_type",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Audience (ALL, KIDS, TEENS)",
+                        "name": "audience",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Category tag (e.g. Thanksgiving, Intercession)",
+                        "name": "category_tag",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Full-text search query",
+                        "name": "q",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Page number (default: 1)",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Items per page (default: 20, max: 100)",
+                        "name": "page_size",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_content_dto.ContentListResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/content/daily-quote": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Returns the DAILY_QUOTE content item for the current date, filtered by published_at.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Content"
+                ],
+                "summary": "Get today's daily quote",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_content_dto.ContentDetail"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "No quote for today",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/content/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Returns full detail for a content item. If the content is premium and the user is not premium, returns HTTP 403 with an upgrade prompt.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Content"
+                ],
+                "summary": "Get content detail",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Content UUID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_content_dto.ContentDetail"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Premium content — upgrade required",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_content_dto.PremiumGateResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/content/{id}/related": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Returns a list of content items related to the given content ID via the related_content join table.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Content"
+                ],
+                "summary": "Get related content",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Content UUID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/gotickets_internal_domain_booking_dto.Response"
+                                "$ref": "#/definitions/gotickets_internal_domain_content_dto.ContentSummary"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/devices": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Registers or refreshes an FCM (Android) or APNs (iOS) push notification token. Upserts on (user_id, token).",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Devices"
+                ],
+                "summary": "Register device token",
+                "parameters": [
+                    {
+                        "description": "Device token payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.RegisterDeviceRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.MessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/schedules/me": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Returns the authenticated user's prayer schedule. Creates a default schedule on first access (05:00 morning, 21:00 night, UTC, push enabled) rather than returning 404.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Schedule"
+                ],
+                "summary": "Get current user's prayer schedule",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_schedule_dto.ScheduleResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Updates morning_prayer_time, night_prayer_time, timezone (must be valid IANA string), and push_enabled for the authenticated user.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Schedule"
+                ],
+                "summary": "Update prayer schedule",
+                "parameters": [
+                    {
+                        "description": "Schedule update payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_schedule_dto.UpdateScheduleRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_schedule_dto.ScheduleResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error or invalid timezone",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/subscriptions/plans": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Returns all active subscription plans (Biannual, Annual, Friends \u0026 Family).",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Subscriptions"
+                ],
+                "summary": "List subscription plans",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/gotickets_internal_domain_subscription_dto.PlanResponse"
                             }
                         }
                     },
@@ -276,36 +710,14 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/events": {
-            "get": {
-                "description": "Retrieves a list of all available events.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Events"
-                ],
-                "summary": "List all events",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/gotickets_internal_domain_event_dto.Response"
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
-                        }
-                    }
-                }
-            },
+        "/api/v1/subscriptions/verify": {
             "post": {
-                "description": "Creates a new event with the provided details.",
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Verifies an Apple or Google Play receipt, upserts a subscription record, and marks the user as premium. Receipt validation is currently stubbed — real integration pending.",
                 "consumes": [
                     "application/json"
                 ],
@@ -313,29 +725,35 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Events"
+                    "Subscriptions"
                 ],
-                "summary": "Create a new event",
+                "summary": "Verify purchase receipt",
                 "parameters": [
                     {
-                        "description": "Event Creation Details",
+                        "description": "Store and receipt payload",
                         "name": "request",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_event_dto.CreateRequest"
+                            "$ref": "#/definitions/gotickets_internal_domain_subscription_dto.VerifyReceiptRequest"
                         }
                     }
                 ],
                 "responses": {
-                    "201": {
-                        "description": "Created",
+                    "200": {
+                        "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_event_dto.Response"
+                            "$ref": "#/definitions/gotickets_internal_domain_subscription_dto.SubscriptionResponse"
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "Validation error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
                         "schema": {
                             "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
                         }
@@ -349,54 +767,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/events/{id}": {
-            "get": {
-                "description": "Retrieves the details of a specific event by its ID.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Events"
-                ],
-                "summary": "Get event by ID",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Event ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_event_dto.Response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
-                        }
-                    }
-                }
-            },
-            "patch": {
-                "description": "Updates the details of a specific event by its ID.",
+        "/api/v1/subscriptions/webhook": {
+            "post": {
+                "description": "Receives renewal, cancellation, and refund events from Apple and Google. No auth middleware — store signature verification is applied instead (currently stubbed with a TODO).",
                 "consumes": [
                     "application/json"
                 ],
@@ -404,24 +777,17 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Events"
+                    "Subscriptions"
                 ],
-                "summary": "Update an event",
+                "summary": "Handle store webhook",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "Event ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "Event Update Details",
+                        "description": "Webhook payload from Apple or Google",
                         "name": "request",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_event_dto.UpdateRequest"
+                            "$ref": "#/definitions/gotickets_internal_domain_subscription_dto.WebhookRequest"
                         }
                     }
                 ],
@@ -429,17 +795,11 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_event_dto.Response"
+                            "$ref": "#/definitions/gotickets_internal_domain_subscription_dto.MessageResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
                         "schema": {
                             "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
                         }
@@ -460,10 +820,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Returns the profile of the currently authenticated user based on the JWT token.",
-                "consumes": [
-                    "application/json"
-                ],
+                "description": "Returns the full profile and settings for the authenticated user.",
                 "produces": [
                     "application/json"
                 ],
@@ -475,11 +832,219 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_auth.JwtCustomClaims"
+                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.ProfileResponse"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Updates name, location, theme preference, or language preference.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update profile",
+                "parameters": [
+                    {
+                        "description": "Fields to update (all optional)",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.UpdateProfileRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.ProfileResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Soft-deletes the authenticated user's account (sets deleted_at). No hard purge occurs synchronously.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Delete account",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.MessageResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/users/me/avatar": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Uploads a new profile picture (JPEG/PNG/WebP, max 5 MB) to Cloudinary and updates avatar_url.",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Upload avatar",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "Avatar image file",
+                        "name": "avatar",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.AvatarResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Missing or invalid file",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "503": {
+                        "description": "Upload service unavailable",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/users/me/password": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Verifies the current password and updates it to the new one.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Change password",
+                "parameters": [
+                    {
+                        "description": "Current and new passwords",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.ChangePasswordRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.MessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Wrong current password",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
                         "schema": {
                             "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
                         }
@@ -509,213 +1074,332 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "gotickets_internal_auth.JwtCustomClaims": {
+        "gotickets_internal_domain_content_dto.ContentDetail": {
             "type": "object",
             "properties": {
-                "aud": {
-                    "description": "the ` + "`" + `aud` + "`" + ` (Audience) claim. See https://datatracker.ietf.org/doc/html/rfc7519#section-4.1.3",
+                "audiences": {
                     "type": "array",
                     "items": {
                         "type": "string"
                     }
                 },
-                "email": {
+                "author_or_speaker": {
                     "type": "string"
                 },
-                "exp": {
-                    "description": "the ` + "`" + `exp` + "`" + ` (Expiration Time) claim. See https://datatracker.ietf.org/doc/html/rfc7519#section-4.1.4",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/jwt.NumericDate"
-                        }
-                    ]
-                },
-                "iat": {
-                    "description": "the ` + "`" + `iat` + "`" + ` (Issued At) claim. See https://datatracker.ietf.org/doc/html/rfc7519#section-4.1.6",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/jwt.NumericDate"
-                        }
-                    ]
-                },
-                "iss": {
-                    "description": "the ` + "`" + `iss` + "`" + ` (Issuer) claim. See https://datatracker.ietf.org/doc/html/rfc7519#section-4.1.1",
+                "body_text": {
                     "type": "string"
                 },
-                "jti": {
-                    "description": "the ` + "`" + `jti` + "`" + ` (JWT ID) claim. See https://datatracker.ietf.org/doc/html/rfc7519#section-4.1.7",
+                "category_tag": {
+                    "type": "string"
+                },
+                "duration_seconds": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_premium": {
+                    "type": "boolean"
+                },
+                "media_type": {
+                    "type": "string"
+                },
+                "media_url": {
+                    "description": "nil if premium-gated",
+                    "type": "string"
+                },
+                "published_at": {
+                    "type": "string"
+                },
+                "related": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/gotickets_internal_domain_content_dto.ContentSummary"
+                    }
+                },
+                "sub_type": {
+                    "type": "string"
+                },
+                "thumbnail_url": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
+        "gotickets_internal_domain_content_dto.ContentListResponse": {
+            "type": "object",
+            "properties": {
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/gotickets_internal_domain_content_dto.ContentSummary"
+                    }
+                },
+                "page": {
+                    "type": "integer"
+                },
+                "page_size": {
+                    "type": "integer"
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
+        "gotickets_internal_domain_content_dto.ContentSummary": {
+            "type": "object",
+            "properties": {
+                "audiences": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "author_or_speaker": {
+                    "type": "string"
+                },
+                "category_tag": {
+                    "type": "string"
+                },
+                "duration_seconds": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_premium": {
+                    "type": "boolean"
+                },
+                "media_type": {
+                    "type": "string"
+                },
+                "published_at": {
+                    "type": "string"
+                },
+                "sub_type": {
+                    "type": "string"
+                },
+                "thumbnail_url": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
+        "gotickets_internal_domain_content_dto.PremiumGateResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "upgrade_url": {
+                    "type": "string"
+                }
+            }
+        },
+        "gotickets_internal_domain_schedule_dto.ScheduleResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "morning_prayer_time": {
+                    "type": "string"
+                },
+                "night_prayer_time": {
+                    "type": "string"
+                },
+                "push_enabled": {
+                    "type": "boolean"
+                },
+                "timezone": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "gotickets_internal_domain_schedule_dto.UpdateScheduleRequest": {
+            "type": "object",
+            "required": [
+                "morning_prayer_time",
+                "night_prayer_time",
+                "push_enabled",
+                "timezone"
+            ],
+            "properties": {
+                "morning_prayer_time": {
+                    "description": "\"HH:MM\" or \"HH:MM:SS\"",
+                    "type": "string"
+                },
+                "night_prayer_time": {
+                    "description": "\"HH:MM\" or \"HH:MM:SS\"",
+                    "type": "string"
+                },
+                "push_enabled": {
+                    "type": "boolean"
+                },
+                "timezone": {
+                    "description": "IANA tz, validated via time.LoadLocation",
+                    "type": "string"
+                }
+            }
+        },
+        "gotickets_internal_domain_subscription_dto.MessageResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "gotickets_internal_domain_subscription_dto.PlanResponse": {
+            "type": "object",
+            "properties": {
+                "billing_interval": {
+                    "type": "string"
+                },
+                "code": {
+                    "type": "string"
+                },
+                "currency": {
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "name": {
                     "type": "string"
                 },
-                "nbf": {
-                    "description": "the ` + "`" + `nbf` + "`" + ` (Not Before) claim. See https://datatracker.ietf.org/doc/html/rfc7519#section-4.1.5",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/jwt.NumericDate"
-                        }
-                    ]
-                },
-                "sub": {
-                    "description": "the ` + "`" + `sub` + "`" + ` (Subject) claim. See https://datatracker.ietf.org/doc/html/rfc7519#section-4.1.2",
-                    "type": "string"
-                },
-                "user_id": {
-                    "type": "integer"
+                "price_amount": {
+                    "type": "number"
                 }
             }
         },
-        "gotickets_internal_domain_booking_dto.CreateRequest": {
-            "type": "object",
-            "required": [
-                "event_id",
-                "quantity"
-            ],
-            "properties": {
-                "event_id": {
-                    "type": "integer"
-                },
-                "quantity": {
-                    "type": "integer"
-                }
-            }
-        },
-        "gotickets_internal_domain_booking_dto.Response": {
+        "gotickets_internal_domain_subscription_dto.SubscriptionResponse": {
             "type": "object",
             "properties": {
-                "booking_code": {
+                "expires_at": {
                     "type": "string"
                 },
-                "created_at": {
+                "external_transaction_id": {
                     "type": "string"
-                },
-                "event_id": {
-                    "type": "integer"
                 },
                 "id": {
-                    "type": "integer"
+                    "type": "string"
                 },
-                "quantity": {
-                    "type": "integer"
+                "plan": {
+                    "$ref": "#/definitions/gotickets_internal_domain_subscription_dto.PlanResponse"
+                },
+                "start_date": {
+                    "type": "string"
                 },
                 "status": {
                     "type": "string"
                 },
-                "total_price": {
-                    "type": "integer"
+                "store": {
+                    "type": "string"
                 },
                 "user_id": {
-                    "type": "integer"
+                    "type": "string"
                 }
             }
         },
-        "gotickets_internal_domain_event_dto.CreateRequest": {
+        "gotickets_internal_domain_subscription_dto.VerifyReceiptRequest": {
             "type": "object",
             "required": [
-                "location",
-                "starts_at",
-                "title",
-                "total_tickets"
+                "receipt_payload",
+                "store"
             ],
             "properties": {
-                "description": {
-                    "type": "string",
-                    "maxLength": 1000
-                },
-                "location": {
+                "receipt_payload": {
+                    "description": "Raw receipt string / token from the store",
                     "type": "string"
                 },
-                "price": {
-                    "type": "integer",
-                    "minimum": 0
-                },
-                "starts_at": {
-                    "type": "string"
-                },
-                "title": {
+                "store": {
                     "type": "string",
-                    "maxLength": 150,
-                    "minLength": 2
-                },
-                "total_tickets": {
-                    "type": "integer"
+                    "enum": [
+                        "APPLE",
+                        "GOOGLE"
+                    ]
                 }
             }
         },
-        "gotickets_internal_domain_event_dto.Response": {
+        "gotickets_internal_domain_subscription_dto.WebhookRequest": {
             "type": "object",
             "properties": {
-                "available_tickets": {
-                    "type": "integer"
+                "payload": {
+                    "type": "object",
+                    "additionalProperties": true
                 },
-                "created_at": {
+                "store": {
                     "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "location": {
-                    "type": "string"
-                },
-                "price": {
-                    "type": "integer"
-                },
-                "starts_at": {
-                    "type": "string"
-                },
-                "title": {
-                    "type": "string"
-                },
-                "total_tickets": {
-                    "type": "integer"
                 }
             }
         },
-        "gotickets_internal_domain_event_dto.UpdateRequest": {
+        "gotickets_internal_domain_user_dto.AuthResponse": {
             "type": "object",
             "properties": {
-                "description": {
-                    "type": "string",
-                    "maxLength": 1000
-                },
-                "location": {
+                "access_token": {
                     "type": "string"
                 },
-                "price": {
-                    "type": "integer",
-                    "minimum": 0
-                },
-                "starts_at": {
+                "refresh_token": {
                     "type": "string"
-                },
-                "title": {
-                    "type": "string",
-                    "maxLength": 150,
-                    "minLength": 2
                 }
             }
         },
-        "gotickets_internal_domain_user_dto.CreateRequest": {
+        "gotickets_internal_domain_user_dto.AvatarResponse": {
+            "type": "object",
+            "properties": {
+                "avatar_url": {
+                    "type": "string"
+                }
+            }
+        },
+        "gotickets_internal_domain_user_dto.ChangePasswordRequest": {
             "type": "object",
             "required": [
-                "email",
-                "name",
-                "password"
+                "confirm_password",
+                "new_password",
+                "old_password"
+            ],
+            "properties": {
+                "confirm_password": {
+                    "type": "string"
+                },
+                "new_password": {
+                    "type": "string",
+                    "minLength": 8
+                },
+                "old_password": {
+                    "type": "string"
+                }
+            }
+        },
+        "gotickets_internal_domain_user_dto.ForgotPasswordRequest": {
+            "type": "object",
+            "required": [
+                "email"
             ],
             "properties": {
                 "email": {
                     "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "password": {
-                    "type": "string",
-                    "minLength": 6
                 }
             }
         },
@@ -730,15 +1414,25 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "password": {
-                    "type": "string",
-                    "minLength": 6
+                    "type": "string"
                 }
             }
         },
-        "gotickets_internal_domain_user_dto.Response": {
+        "gotickets_internal_domain_user_dto.MessageResponse": {
             "type": "object",
             "properties": {
-                "access_token": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "gotickets_internal_domain_user_dto.ProfileResponse": {
+            "type": "object",
+            "properties": {
+                "auth_provider": {
+                    "type": "string"
+                },
+                "avatar_url": {
                     "type": "string"
                 },
                 "created_at": {
@@ -748,13 +1442,117 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "id": {
-                    "type": "integer"
+                    "type": "string"
+                },
+                "is_premium": {
+                    "type": "boolean"
+                },
+                "language_preference": {
+                    "type": "string"
+                },
+                "location": {
+                    "type": "string"
                 },
                 "name": {
                     "type": "string"
                 },
+                "terms_accepted_at": {
+                    "type": "string"
+                },
+                "theme_preference": {
+                    "type": "string"
+                }
+            }
+        },
+        "gotickets_internal_domain_user_dto.RefreshRequest": {
+            "type": "object",
+            "properties": {
                 "refresh_token": {
                     "type": "string"
+                }
+            }
+        },
+        "gotickets_internal_domain_user_dto.RegisterDeviceRequest": {
+            "type": "object",
+            "required": [
+                "platform",
+                "token"
+            ],
+            "properties": {
+                "platform": {
+                    "type": "string",
+                    "enum": [
+                        "IOS",
+                        "ANDROID"
+                    ]
+                },
+                "token": {
+                    "type": "string"
+                }
+            }
+        },
+        "gotickets_internal_domain_user_dto.RegisterRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "name",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string",
+                    "maxLength": 100,
+                    "minLength": 2
+                },
+                "password": {
+                    "type": "string",
+                    "minLength": 8
+                }
+            }
+        },
+        "gotickets_internal_domain_user_dto.ResetPasswordRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "new_password",
+                "otp"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "new_password": {
+                    "type": "string",
+                    "minLength": 8
+                },
+                "otp": {
+                    "type": "string"
+                }
+            }
+        },
+        "gotickets_internal_domain_user_dto.UpdateProfileRequest": {
+            "type": "object",
+            "properties": {
+                "language_preference": {
+                    "type": "string"
+                },
+                "location": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string",
+                    "maxLength": 100,
+                    "minLength": 2
+                },
+                "theme_preference": {
+                    "type": "string",
+                    "enum": [
+                        "IVORY",
+                        "NAVY"
+                    ]
                 }
             }
         },
@@ -789,6 +1587,9 @@ const docTemplate = `{
         "internal_server.WelcomeResponse": {
             "type": "object",
             "properties": {
+                "docs_url": {
+                    "type": "string"
+                },
                 "environment": {
                     "type": "string"
                 },
@@ -802,33 +1603,18 @@ const docTemplate = `{
                     "type": "string"
                 }
             }
-        },
-        "jwt.NumericDate": {
-            "type": "object",
-            "properties": {
-                "time.Time": {
-                    "type": "string"
-                }
-            }
-        }
-    },
-    "securityDefinitions": {
-        "BearerAuth": {
-            "type": "apiKey",
-            "name": "Authorization",
-            "in": "header"
         }
     }
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "1.0",
-	Host:             "localhost:5000",
-	BasePath:         "/",
+	Version:          "",
+	Host:             "",
+	BasePath:         "",
 	Schemes:          []string{},
-	Title:            "GoTickets API",
-	Description:      "A professional backend service for a ticket booking platform.",
+	Title:            "",
+	Description:      "",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

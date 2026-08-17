@@ -13,6 +13,9 @@ type Config struct {
 	JwtRefreshSecret string
 	JwtAccessExpiry  string
 	JwtRefreshExpiry string
+	CloudinaryCloudName string
+	CloudinaryApiKey    string
+	CloudinaryApiSecret string
 }
 
 func LoadEnv() *Config {
@@ -28,5 +31,8 @@ func LoadEnv() *Config {
 		JwtRefreshSecret: os.Getenv("JWT_REFRESH_TOKEN_SECRET"),
 		JwtAccessExpiry:  os.Getenv("JWT_ACCESS_TOKEN_EXPIRY"),
 		JwtRefreshExpiry: os.Getenv("JWT_REFRESH_TOKEN_EXPIRY"),
+		CloudinaryCloudName: os.Getenv("CLOUDINARY_CLOUD_NAME"),
+		CloudinaryApiKey:    os.Getenv("CLOUDINARY_API_KEY"),
+		CloudinaryApiSecret: os.Getenv("CLOUDINARY_API_SECRET"),
 	}
 }
