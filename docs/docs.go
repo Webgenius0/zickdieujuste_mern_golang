@@ -1092,32 +1092,41 @@ const docTemplate = `{
                     }
                 },
                 "author_or_speaker": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Pastor John"
                 },
                 "body_text": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Dear Lord, thank you for this day..."
                 },
                 "category_tag": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Thanksgiving"
                 },
                 "duration_seconds": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 180
                 },
                 "id": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"
                 },
                 "is_premium": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "example": true
                 },
                 "media_type": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "AUDIO"
                 },
                 "media_url": {
                     "description": "nil if premium-gated",
-                    "type": "string"
+                    "type": "string",
+                    "example": "https://example.com/audio.mp3"
                 },
                 "published_at": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2026-08-17T15:00:00Z"
                 },
                 "related": {
                     "type": "array",
@@ -1126,16 +1135,20 @@ const docTemplate = `{
                     }
                 },
                 "sub_type": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Morning"
                 },
                 "thumbnail_url": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "https://example.com/thumb.jpg"
                 },
                 "title": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Morning Prayer for Peace"
                 },
                 "type": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "PRAYER"
                 }
             }
         },
@@ -1149,13 +1162,16 @@ const docTemplate = `{
                     }
                 },
                 "page": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 },
                 "page_size": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 20
                 },
                 "total": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 100
                 }
             }
         },
@@ -1169,37 +1185,48 @@ const docTemplate = `{
                     }
                 },
                 "author_or_speaker": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Pastor John"
                 },
                 "category_tag": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Thanksgiving"
                 },
                 "duration_seconds": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 180
                 },
                 "id": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"
                 },
                 "is_premium": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "example": true
                 },
                 "media_type": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "AUDIO"
                 },
                 "published_at": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2026-08-17T15:00:00Z"
                 },
                 "sub_type": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Morning"
                 },
                 "thumbnail_url": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "https://example.com/thumb.jpg"
                 },
                 "title": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Morning Prayer for Peace"
                 },
                 "type": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "PRAYER"
                 }
             }
         },
@@ -1207,13 +1234,16 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "code": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 403
                 },
                 "message": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Operation successful"
                 },
                 "upgrade_url": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "/api/v1/subscriptions/plans"
                 }
             }
         },
@@ -1221,25 +1251,32 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "id": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"
                 },
                 "morning_prayer_time": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "08:00"
                 },
                 "night_prayer_time": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "22:00"
                 },
                 "push_enabled": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "example": true
                 },
                 "timezone": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "America/New_York"
                 },
                 "updated_at": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2026-08-17T15:00:00Z"
                 },
                 "user_id": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e"
                 }
             }
         },
@@ -1254,18 +1291,22 @@ const docTemplate = `{
             "properties": {
                 "morning_prayer_time": {
                     "description": "\"HH:MM\" or \"HH:MM:SS\"",
-                    "type": "string"
+                    "type": "string",
+                    "example": "08:00"
                 },
                 "night_prayer_time": {
                     "description": "\"HH:MM\" or \"HH:MM:SS\"",
-                    "type": "string"
+                    "type": "string",
+                    "example": "22:00"
                 },
                 "push_enabled": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "example": true
                 },
                 "timezone": {
-                    "description": "IANA tz, validated via time.LoadLocation",
-                    "type": "string"
+                    "description": "IANA tz",
+                    "type": "string",
+                    "example": "America/New_York"
                 }
             }
         },
@@ -1273,7 +1314,8 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "message": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Operation successful"
                 }
             }
         },
@@ -1281,22 +1323,28 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "billing_interval": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "MONTHLY"
                 },
                 "code": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "PREMIUM_REQUIRED"
                 },
                 "currency": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "USD"
                 },
                 "id": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "John Doe"
                 },
                 "price_amount": {
-                    "type": "number"
+                    "type": "number",
+                    "example": 9.99
                 }
             }
         },
@@ -1304,28 +1352,35 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "expires_at": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2026-09-17T15:00:00Z"
                 },
                 "external_transaction_id": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "1000000123456"
                 },
                 "id": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"
                 },
                 "plan": {
                     "$ref": "#/definitions/gotickets_internal_domain_subscription_dto.PlanResponse"
                 },
                 "start_date": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2026-08-17T15:00:00Z"
                 },
                 "status": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "ACTIVE"
                 },
                 "store": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "APPLE"
                 },
                 "user_id": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e"
                 }
             }
         },
@@ -1338,14 +1393,16 @@ const docTemplate = `{
             "properties": {
                 "receipt_payload": {
                     "description": "Raw receipt string / token from the store",
-                    "type": "string"
+                    "type": "string",
+                    "example": "MIIT7wYJKoZIhvcNAQcCoIIT4D..."
                 },
                 "store": {
                     "type": "string",
                     "enum": [
                         "APPLE",
                         "GOOGLE"
-                    ]
+                    ],
+                    "example": "APPLE"
                 }
             }
         },
@@ -1357,7 +1414,8 @@ const docTemplate = `{
                     "additionalProperties": true
                 },
                 "store": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "APPLE"
                 }
             }
         },
@@ -1365,10 +1423,12 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "access_token": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsIn..."
                 },
                 "refresh_token": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsIn..."
                 }
             }
         },
@@ -1376,7 +1436,8 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "avatar_url": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "https://res.cloudinary.com/demo/image/upload/avatar.jpg"
                 }
             }
         },
@@ -1389,14 +1450,17 @@ const docTemplate = `{
             ],
             "properties": {
                 "confirm_password": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "NewSecret123!"
                 },
                 "new_password": {
                     "type": "string",
-                    "minLength": 8
+                    "minLength": 8,
+                    "example": "NewSecret123!"
                 },
                 "old_password": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Secret123!"
                 }
             }
         },
@@ -1407,7 +1471,8 @@ const docTemplate = `{
             ],
             "properties": {
                 "email": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "user@example.com"
                 }
             }
         },
@@ -1419,10 +1484,12 @@ const docTemplate = `{
             ],
             "properties": {
                 "email": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "user@example.com"
                 },
                 "password": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Secret123!"
                 }
             }
         },
@@ -1430,7 +1497,8 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "message": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Operation successful"
                 }
             }
         },
@@ -1438,37 +1506,48 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "auth_provider": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "EMAIL"
                 },
                 "avatar_url": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "https://res.cloudinary.com/demo/image/upload/avatar.jpg"
                 },
                 "created_at": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2026-08-17T15:00:00Z"
                 },
                 "email": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "user@example.com"
                 },
                 "id": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"
                 },
                 "is_premium": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "example": true
                 },
                 "language_preference": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "en"
                 },
                 "location": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "New York, USA"
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "John Doe"
                 },
                 "terms_accepted_at": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2026-08-17T15:00:00Z"
                 },
                 "theme_preference": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "NAVY"
                 }
             }
         },
@@ -1476,7 +1555,8 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "refresh_token": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsIn..."
                 }
             }
         },
@@ -1492,10 +1572,12 @@ const docTemplate = `{
                     "enum": [
                         "IOS",
                         "ANDROID"
-                    ]
+                    ],
+                    "example": "IOS"
                 },
                 "token": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "fcm-token-123"
                 }
             }
         },
@@ -1508,16 +1590,19 @@ const docTemplate = `{
             ],
             "properties": {
                 "email": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "user@example.com"
                 },
                 "name": {
                     "type": "string",
                     "maxLength": 100,
-                    "minLength": 2
+                    "minLength": 2,
+                    "example": "John Doe"
                 },
                 "password": {
                     "type": "string",
-                    "minLength": 8
+                    "minLength": 8,
+                    "example": "Secret123!"
                 }
             }
         },
@@ -1530,14 +1615,17 @@ const docTemplate = `{
             ],
             "properties": {
                 "email": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "user@example.com"
                 },
                 "new_password": {
                     "type": "string",
-                    "minLength": 8
+                    "minLength": 8,
+                    "example": "NewSecret123!"
                 },
                 "otp": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "12345"
                 }
             }
         },
@@ -1545,22 +1633,26 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "language_preference": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "en"
                 },
                 "location": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "New York, USA"
                 },
                 "name": {
                     "type": "string",
                     "maxLength": 100,
-                    "minLength": 2
+                    "minLength": 2,
+                    "example": "John Doe"
                 },
                 "theme_preference": {
                     "type": "string",
                     "enum": [
                         "IVORY",
                         "NAVY"
-                    ]
+                    ],
+                    "example": "NAVY"
                 }
             }
         },

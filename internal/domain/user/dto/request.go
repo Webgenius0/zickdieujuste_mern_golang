@@ -2,52 +2,52 @@ package dto
 
 // RegisterRequest is the body for POST /api/v1/auth/register.
 type RegisterRequest struct {
-	Name     string `json:"name"     validate:"required,min=2,max=100"`
-	Email    string `json:"email"    validate:"required,email"`
-	Password string `json:"password" validate:"required,min=8"`
+	Name     string `json:"name" example:"John Doe"     validate:"required,min=2,max=100"`
+	Email    string `json:"email" example:"user@example.com"    validate:"required,email"`
+	Password string `json:"password" example:"Secret123!" validate:"required,min=8"`
 }
 
 // LoginRequest is the body for POST /api/v1/auth/login.
 type LoginRequest struct {
-	Email    string `json:"email"    validate:"required,email"`
-	Password string `json:"password" validate:"required"`
+	Email    string `json:"email" example:"user@example.com"    validate:"required,email"`
+	Password string `json:"password" example:"Secret123!" validate:"required"`
 }
 
 // RefreshRequest is the optional body for POST /api/v1/auth/refresh.
 // The refresh token can also be read from the "refresh_token" cookie.
 type RefreshRequest struct {
-	RefreshToken string `json:"refresh_token"`
+	RefreshToken string `json:"refresh_token" example:"eyJhbGciOiJIUzI1NiIsIn..."`
 }
 
 // ForgotPasswordRequest is the body for POST /api/v1/auth/forgot-password.
 type ForgotPasswordRequest struct {
-	Email string `json:"email" validate:"required,email"`
+	Email string `json:"email" example:"user@example.com" validate:"required,email"`
 }
 
 // ResetPasswordRequest is the body for POST /api/v1/auth/reset-password.
 type ResetPasswordRequest struct {
-	Email       string `json:"email"        validate:"required,email"`
-	OTP         string `json:"otp"          validate:"required,len=5"`
-	NewPassword string `json:"new_password" validate:"required,min=8"`
+	Email       string `json:"email" example:"user@example.com"        validate:"required,email"`
+	OTP         string `json:"otp" example:"12345"          validate:"required,len=5"`
+	NewPassword string `json:"new_password" example:"NewSecret123!" validate:"required,min=8"`
 }
 
 // UpdateProfileRequest is the body for PUT /api/v1/users/me.
 type UpdateProfileRequest struct {
-	Name               *string `json:"name"                omitempty:"true" validate:"omitempty,min=2,max=100"`
-	Location           *string `json:"location"            omitempty:"true"`
-	ThemePreference    *string `json:"theme_preference"    omitempty:"true" validate:"omitempty,oneof=IVORY NAVY"`
-	LanguagePreference *string `json:"language_preference" omitempty:"true"`
+	Name               *string `json:"name" example:"John Doe"                omitempty:"true" validate:"omitempty,min=2,max=100"`
+	Location           *string `json:"location" example:"New York, USA"            omitempty:"true"`
+	ThemePreference    *string `json:"theme_preference" example:"NAVY"    omitempty:"true" validate:"omitempty,oneof=IVORY NAVY"`
+	LanguagePreference *string `json:"language_preference" example:"en" omitempty:"true"`
 }
 
 // ChangePasswordRequest is the body for PUT /api/v1/users/me/password.
 type ChangePasswordRequest struct {
-	OldPassword     string `json:"old_password"     validate:"required"`
-	NewPassword     string `json:"new_password"     validate:"required,min=8"`
-	ConfirmPassword string `json:"confirm_password" validate:"required,eqfield=NewPassword"`
+	OldPassword     string `json:"old_password" example:"Secret123!"     validate:"required"`
+	NewPassword     string `json:"new_password" example:"NewSecret123!"     validate:"required,min=8"`
+	ConfirmPassword string `json:"confirm_password" example:"NewSecret123!" validate:"required,eqfield=NewPassword"`
 }
 
 // RegisterDeviceRequest is the body for POST /api/v1/devices.
 type RegisterDeviceRequest struct {
-	Token    string `json:"token"    validate:"required"`
-	Platform string `json:"platform" validate:"required,oneof=IOS ANDROID"`
+	Token    string `json:"token" example:"fcm-token-123"    validate:"required"`
+	Platform string `json:"platform" example:"IOS" validate:"required,oneof=IOS ANDROID"`
 }

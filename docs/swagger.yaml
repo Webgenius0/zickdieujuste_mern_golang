@@ -7,35 +7,48 @@ definitions:
           type: string
         type: array
       author_or_speaker:
+        example: Pastor John
         type: string
       body_text:
+        example: Dear Lord, thank you for this day...
         type: string
       category_tag:
+        example: Thanksgiving
         type: string
       duration_seconds:
+        example: 180
         type: integer
       id:
+        example: a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d
         type: string
       is_premium:
+        example: true
         type: boolean
       media_type:
+        example: AUDIO
         type: string
       media_url:
         description: nil if premium-gated
+        example: https://example.com/audio.mp3
         type: string
       published_at:
+        example: "2026-08-17T15:00:00Z"
         type: string
       related:
         items:
           $ref: '#/definitions/gotickets_internal_domain_content_dto.ContentSummary'
         type: array
       sub_type:
+        example: Morning
         type: string
       thumbnail_url:
+        example: https://example.com/thumb.jpg
         type: string
       title:
+        example: Morning Prayer for Peace
         type: string
       type:
+        example: PRAYER
         type: string
     type: object
   gotickets_internal_domain_content_dto.ContentListResponse:
@@ -45,10 +58,13 @@ definitions:
           $ref: '#/definitions/gotickets_internal_domain_content_dto.ContentSummary'
         type: array
       page:
+        example: 1
         type: integer
       page_size:
+        example: 20
         type: integer
       total:
+        example: 100
         type: integer
     type: object
   gotickets_internal_domain_content_dto.ContentSummary:
@@ -58,66 +74,91 @@ definitions:
           type: string
         type: array
       author_or_speaker:
+        example: Pastor John
         type: string
       category_tag:
+        example: Thanksgiving
         type: string
       duration_seconds:
+        example: 180
         type: integer
       id:
+        example: a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d
         type: string
       is_premium:
+        example: true
         type: boolean
       media_type:
+        example: AUDIO
         type: string
       published_at:
+        example: "2026-08-17T15:00:00Z"
         type: string
       sub_type:
+        example: Morning
         type: string
       thumbnail_url:
+        example: https://example.com/thumb.jpg
         type: string
       title:
+        example: Morning Prayer for Peace
         type: string
       type:
+        example: PRAYER
         type: string
     type: object
   gotickets_internal_domain_content_dto.PremiumGateResponse:
     properties:
       code:
+        example: 403
         type: integer
       message:
+        example: Operation successful
         type: string
       upgrade_url:
+        example: /api/v1/subscriptions/plans
         type: string
     type: object
   gotickets_internal_domain_schedule_dto.ScheduleResponse:
     properties:
       id:
+        example: a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d
         type: string
       morning_prayer_time:
+        example: "08:00"
         type: string
       night_prayer_time:
+        example: "22:00"
         type: string
       push_enabled:
+        example: true
         type: boolean
       timezone:
+        example: America/New_York
         type: string
       updated_at:
+        example: "2026-08-17T15:00:00Z"
         type: string
       user_id:
+        example: b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e
         type: string
     type: object
   gotickets_internal_domain_schedule_dto.UpdateScheduleRequest:
     properties:
       morning_prayer_time:
         description: '"HH:MM" or "HH:MM:SS"'
+        example: "08:00"
         type: string
       night_prayer_time:
         description: '"HH:MM" or "HH:MM:SS"'
+        example: "22:00"
         type: string
       push_enabled:
+        example: true
         type: boolean
       timezone:
-        description: IANA tz, validated via time.LoadLocation
+        description: IANA tz
+        example: America/New_York
         type: string
     required:
     - morning_prayer_time
@@ -128,51 +169,67 @@ definitions:
   gotickets_internal_domain_subscription_dto.MessageResponse:
     properties:
       message:
+        example: Operation successful
         type: string
     type: object
   gotickets_internal_domain_subscription_dto.PlanResponse:
     properties:
       billing_interval:
+        example: MONTHLY
         type: string
       code:
+        example: PREMIUM_REQUIRED
         type: string
       currency:
+        example: USD
         type: string
       id:
+        example: a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d
         type: string
       name:
+        example: John Doe
         type: string
       price_amount:
+        example: 9.99
         type: number
     type: object
   gotickets_internal_domain_subscription_dto.SubscriptionResponse:
     properties:
       expires_at:
+        example: "2026-09-17T15:00:00Z"
         type: string
       external_transaction_id:
+        example: "1000000123456"
         type: string
       id:
+        example: a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d
         type: string
       plan:
         $ref: '#/definitions/gotickets_internal_domain_subscription_dto.PlanResponse'
       start_date:
+        example: "2026-08-17T15:00:00Z"
         type: string
       status:
+        example: ACTIVE
         type: string
       store:
+        example: APPLE
         type: string
       user_id:
+        example: b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e
         type: string
     type: object
   gotickets_internal_domain_subscription_dto.VerifyReceiptRequest:
     properties:
       receipt_payload:
         description: Raw receipt string / token from the store
+        example: MIIT7wYJKoZIhvcNAQcCoIIT4D...
         type: string
       store:
         enum:
         - APPLE
         - GOOGLE
+        example: APPLE
         type: string
     required:
     - receipt_payload
@@ -184,28 +241,35 @@ definitions:
         additionalProperties: true
         type: object
       store:
+        example: APPLE
         type: string
     type: object
   gotickets_internal_domain_user_dto.AuthResponse:
     properties:
       access_token:
+        example: eyJhbGciOiJIUzI1NiIsIn...
         type: string
       refresh_token:
+        example: eyJhbGciOiJIUzI1NiIsIn...
         type: string
     type: object
   gotickets_internal_domain_user_dto.AvatarResponse:
     properties:
       avatar_url:
+        example: https://res.cloudinary.com/demo/image/upload/avatar.jpg
         type: string
     type: object
   gotickets_internal_domain_user_dto.ChangePasswordRequest:
     properties:
       confirm_password:
+        example: NewSecret123!
         type: string
       new_password:
+        example: NewSecret123!
         minLength: 8
         type: string
       old_password:
+        example: Secret123!
         type: string
     required:
     - confirm_password
@@ -215,6 +279,7 @@ definitions:
   gotickets_internal_domain_user_dto.ForgotPasswordRequest:
     properties:
       email:
+        example: user@example.com
         type: string
     required:
     - email
@@ -222,8 +287,10 @@ definitions:
   gotickets_internal_domain_user_dto.LoginRequest:
     properties:
       email:
+        example: user@example.com
         type: string
       password:
+        example: Secret123!
         type: string
     required:
     - email
@@ -232,36 +299,49 @@ definitions:
   gotickets_internal_domain_user_dto.MessageResponse:
     properties:
       message:
+        example: Operation successful
         type: string
     type: object
   gotickets_internal_domain_user_dto.ProfileResponse:
     properties:
       auth_provider:
+        example: EMAIL
         type: string
       avatar_url:
+        example: https://res.cloudinary.com/demo/image/upload/avatar.jpg
         type: string
       created_at:
+        example: "2026-08-17T15:00:00Z"
         type: string
       email:
+        example: user@example.com
         type: string
       id:
+        example: a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d
         type: string
       is_premium:
+        example: true
         type: boolean
       language_preference:
+        example: en
         type: string
       location:
+        example: New York, USA
         type: string
       name:
+        example: John Doe
         type: string
       terms_accepted_at:
+        example: "2026-08-17T15:00:00Z"
         type: string
       theme_preference:
+        example: NAVY
         type: string
     type: object
   gotickets_internal_domain_user_dto.RefreshRequest:
     properties:
       refresh_token:
+        example: eyJhbGciOiJIUzI1NiIsIn...
         type: string
     type: object
   gotickets_internal_domain_user_dto.RegisterDeviceRequest:
@@ -270,8 +350,10 @@ definitions:
         enum:
         - IOS
         - ANDROID
+        example: IOS
         type: string
       token:
+        example: fcm-token-123
         type: string
     required:
     - platform
@@ -280,12 +362,15 @@ definitions:
   gotickets_internal_domain_user_dto.RegisterRequest:
     properties:
       email:
+        example: user@example.com
         type: string
       name:
+        example: John Doe
         maxLength: 100
         minLength: 2
         type: string
       password:
+        example: Secret123!
         minLength: 8
         type: string
     required:
@@ -296,11 +381,14 @@ definitions:
   gotickets_internal_domain_user_dto.ResetPasswordRequest:
     properties:
       email:
+        example: user@example.com
         type: string
       new_password:
+        example: NewSecret123!
         minLength: 8
         type: string
       otp:
+        example: "12345"
         type: string
     required:
     - email
@@ -310,10 +398,13 @@ definitions:
   gotickets_internal_domain_user_dto.UpdateProfileRequest:
     properties:
       language_preference:
+        example: en
         type: string
       location:
+        example: New York, USA
         type: string
       name:
+        example: John Doe
         maxLength: 100
         minLength: 2
         type: string
@@ -321,6 +412,7 @@ definitions:
         enum:
         - IVORY
         - NAVY
+        example: NAVY
         type: string
     type: object
   gotickets_internal_httpresponse.Error:
