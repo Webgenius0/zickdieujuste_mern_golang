@@ -22,4 +22,9 @@ func RegisterRoutes(e *echo.Echo, db *gorm.DB, jwtSvc auth.JWTService, userSvc u
 	g.GET("/daily-quote", h.GetDailyQuote)
 	g.GET("/:id", h.GetContentByID)
 	g.GET("/:id/related", h.GetRelatedContent)
+
+	// Example: Apply RequirePremium middleware to a route group
+	premiumGroup := e.Group("/api/v1/content/premium", authMW, middlewares.RequirePremium)
+	// Add premium-only routes here...
+	_ = premiumGroup
 }

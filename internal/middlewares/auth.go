@@ -35,6 +35,7 @@ func AuthMiddleware(jwtService auth.JWTService) echo.MiddlewareFunc {
 
 			// Add the claims to context so handlers can access the user info
 			c.Set("user", claims)
+			c.Set("is_premium", claims.IsPremium)
 
 			return next(c)
 		}

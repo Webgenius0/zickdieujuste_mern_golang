@@ -320,10 +320,7 @@ func (s *service) RegisterDevice(userID uuid.UUID, req dto.RegisterDeviceRequest
 
 // issueTokenPair generates a new JWT access+refresh token pair, persists the refresh token, and returns both.
 func (s *service) issueTokenPair(u *User) (*dto.AuthResponse, error) {
-	// jwt.GenerateToken takes (userId uint, name, email) — existing jwt.go contract.
-	// We pass 0 as the uint placeholder since we now use UUID as the primary key.
-	// The user's UUID is embedded in the refresh token record for lookup.
-	accessToken, refreshToken, err := s.jwt.GenerateToken(0, u.Name, u.Email)
+	accessToken, refreshToken, err := s.jwt.GenerateToken(u.ID, u.Name, u.Email, u.IsPremium)
 	if err != nil {
 		return nil, fmt.Errorf("failed to generate tokens: %w", err)
 	}

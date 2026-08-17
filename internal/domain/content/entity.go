@@ -56,6 +56,9 @@ type Content struct {
 	// Relations
 	Audiences      []ContentAudience `gorm:"foreignKey:ContentID"`
 	RelatedContent []*Content        `gorm:"many2many:related_content;joinForeignKey:primary_content_id;joinReferences:related_content_id"`
+
+	// Full-text search
+	SearchVector string `gorm:"type:tsvector"`
 }
 
 // BeforeCreate assigns a UUID before inserting a new Content row.
