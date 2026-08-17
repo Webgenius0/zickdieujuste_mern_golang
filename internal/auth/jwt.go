@@ -5,7 +5,10 @@ import (
 	"fmt"
 	"time"
 
+	"time"
+
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/google/uuid"
 )
 
 const (
@@ -14,14 +17,15 @@ const (
 )
 
 type JwtCustomClaims struct {
-	UserID uint   `json:"user_id"`
-	Name   string `json:"name"`
-	Email  string `json:"email"`
+	UserID    uuid.UUID `json:"user_id"`
+	Name      string    `json:"name"`
+	Email     string    `json:"email"`
+	IsPremium bool      `json:"is_premium"`
 	jwt.RegisteredClaims
 }
 
 type JWTService interface {
-	GenerateToken(userId uint, name string, email string) (string, string, error)
+	GenerateToken(userId uuid.UUID, name string, email string, isPremium bool) (string, string, error)
 	ValidateToken(tokenString string, isRefresh bool) (*JwtCustomClaims, error)
 }
 
@@ -59,12 +63,13 @@ func NewJWTService(accessSecretKey, refreshSecretKey, accessExpiry, refreshExpir
 	}
 }
 
-func (js *jwtService) GenerateToken(userId uint, name string, email string) (string, string, error) {
+func (js *jwtService) GenerateToken(userId uuid.UUID, name string, email string, isPremium bool) (string, string, error) {
 	// Generate Access Token
 	accessClaims := &JwtCustomClaims{
-		UserID: userId,
-		Name:   name,
-		Email:  email,
+		UserID:    userId,
+		Name:      name,
+		Email:     email,
+		IsPremium: isPremium,
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(js.accessTokenExp)),
 		},
@@ -77,9 +82,10 @@ func (js *jwtService) GenerateToken(userId uint, name string, email string) (str
 
 	// Generate Refresh Token
 	refreshClaims := &JwtCustomClaims{
-		UserID: userId,
-		Name:   name,
-		Email:  email,
+		UserID:    userId,
+		Name:      name,
+		Email:     email,
+		IsPremium: isPremium,
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(js.refreshTokenExp)),
 		},

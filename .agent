@@ -38,3 +38,82 @@ Refer to `ERD.md` for exact schemas.
 3. Media (Audio/Video/Images) uses Cloudinary URLs.
 4. Passwords must be hashed via `bcrypt`.
 5. Prefer UUIDs as primary keys generated via Postgres `gen_random_uuid()`.
+
+## Current Code Structure
+
+```text
+.
+├── cmd
+│   ├── api_info.go
+│   └── main.go
+├── docker-compose.yml
+├── Dockerfile
+├── docs
+│   ├── docs.go
+│   ├── swagger.json
+│   └── swagger.yaml
+├── ERD.md
+├── go.mod
+├── go.sum
+├── internal
+│   ├── auth
+│   │   └── jwt.go
+│   ├── config
+│   │   ├── config.go
+│   │   └── db.go
+│   ├── domain
+│   │   ├── content
+│   │   │   ├── dto
+│   │   │   │   ├── request.go
+│   │   │   │   └── response.go
+│   │   │   ├── entity.go
+│   │   │   ├── handler.go
+│   │   │   ├── register.go
+│   │   │   ├── repository.go
+│   │   │   └── service.go
+│   │   ├── schedule
+│   │   │   ├── dto
+│   │   │   │   ├── request.go
+│   │   │   │   └── response.go
+│   │   │   ├── entity.go
+│   │   │   ├── handler.go
+│   │   │   ├── register.go
+│   │   │   ├── repository.go
+│   │   │   └── service.go
+│   │   ├── subscription
+│   │   │   ├── dto
+│   │   │   │   ├── request.go
+│   │   │   │   └── response.go
+│   │   │   ├── entity.go
+│   │   │   ├── handler.go
+│   │   │   ├── register.go
+│   │   │   ├── repository.go
+│   │   │   └── service.go
+│   │   └── user
+│   │       ├── dto
+│   │       │   ├── request.go
+│   │       │   └── response.go
+│   │       ├── entity.go
+│   │       ├── handler.go
+│   │       ├── register.go
+│   │       ├── repository.go
+│   │       └── service.go
+│   ├── email
+│   │   └── mailer.go
+│   ├── httpresponse
+│   │   └── error.go
+│   ├── middlewares
+│   │   └── auth.go
+│   ├── server
+│   │   ├── http.go
+│   │   └── swagger.go
+│   └── upload
+│       ├── cloudinary.go
+│       └── uploader.go
+├── main
+├── readme.md
+├── SRS.md
+└── swagger_implementation.md
+
+20 directories, 52 files
+```

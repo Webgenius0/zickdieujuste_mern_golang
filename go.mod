@@ -3,6 +3,7 @@ module gotickets
 go 1.25.0
 
 require (
+	github.com/cloudinary/cloudinary-go/v2 v2.16.0
 	github.com/go-playground/validator/v10 v10.30.3
 	github.com/golang-jwt/jwt/v5 v5.3.1
 	github.com/google/uuid v1.6.0
@@ -11,13 +12,13 @@ require (
 	github.com/swaggo/http-swagger/v2 v2.0.2
 	github.com/swaggo/swag v1.16.6
 	golang.org/x/crypto v0.54.0
+	gopkg.in/gomail.v2 v2.0.0-20160411212932-81ebce5c23df
 	gorm.io/driver/postgres v1.6.0
 	gorm.io/gorm v1.31.2
 )
 
 require (
 	github.com/KyleBanks/depth v1.2.1 // indirect
-	github.com/cloudinary/cloudinary-go/v2 v2.16.0 // indirect
 	github.com/creasty/defaults v1.7.0 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.13 // indirect
 	github.com/go-openapi/jsonpointer v1.0.0 // indirect
@@ -51,5 +52,4 @@ require (
 	golang.org/x/time v0.15.0 // indirect
 	golang.org/x/tools v0.48.0 // indirect
 	gopkg.in/alexcesaro/quotedprintable.v3 v3.0.0-20150716171945-2caba252f4dc // indirect
-	gopkg.in/gomail.v2 v2.0.0-20160411212932-81ebce5c23df // indirect
 )
