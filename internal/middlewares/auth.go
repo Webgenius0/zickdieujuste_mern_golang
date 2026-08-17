@@ -15,11 +15,12 @@ func AuthMiddleware(jwtService auth.JWTService) echo.MiddlewareFunc {
 
 			authHeader := c.Request().Header.Get("Authorization")
 			if authHeader != "" {
-				parts := strings.Split(authHeader, " ")
-				if len(parts) != 2 || parts[0] != "Bearer" {
-					return c.JSON(http.StatusUnauthorized, map[string]string{"message": "Invalid Authorization format. Expected Bearer <token>"})
+				// Automatically support tokens with or without the "Bearer " prefix
+				if strings.HasPrefix(authHeader, "Bearer ") {
+					tokenString = strings.TrimPrefix(authHeader, "Bearer ")
+				} else {
+					tokenString = authHeader
 				}
-				tokenString = parts[1]
 			} else if cookie, err := c.Cookie("access_token"); err == nil {
 				tokenString = cookie.Value
 			}
