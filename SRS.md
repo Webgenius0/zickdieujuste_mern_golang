@@ -1,6 +1,6 @@
 # Software Requirements Specification — ZICK
 
-**Stack:** Go (Echo framework) · PostgreSQL · Repository Pattern
+**Stack:** Go (Echo framework) · PostgreSQL · you will follow my current code structure
 **Version:** 2.0 (corrected against Figma + original SRS/ERD review)
 
 ---
@@ -76,47 +76,7 @@
 - Passwords hashed with bcrypt (cost ≥ 12).
 
 ---
-
-## 5. Core Modules (Repository Pattern, Go/Echo)
-
-```
-/cmd
-  /api                 → main.go, wiring
-/internal
-  /domain              → entities + repository interfaces (no framework deps)
-    user.go
-    content.go
-    schedule.go
-    subscription.go
-  /repository
-    /postgres          → concrete pgx/sqlx implementations of domain interfaces
-      user_repo.go
-      content_repo.go
-      schedule_repo.go
-      subscription_repo.go
-      otp_repo.go
-      device_token_repo.go
-      refresh_token_repo.go
-  /service             → business logic, orchestrates repositories
-    auth_service.go
-    content_service.go
-    schedule_service.go
-    subscription_service.go
-  /handler             → Echo handlers, request/response DTOs, validation
-    auth_handler.go
-    content_handler.go
-    schedule_handler.go
-    subscription_handler.go
-    user_handler.go
-  /middleware          → JWT auth, RequirePremium, rate limiter, logging
-  /worker              → notification dispatcher (cron/queue consumer)
-  /platform
-    /db                → migrations, connection pool
-    /fcm                → push notification client
-    /storage            → S3 presigned URL generation
-    /store               → Apple/Google receipt validation clients
-/migrations            → SQL migration files (golang-migrate or goose)
-```
+ 
 
 **Layering rule:** handlers depend on services; services depend on domain interfaces; postgres repositories implement those interfaces. This keeps the service layer testable via mock repositories and keeps Echo/pgx out of business logic.
 
@@ -151,10 +111,7 @@
 
 ## 7. Database Requirements
 
-- **Engine:** PostgreSQL 15+, using `pgx` driver with `sqlx` or plain `database/sql`.
-- **Migrations:** `golang-migrate` or `goose`, versioned in `/migrations`.
-- See `ERD.md` for full schema, relationships, and index plan.
-- UUIDs as primary keys (`gen_random_uuid()` via `pgcrypto`).
+- **Engine:** PostgreSQL  
 
 ---
 
@@ -167,9 +124,7 @@
 
 ## 9. File & Media Management
 
-- Object storage: AWS S3 (or GCS), fronted by a CDN (CloudFront/Cloudflare).
-- Admin CMS uploads use presigned PUT URLs for direct-to-S3 upload of large audio/video files.
-- Client media access: premium content URLs are generated as short-lived presigned GET URLs at request time (not stored as public links) to prevent hotlinking.
+Claudinary will be used for storing media files
 
 ---
 
@@ -211,30 +166,26 @@
 
 - **Scalability:** notification dispatch decoupled from the cron trigger via a queue (`asynq` + Redis) so send volume doesn't block the scheduler.
 - **Security:** rate limiting (Echo middleware, e.g. `golang.org/x/time/rate` or Redis-backed) on `/auth/login`, `/auth/forgot-password`, `/auth/reset-password`.
-- **Testability:** domain interfaces + repository pattern allow service-layer unit tests with in-memory/mock repositories, independent of Postgres.
+ 
 - **Observability:** structured logging (e.g., `zerolog`), request tracing via Echo middleware.
 
 ---
 
-## 15. Backend Development Roadmap
-
-1. **Schema & migrations** — apply `ERD.md`, set up `golang-migrate`.
-2. **Domain + repository interfaces** — define Go interfaces before implementations (enables parallel work + mocking).
-3. **Auth module** — register/login/refresh/logout, OTP flow, bcrypt, JWT middleware.
-4. **User & Device modules** — profile CRUD, device token registration.
-5. **Content module (read APIs)** — list/filter/search/detail, premium gating, presigned media URLs.
-6. **Schedule module** — CRUD + timezone-aware storage.
-7. **Admin CMS APIs** — content authoring, plan management (internal-only, separate auth scope).
-8. **Notification worker** — cron trigger + queue consumer + FCM/APNS client.
-9. **Subscription module** — receipt verification, webhook handlers for both stores.
-10. **Testing** — unit tests on services (mocked repos), integration tests on repositories against a test Postgres instance, especially auth and webhook paths.
-11. **Deployment** — Postgres (managed), containerized Echo API, S3 + CDN, Redis for queue/rate-limit.
-
----
-
+ 
 ## 16. Open Questions (unchanged from original analysis, still unresolved by the designs)
 
 - How is content localized when a user switches app language — separate media/text rows per locale, or is `language_preference` purely a UI-string setting for now?
 - Does audio/video playback need last-position resume, or is V1 stateless? (Assumed stateless for V1.)
 - Any analytics/tracking requirements beyond what's shown?
 - Schedule screen time mismatch (see §3.4) — needs design clarification, not a backend assumption.
+
+
+
+- You will keep updated the .env and .env.example file 
+
+- you will make a .agent file where you will write the code structures so that every time you can understand codebase quickly
+
+- Write Proper swagger docs for all the API endpoints 
+- You will follow the current code structure and code should be neat and clean and professional 
+
+

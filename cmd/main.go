@@ -1,11 +1,12 @@
 package main
 
-import "github.com/labstack/echo/v5"
+import (
+	"gotickets/internal/config"
+	"gotickets/internal/server"
+)
 
 func main() {
-    e := echo.New()
-    e.GET("/", func(c *echo.Context) error {
-        return c.JSON(200, map[string]any{"message": "Hello, World!"})
-    })
-    e.Start(":1323")
+	cfg := config.LoadEnv()
+	db := config.ConnectDatabase(cfg)
+	server.Start(db, cfg)
 }
