@@ -2,6 +2,7 @@ package config
 
 import (
 	"os"
+	"strconv"
 
 	"github.com/joho/godotenv"
 )
@@ -18,9 +19,10 @@ type Config struct {
 	CloudinaryApiSecret string
 
 	// SMTP / Gmail App Password config
-	SMTPFromName    string
-	SMTPFromAddress string
-	SMTPAppPassword string
+	SMTPFromName             string
+	SMTPFromAddress          string
+	SMTPAppPassword          string
+	SMTPOTPExpirationMinutes int // Default: 10
 }
 
 func LoadEnv() *Config {
@@ -39,15 +41,25 @@ func LoadEnv() *Config {
 		CloudinaryCloudName: os.Getenv("CLOUDINARY_CLOUD_NAME"),
 		CloudinaryApiKey:    os.Getenv("CLOUDINARY_API_KEY"),
 		CloudinaryApiSecret: os.Getenv("CLOUDINARY_API_SECRET"),
-		SMTPFromName:    getEnvWithDefault("SMTP_FROM_NAME", "ZICK App"),
-		SMTPFromAddress: os.Getenv("SMTP_FROM_ADDRESS"),
-		SMTPAppPassword: os.Getenv("SMTP_APP_PASSWORD"),
+		SMTPFromName:             getEnvWithDefault("SMTP_FROM_NAME", "ZICK App"),
+		SMTPFromAddress:          os.Getenv("SMTP_FROM_ADDRESS"),
+		SMTPAppPassword:          os.Getenv("SMTP_APP_PASSWORD"),
+		SMTPOTPExpirationMinutes: getEnvInt("SMTP_OTP_EXPIRATION_MINUTES", 10),
 	}
 }
 
 func getEnvWithDefault(key, fallback string) string {
 	if val := os.Getenv(key); val != "" {
 		return val
+	}
+	return fallback
+}
+
+func getEnvInt(key string, fallback int) int {
+	if val := os.Getenv(key); val != "" {
+		if i, err := strconv.Atoi(val); err == nil {
+			return i
+		}
 	}
 	return fallback
 }

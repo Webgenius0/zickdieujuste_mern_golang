@@ -42,7 +42,9 @@ func (m *GmailMailer) SendOTP(to, name, code string) error {
 	msg.SetBody("text/html", buildOTPEmailHTML(name, code))
 
 	dialer := gomail.NewDialer(m.host, m.port, m.fromAddr, m.password)
-	// Force STARTTLS (port 587). TLS config skips cert verify for dev flexibility.
+	// Port 587 uses STARTTLS (explicit TLS upgrade), NOT implicit SSL.
+	// gomail defaults SSL=true which would attempt direct TLS on port 587 and fail.
+	dialer.SSL = false
 	dialer.TLSConfig = &tls.Config{ServerName: m.host}
 
 	if err := dialer.DialAndSend(msg); err != nil {
