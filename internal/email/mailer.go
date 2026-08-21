@@ -38,7 +38,7 @@ func (m *GmailMailer) SendOTP(to, name, code string) error {
 	msg := gomail.NewMessage()
 	msg.SetAddressHeader("From", m.fromAddr, m.fromName)
 	msg.SetHeader("To", to)
-	msg.SetHeader("Subject", "Your ZICK Password Reset Code")
+	msg.SetHeader("Subject", "Your Altar Password Reset Code")
 	msg.SetBody("text/html", buildOTPEmailHTML(name, code))
 
 	dialer := gomail.NewDialer(m.host, m.port, m.fromAddr, m.password)
