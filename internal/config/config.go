@@ -8,12 +8,12 @@ import (
 )
 
 type Config struct {
-	Port             string
-	Dsn              string
-	JwtAccessSecret  string
-	JwtRefreshSecret string
-	JwtAccessExpiry  string
-	JwtRefreshExpiry string
+	Port                string
+	Dsn                 string
+	JwtAccessSecret     string
+	JwtRefreshSecret    string
+	JwtAccessExpiry     string
+	JwtRefreshExpiry    string
 	CloudinaryCloudName string
 	CloudinaryApiKey    string
 	CloudinaryApiSecret string
@@ -32,16 +32,16 @@ func LoadEnv() *Config {
 	_ = godotenv.Load()
 
 	return &Config{
-		Port:             os.Getenv("PORT"),
-		Dsn:              os.Getenv("DSN"),
-		JwtAccessSecret:  os.Getenv("JWT_ACCESS_TOKEN_SECRET"),
-		JwtRefreshSecret: os.Getenv("JWT_REFRESH_TOKEN_SECRET"),
-		JwtAccessExpiry:  os.Getenv("JWT_ACCESS_TOKEN_EXPIRY"),
-		JwtRefreshExpiry: os.Getenv("JWT_REFRESH_TOKEN_EXPIRY"),
-		CloudinaryCloudName: os.Getenv("CLOUDINARY_CLOUD_NAME"),
-		CloudinaryApiKey:    os.Getenv("CLOUDINARY_API_KEY"),
-		CloudinaryApiSecret: os.Getenv("CLOUDINARY_API_SECRET"),
-		SMTPFromName:             getEnvWithDefault("SMTP_FROM_NAME", "ZICK App"),
+		Port:                     os.Getenv("PORT"),
+		Dsn:                      os.Getenv("DSN"),
+		JwtAccessSecret:          os.Getenv("JWT_ACCESS_TOKEN_SECRET"),
+		JwtRefreshSecret:         os.Getenv("JWT_REFRESH_TOKEN_SECRET"),
+		JwtAccessExpiry:          os.Getenv("JWT_ACCESS_TOKEN_EXPIRY"),
+		JwtRefreshExpiry:         os.Getenv("JWT_REFRESH_TOKEN_EXPIRY"),
+		CloudinaryCloudName:      os.Getenv("CLOUDINARY_CLOUD_NAME"),
+		CloudinaryApiKey:         os.Getenv("CLOUDINARY_API_KEY"),
+		CloudinaryApiSecret:      os.Getenv("CLOUDINARY_API_SECRET"),
+		SMTPFromName:             getEnvWithDefault("SMTP_FROM_NAME", "Alter App"),
 		SMTPFromAddress:          os.Getenv("SMTP_FROM_ADDRESS"),
 		SMTPAppPassword:          os.Getenv("SMTP_APP_PASSWORD"),
 		SMTPOTPExpirationMinutes: getEnvInt("SMTP_OTP_EXPIRATION_MINUTES", 10),
