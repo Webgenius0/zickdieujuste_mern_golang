@@ -25,14 +25,14 @@ const docTemplate = `{
     "paths": {
         "/": {
             "get": {
-                "description": "Root endpoint to verify the API is running.",
+                "description": "Root endpoint — confirms the API is running.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "System"
                 ],
-                "summary": "Welcome to GoTickets API",
+                "summary": "Welcome",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -821,6 +821,122 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/upload": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Uploads any file (image, audio, etc.) to Cloudinary and returns the public URL.\nPass an optional ` + "`" + `folder` + "`" + ` query parameter to organise assets (e.g. ` + "`" + `?folder=content/thumbnails` + "`" + `).\nThe returned ` + "`" + `url` + "`" + ` can be stored and referenced by any domain (content, profile, etc.).",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Media"
+                ],
+                "summary": "Upload a file",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "File to upload",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Cloudinary folder (default: zick/uploads)",
+                        "name": "folder",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/internal_domain_media.UploadResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Missing or oversized file",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "503": {
+                        "description": "Upload service unavailable",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Permanently removes a file from Cloudinary using its public_id.\nThe public_id is returned by POST /api/v1/upload.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Media"
+                ],
+                "summary": "Delete an uploaded file",
+                "parameters": [
+                    {
+                        "description": "Full Cloudinary URL to delete",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/internal_domain_media.DeleteRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/internal_domain_media.DeleteResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Missing public_id",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "503": {
+                        "description": "Upload service unavailable",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/users/me": {
             "get": {
                 "security": [
@@ -1062,7 +1178,7 @@ const docTemplate = `{
         },
         "/health": {
             "get": {
-                "description": "Check the health status of the API and the database connection.",
+                "description": "Returns API metadata and database connectivity status.",
                 "produces": [
                     "application/json"
                 ],
@@ -1670,16 +1786,62 @@ const docTemplate = `{
                 }
             }
         },
+        "internal_domain_media.DeleteRequest": {
+            "type": "object",
+            "required": [
+                "url"
+            ],
+            "properties": {
+                "url": {
+                    "type": "string",
+                    "example": "https://res.cloudinary.com/demo/image/upload/v1234/zick/uploads/abc.jpg"
+                }
+            }
+        },
+        "internal_domain_media.DeleteResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "File deleted successfully"
+                }
+            }
+        },
+        "internal_domain_media.UploadResponse": {
+            "type": "object",
+            "properties": {
+                "public_id": {
+                    "type": "string",
+                    "example": "zick/content/abc123"
+                },
+                "url": {
+                    "type": "string",
+                    "example": "https://res.cloudinary.com/demo/image/upload/sample.jpg"
+                }
+            }
+        },
         "internal_server.HealthResponse": {
             "type": "object",
             "properties": {
                 "database": {
                     "type": "string"
                 },
+                "docs_url": {
+                    "type": "string"
+                },
+                "environment": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                },
                 "status": {
                     "type": "string"
                 },
                 "timestamp": {
+                    "type": "string"
+                },
+                "version": {
                     "type": "string"
                 }
             }

@@ -77,7 +77,7 @@ func HealthCheckHandler(db *gorm.DB, cfg *config.Config) echo.HandlerFunc {
 		}
 
 		return c.JSON(http.StatusOK, HealthResponse{
-			Message:     "Welcome to GoTickets API",
+			Message:     "Welcome to ALTAR API",
 			Version:     "1.0.0",
 			Environment: cfg.AppEnv,
 			Status:      "active",

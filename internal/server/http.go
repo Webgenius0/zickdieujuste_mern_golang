@@ -6,6 +6,7 @@ import (
 	"gotickets/internal/auth"
 	"gotickets/internal/config"
 	"gotickets/internal/domain/content"
+	"gotickets/internal/domain/media"
 	"gotickets/internal/domain/schedule"
 	"gotickets/internal/domain/subscription"
 	"gotickets/internal/domain/user"
@@ -51,6 +52,7 @@ func Start(db *gorm.DB, cfg *config.Config, uploader upload.Uploader) {
 	content.RegisterRoutes(e, db, jwtSvc, userSvc)
 	schedule.RegisterRoutes(e, db, jwtSvc, userSvc)
 	subscription.RegisterRoutes(e, db, jwtSvc, userSvc, userRepo)
+	media.RegisterRoutes(e, jwtSvc, uploader)
 
 	addr := fmt.Sprintf(":%s", cfg.Port)
 	fmt.Printf("\033[1;32m🚀 Server running on http://localhost:%s\033[0m\n", cfg.Port)

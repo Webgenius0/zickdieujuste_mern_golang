@@ -38,6 +38,7 @@ type Service interface {
 
 	GetProfileByEmail(email string) (*dto.ProfileResponse, error)
 	UpdateProfileByEmail(email string, req dto.UpdateProfileRequest) (*dto.ProfileResponse, error)
+	UpdateAvatarURLByEmail(email string, avatarURL string) (*dto.ProfileResponse, error)
 	ChangePasswordByEmail(email string, req dto.ChangePasswordRequest) error
 	DeleteAccountByEmail(email string) error
 	GetUserIDByEmail(email string) (uuid.UUID, error)

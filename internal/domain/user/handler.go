@@ -365,16 +365,10 @@ func (h *Handler) UploadAvatar(c *echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, httpresponse.NewError(http.StatusInternalServerError, "Upload failed", err.Error()))
 	}
 
-	// Persist avatar URL on the user record
-	if _, err := h.svc.UpdateProfileByEmail(email, dto.UpdateProfileRequest{}); err != nil {
-		// Non-critical: avatar was uploaded but profile update failed
+	if _, err := h.svc.UpdateAvatarURLByEmail(email, result.URL); err != nil {
 		_ = h.uploader.Delete(c.Request().Context(), result.PublicID)
-		return c.JSON(http.StatusInternalServerError, httpresponse.NewError(http.StatusInternalServerError, "Failed to update avatar URL", err.Error()))
+		return c.JSON(http.StatusInternalServerError, httpresponse.NewError(http.StatusInternalServerError, "Failed to save avatar URL", err.Error()))
 	}
-
-	// Directly update avatar field
-	u, _ := h.svc.GetProfileByEmail(email)
-	_ = u
 
 	return c.JSON(http.StatusOK, dto.AvatarResponse{AvatarURL: result.URL})
 }
