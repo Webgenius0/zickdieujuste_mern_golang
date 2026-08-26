@@ -10,7 +10,7 @@
 // @license.name  MIT
 // @license.url   https://opensource.org/licenses/MIT
 
-// @host      localhost:5000
+// @host      localhost:5525
 // @BasePath  /
 
 // @securityDefinitions.apikey BearerAuth

@@ -446,7 +446,7 @@ definitions:
       version:
         type: string
     type: object
-host: localhost:5000
+host: localhost:5525
 info:
   contact:
     email: support@zick.app
