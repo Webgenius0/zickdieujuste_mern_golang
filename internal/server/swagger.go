@@ -47,7 +47,7 @@ func WelcomeHandler(cfg *config.Config) echo.HandlerFunc {
 			scheme = "https"
 		}
 		return c.JSON(http.StatusOK, WelcomeResponse{
-			Message:     "Welcome to GoTickets API",
+			Message:     "Welcome to ALTAR API",
 			Version:     "1.0.0",
 			Environment: cfg.AppEnv,
 			Status:      "active",
