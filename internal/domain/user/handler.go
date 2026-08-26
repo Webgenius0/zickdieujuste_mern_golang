@@ -86,6 +86,9 @@ func (h *Handler) Login(c *echo.Context) error {
 
 	resp, err := h.svc.Login(req)
 	if err != nil {
+		if errors.Is(err, ErrRateLimited) {
+			return c.JSON(http.StatusTooManyRequests, httpresponse.NewError(http.StatusTooManyRequests, "Too many login attempts", "Please try again later"))
+		}
 		if errors.Is(err, ErrInvalidCredentials) {
 			return c.JSON(http.StatusUnauthorized, httpresponse.NewError(http.StatusUnauthorized, "Invalid email or password", ""))
 		}
@@ -160,8 +163,11 @@ func (h *Handler) ForgotPassword(c *echo.Context) error {
 		return c.JSON(http.StatusBadRequest, httpresponse.NewError(http.StatusBadRequest, "Validation failed", err.Error()))
 	}
 
-	// Errors intentionally swallowed — no user enumeration
-	_ = h.svc.ForgotPassword(req)
+	// Rate-limit errors surface as 429; all other errors are swallowed (no user enumeration).
+	err := h.svc.ForgotPassword(req)
+	if errors.Is(err, ErrRateLimited) {
+		return c.JSON(http.StatusTooManyRequests, httpresponse.NewError(http.StatusTooManyRequests, "Too many requests", "Please try again later"))
+	}
 	return c.JSON(http.StatusOK, dto.MessageResponse{Message: "If this email is registered, an OTP has been sent."})
 }
 

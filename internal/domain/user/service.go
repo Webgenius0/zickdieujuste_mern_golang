@@ -24,6 +24,7 @@ var (
 	ErrInvalidRefreshToken = errors.New("invalid or expired refresh token")
 	ErrInvalidOTP          = errors.New("OTP is invalid, expired, or already used")
 	ErrAccountDeleted      = errors.New("account has been deleted")
+	ErrRateLimited         = errors.New("too many requests — please try again later")
 )
 
 // Service defines the business logic contract for the user domain.
@@ -49,11 +50,12 @@ type service struct {
 	jwt      auth.JWTService
 	uploader upload.Uploader
 	mailer   email.Mailer
+	limiter  *RateLimiter
 }
 
 // NewService creates a new user Service. uploader and mailer may be nil.
 func NewService(repo Repository, jwt auth.JWTService, uploader upload.Uploader, mailer email.Mailer) Service {
-	return &service{repo: repo, jwt: jwt, uploader: uploader, mailer: mailer}
+	return &service{repo: repo, jwt: jwt, uploader: uploader, mailer: mailer, limiter: newRateLimiter()}
 }
 
 // Auth operations
@@ -82,7 +84,9 @@ func (s *service) Register(req dto.RegisterRequest) (*dto.AuthResponse, error) {
 }
 
 func (s *service) Login(req dto.LoginRequest) (*dto.AuthResponse, error) {
-	// TODO: add rate limiting here (e.g. Redis-backed per-email limiter)
+	if !s.limiter.AllowLogin(req.Email) {
+		return nil, ErrRateLimited
+	}
 	u, err := s.repo.GetUserByEmail(req.Email)
 	if err != nil {
 		return nil, ErrInvalidCredentials
@@ -127,11 +131,12 @@ func (s *service) Logout(rawToken string) error {
 }
 
 func (s *service) ForgotPassword(req dto.ForgotPasswordRequest) error {
-	// TODO: add rate limiting here (e.g. Redis-backed per-email limiter)
+	if !s.limiter.AllowForgotPassword(req.Email) {
+		return ErrRateLimited
+	}
 
 	u, err := s.repo.GetUserByEmail(req.Email)
 	if err != nil {
-
 		return nil
 	}
 
