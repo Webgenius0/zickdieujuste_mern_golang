@@ -8,8 +8,6 @@ import (
 	"gorm.io/gorm"
 )
 
-// Repository defines the data access contract for the user domain.
-// Only the GORM implementation below should import gorm.io/gorm.
 type Repository interface {
 	// User
 	CreateUser(u *User) error
@@ -33,9 +31,7 @@ type Repository interface {
 	UpsertDeviceToken(dt *DeviceToken) error
 }
 
-// ──────────────────────────────────────────────────────────────────────────────
 // GORM implementation
-// ──────────────────────────────────────────────────────────────────────────────
 
 type repository struct {
 	db *gorm.DB

@@ -18,9 +18,7 @@ type Repository interface {
 	GetRelated(id uuid.UUID) ([]Content, error)
 }
 
-// ──────────────────────────────────────────────────────────────────────────────
 // GORM implementation
-// ──────────────────────────────────────────────────────────────────────────────
 
 type repository struct {
 	db *gorm.DB
@@ -59,7 +57,7 @@ func (r *repository) List(filter dto.ListContentRequest) ([]Content, int64, erro
 			Where("ca.audience = ?", filter.Audience)
 	}
 	if filter.Q != "" {
-		// Full-text search via the generated search_vector column (ERD indexing plan).
+		// Full-text search via the generated search_vector column.
 		// Falls back gracefully to ILIKE if the tsvector migration hasn't been applied yet.
 		q = q.Where(
 			"search_vector @@ plainto_tsquery('english', ?) OR title ILIKE ?",

@@ -29,9 +29,7 @@ func NewHandler(svc Service, uploader upload.Uploader) *Handler {
 	return &Handler{svc: svc, uploader: uploader}
 }
 
-// ──────────────────────────────────────────────────────────────────────────────
 // Auth handlers
-// ──────────────────────────────────────────────────────────────────────────────
 
 // Register godoc
 // @Summary      Register a new user
