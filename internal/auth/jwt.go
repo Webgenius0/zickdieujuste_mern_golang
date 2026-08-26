@@ -62,7 +62,6 @@ func NewJWTService(accessSecretKey, refreshSecretKey, accessExpiry, refreshExpir
 }
 
 func (js *jwtService) GenerateToken(userId uuid.UUID, name string, email string, isPremium bool) (string, string, error) {
-	// Generate Access Token
 	accessClaims := &JwtCustomClaims{
 		UserID:    userId,
 		Name:      name,
@@ -78,7 +77,6 @@ func (js *jwtService) GenerateToken(userId uuid.UUID, name string, email string,
 		return "", "", err
 	}
 
-	// Generate Refresh Token
 	refreshClaims := &JwtCustomClaims{
 		UserID:    userId,
 		Name:      name,

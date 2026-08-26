@@ -24,10 +24,10 @@ var (
 	ErrInvalidRefreshToken = errors.New("invalid or expired refresh token")
 	ErrInvalidOTP          = errors.New("OTP is invalid, expired, or already used")
 	ErrAccountDeleted      = errors.New("account has been deleted")
+	ErrRateLimited         = errors.New("too many requests — please try again later")
 )
 
 // Service defines the business logic contract for the user domain.
-// It depends only on the Repository interface and never imports echo or gorm.
 type Service interface {
 	Register(req dto.RegisterRequest) (*dto.AuthResponse, error)
 	Login(req dto.LoginRequest) (*dto.AuthResponse, error)
@@ -38,6 +38,7 @@ type Service interface {
 
 	GetProfileByEmail(email string) (*dto.ProfileResponse, error)
 	UpdateProfileByEmail(email string, req dto.UpdateProfileRequest) (*dto.ProfileResponse, error)
+	UpdateAvatarURLByEmail(email string, avatarURL string) (*dto.ProfileResponse, error)
 	ChangePasswordByEmail(email string, req dto.ChangePasswordRequest) error
 	DeleteAccountByEmail(email string) error
 	GetUserIDByEmail(email string) (uuid.UUID, error)
@@ -48,18 +49,17 @@ type Service interface {
 type service struct {
 	repo     Repository
 	jwt      auth.JWTService
-	uploader upload.Uploader // may be nil if upload not configured
-	mailer   email.Mailer   // may be nil — falls back to stdout log
+	uploader upload.Uploader
+	mailer   email.Mailer
+	limiter  *RateLimiter
 }
 
 // NewService creates a new user Service. uploader and mailer may be nil.
 func NewService(repo Repository, jwt auth.JWTService, uploader upload.Uploader, mailer email.Mailer) Service {
-	return &service{repo: repo, jwt: jwt, uploader: uploader, mailer: mailer}
+	return &service{repo: repo, jwt: jwt, uploader: uploader, mailer: mailer, limiter: newRateLimiter()}
 }
 
-// ──────────────────────────────────────────────────────────────────────────────
 // Auth operations
-// ──────────────────────────────────────────────────────────────────────────────
 
 func (s *service) Register(req dto.RegisterRequest) (*dto.AuthResponse, error) {
 	// Check for duplicate email
@@ -85,7 +85,9 @@ func (s *service) Register(req dto.RegisterRequest) (*dto.AuthResponse, error) {
 }
 
 func (s *service) Login(req dto.LoginRequest) (*dto.AuthResponse, error) {
-	// TODO: add rate limiting here (e.g. Redis-backed per-email limiter)
+	if !s.limiter.AllowLogin(req.Email) {
+		return nil, ErrRateLimited
+	}
 	u, err := s.repo.GetUserByEmail(req.Email)
 	if err != nil {
 		return nil, ErrInvalidCredentials
@@ -97,7 +99,7 @@ func (s *service) Login(req dto.LoginRequest) (*dto.AuthResponse, error) {
 }
 
 func (s *service) RefreshToken(rawToken string) (*dto.AuthResponse, error) {
-	// Validate JWT signature/expiry first
+
 	_, err := s.jwt.ValidateToken(rawToken, true)
 	if err != nil {
 		return nil, ErrInvalidRefreshToken
@@ -109,7 +111,6 @@ func (s *service) RefreshToken(rawToken string) (*dto.AuthResponse, error) {
 		return nil, ErrInvalidRefreshToken
 	}
 
-	// Rotate: revoke the old token
 	if err := s.repo.RevokeRefreshToken(rt.TokenHash); err != nil {
 		return nil, fmt.Errorf("failed to revoke refresh token: %w", err)
 	}
@@ -124,23 +125,22 @@ func (s *service) RefreshToken(rawToken string) (*dto.AuthResponse, error) {
 
 func (s *service) Logout(rawToken string) error {
 	if rawToken == "" {
-		return nil // idempotent
+		return nil
 	}
 	hash := hashToken(rawToken)
 	return s.repo.RevokeRefreshToken(hash)
 }
 
 func (s *service) ForgotPassword(req dto.ForgotPasswordRequest) error {
-	// TODO: add rate limiting here (e.g. Redis-backed per-email limiter)
+	if !s.limiter.AllowForgotPassword(req.Email) {
+		return ErrRateLimited
+	}
 
-	// Always return 200 regardless of whether the email exists (no user enumeration)
 	u, err := s.repo.GetUserByEmail(req.Email)
 	if err != nil {
-		// Email not found — return silently
 		return nil
 	}
 
-	// Invalidate any prior unused OTPs
 	_ = s.repo.InvalidatePendingOTPs(req.Email)
 
 	code, err := generateOTPCode()
@@ -199,9 +199,7 @@ func (s *service) ResetPassword(req dto.ResetPasswordRequest) error {
 	return s.repo.MarkOTPUsed(otp.ID)
 }
 
-// ──────────────────────────────────────────────────────────────────────────────
 // Profile operations
-// ──────────────────────────────────────────────────────────────────────────────
 
 func (s *service) GetProfileByEmail(email string) (*dto.ProfileResponse, error) {
 	u, err := s.repo.GetUserByEmail(email)
@@ -301,9 +299,7 @@ func (s *service) UpdateAvatar(ctx context.Context, userID uuid.UUID, file inter
 	return nil, errors.New("use handler-level UploadAvatar — this method is a handler-level concern")
 }
 
-// ──────────────────────────────────────────────────────────────────────────────
 // Device operations
-// ──────────────────────────────────────────────────────────────────────────────
 
 func (s *service) RegisterDevice(userID uuid.UUID, req dto.RegisterDeviceRequest) error {
 	dt := &DeviceToken{
@@ -314,9 +310,7 @@ func (s *service) RegisterDevice(userID uuid.UUID, req dto.RegisterDeviceRequest
 	return s.repo.UpsertDeviceToken(dt)
 }
 
-// ──────────────────────────────────────────────────────────────────────────────
 // Helpers
-// ──────────────────────────────────────────────────────────────────────────────
 
 // issueTokenPair generates a new JWT access+refresh token pair, persists the refresh token, and returns both.
 func (s *service) issueTokenPair(u *User) (*dto.AuthResponse, error) {

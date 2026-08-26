@@ -34,7 +34,7 @@ const (
 	AudienceTeens Audience = "TEENS"
 )
 
-// Content represents the CONTENT table (ERD §CONTENT).
+// Content represents the CONTENT table.
 type Content struct {
 	ID              uuid.UUID   `gorm:"type:uuid;primaryKey"`
 	Type            ContentType `gorm:"type:varchar(50);not null;index"`
@@ -67,13 +67,13 @@ func (c *Content) BeforeCreate(_ *gorm.DB) error {
 	return nil
 }
 
-// ContentAudience represents the CONTENT_AUDIENCES join table (ERD §CONTENT_AUDIENCES).
+// ContentAudience represents the CONTENT_AUDIENCES join table.
 type ContentAudience struct {
 	ContentID uuid.UUID `gorm:"type:uuid;primaryKey;autoIncrement:false;index"`
 	Audience  Audience  `gorm:"type:varchar(20);primaryKey;index"`
 }
 
-// RelatedContent is the self-referential join for RELATED_CONTENT (ERD §RELATED_CONTENT).
+// RelatedContent is the self-referential join for RELATED_CONTENT.
 // GORM's many2many tag on Content handles this join table automatically.
 // The struct below is defined explicitly for clarity and to allow AutoMigrate to see the table.
 type RelatedContentJoin struct {

@@ -29,9 +29,7 @@ func NewHandler(svc Service, uploader upload.Uploader) *Handler {
 	return &Handler{svc: svc, uploader: uploader}
 }
 
-// ──────────────────────────────────────────────────────────────────────────────
 // Auth handlers
-// ──────────────────────────────────────────────────────────────────────────────
 
 // Register godoc
 // @Summary      Register a new user
@@ -88,6 +86,9 @@ func (h *Handler) Login(c *echo.Context) error {
 
 	resp, err := h.svc.Login(req)
 	if err != nil {
+		if errors.Is(err, ErrRateLimited) {
+			return c.JSON(http.StatusTooManyRequests, httpresponse.NewError(http.StatusTooManyRequests, "Too many login attempts", "Please try again later"))
+		}
 		if errors.Is(err, ErrInvalidCredentials) {
 			return c.JSON(http.StatusUnauthorized, httpresponse.NewError(http.StatusUnauthorized, "Invalid email or password", ""))
 		}
@@ -162,8 +163,11 @@ func (h *Handler) ForgotPassword(c *echo.Context) error {
 		return c.JSON(http.StatusBadRequest, httpresponse.NewError(http.StatusBadRequest, "Validation failed", err.Error()))
 	}
 
-	// Errors intentionally swallowed — no user enumeration
-	_ = h.svc.ForgotPassword(req)
+	// Rate-limit errors surface as 429; all other errors are swallowed (no user enumeration).
+	err := h.svc.ForgotPassword(req)
+	if errors.Is(err, ErrRateLimited) {
+		return c.JSON(http.StatusTooManyRequests, httpresponse.NewError(http.StatusTooManyRequests, "Too many requests", "Please try again later"))
+	}
 	return c.JSON(http.StatusOK, dto.MessageResponse{Message: "If this email is registered, an OTP has been sent."})
 }
 
@@ -361,16 +365,10 @@ func (h *Handler) UploadAvatar(c *echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, httpresponse.NewError(http.StatusInternalServerError, "Upload failed", err.Error()))
 	}
 
-	// Persist avatar URL on the user record
-	if _, err := h.svc.UpdateProfileByEmail(email, dto.UpdateProfileRequest{}); err != nil {
-		// Non-critical: avatar was uploaded but profile update failed
+	if _, err := h.svc.UpdateAvatarURLByEmail(email, result.URL); err != nil {
 		_ = h.uploader.Delete(c.Request().Context(), result.PublicID)
-		return c.JSON(http.StatusInternalServerError, httpresponse.NewError(http.StatusInternalServerError, "Failed to update avatar URL", err.Error()))
+		return c.JSON(http.StatusInternalServerError, httpresponse.NewError(http.StatusInternalServerError, "Failed to save avatar URL", err.Error()))
 	}
-
-	// Directly update avatar field
-	u, _ := h.svc.GetProfileByEmail(email)
-	_ = u
 
 	return c.JSON(http.StatusOK, dto.AvatarResponse{AvatarURL: result.URL})
 }
