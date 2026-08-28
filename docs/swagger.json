@@ -1,21 +1,8 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "ZICK — A spiritual-wellness app backend providing auth, content, schedules, and subscriptions.",
-        "title": "ZICK API",
-        "termsOfService": "http://swagger.io/terms/",
-        "contact": {
-            "name": "ZICK API Support",
-            "email": "support@zick.app"
-        },
-        "license": {
-            "name": "MIT",
-            "url": "https://opensource.org/licenses/MIT"
-        },
-        "version": "2.0"
+        "contact": {}
     },
-    "host": "localhost:5525",
-    "basePath": "/",
     "paths": {
         "/": {
             "get": {
@@ -1615,6 +1602,10 @@
         "gotickets_internal_domain_user_dto.ProfileResponse": {
             "type": "object",
             "properties": {
+                "age": {
+                    "type": "integer",
+                    "example": 25
+                },
                 "auth_provider": {
                     "type": "string",
                     "example": "EMAIL"
@@ -1694,14 +1685,34 @@
         "gotickets_internal_domain_user_dto.RegisterRequest": {
             "type": "object",
             "required": [
+                "age",
+                "agreeTermsAndConditions",
                 "email",
                 "name",
                 "password"
             ],
             "properties": {
+                "age": {
+                    "type": "integer",
+                    "maximum": 120,
+                    "minimum": 0,
+                    "example": 25
+                },
+                "agreeTermsAndConditions": {
+                    "type": "boolean",
+                    "example": true
+                },
                 "email": {
                     "type": "string",
                     "example": "user@example.com"
+                },
+                "language_preference": {
+                    "type": "string",
+                    "enum": [
+                        "en",
+                        "es"
+                    ],
+                    "example": "en"
                 },
                 "name": {
                     "type": "string",
@@ -1742,6 +1753,12 @@
         "gotickets_internal_domain_user_dto.UpdateProfileRequest": {
             "type": "object",
             "properties": {
+                "age": {
+                    "type": "integer",
+                    "maximum": 120,
+                    "minimum": 0,
+                    "example": 25
+                },
                 "language_preference": {
                     "type": "string",
                     "example": "en"
@@ -1757,6 +1774,7 @@
                     "example": "John Doe"
                 },
                 "theme_preference": {
+                    "description": "Available themes: IVORY, NAVY",
                     "type": "string",
                     "enum": [
                         "IVORY",
@@ -1859,14 +1877,6 @@
                     "type": "string"
                 }
             }
-        }
-    },
-    "securityDefinitions": {
-        "BearerAuth": {
-            "description": "Type \"Bearer\" followed by a space and the JWT access token.",
-            "type": "apiKey",
-            "name": "Authorization",
-            "in": "header"
         }
     }
 }

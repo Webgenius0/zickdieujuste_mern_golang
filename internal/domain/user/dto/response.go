@@ -20,6 +20,7 @@ type ProfileResponse struct {
 	AvatarURL          *string    `json:"avatar_url" example:"https://res.cloudinary.com/demo/image/upload/avatar.jpg"`
 	ThemePreference    string     `json:"theme_preference" example:"NAVY"`
 	LanguagePreference string     `json:"language_preference" example:"en"`
+	Age                int        `json:"age" example:"25"`
 	IsPremium          bool       `json:"is_premium" example:"true"`
 	TermsAcceptedAt    *time.Time `json:"terms_accepted_at" example:"2026-08-17T15:00:00Z"`
 	CreatedAt          time.Time  `json:"created_at" example:"2026-08-17T15:00:00Z"`

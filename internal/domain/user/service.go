@@ -68,10 +68,19 @@ func (s *service) Register(req dto.RegisterRequest) (*dto.AuthResponse, error) {
 		return nil, ErrDuplicateEmail
 	}
 
+	var termsAcceptedAt *time.Time
+	if req.AgreeTermsAndConditions {
+		now := time.Now()
+		termsAcceptedAt = &now
+	}
+
 	u := &User{
-		Name:         req.Name,
-		Email:        req.Email,
-		AuthProvider: AuthProviderEmail,
+		Name:               req.Name,
+		Email:              req.Email,
+		LanguagePreference: req.LanguagePreference,
+		Age:                req.Age,
+		TermsAcceptedAt:    termsAcceptedAt,
+		AuthProvider:       AuthProviderEmail,
 	}
 	if err := u.HashPassword(req.Password); err != nil {
 		return nil, fmt.Errorf("failed to hash password: %w", err)
@@ -234,6 +243,9 @@ func (s *service) UpdateProfileByEmail(email string, req dto.UpdateProfileReques
 	if req.LanguagePreference != nil {
 		u.LanguagePreference = *req.LanguagePreference
 	}
+	if req.Age != nil {
+		u.Age = *req.Age
+	}
 	if err := s.repo.UpdateUser(u); err != nil {
 		return nil, fmt.Errorf("failed to update profile: %w", err)
 	}
@@ -365,6 +377,7 @@ func toProfileResponse(u *User) *dto.ProfileResponse {
 		AvatarURL:          u.AvatarURL,
 		ThemePreference:    string(u.ThemePreference),
 		LanguagePreference: u.LanguagePreference,
+		Age:                u.Age,
 		IsPremium:          u.IsPremium,
 		TermsAcceptedAt:    u.TermsAcceptedAt,
 		CreatedAt:          u.CreatedAt,
