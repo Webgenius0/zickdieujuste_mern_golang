@@ -85,7 +85,7 @@ const docTemplate = `{
         },
         "/api/v1/auth/login": {
             "post": {
-                "description": "Authenticates an EMAIL user. Returns access + refresh JWT pair.",
+                "description": "Authenticates an EMAIL user. Returns access + refresh JWT pair. Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole).",
                 "consumes": [
                     "application/json"
                 ],
@@ -1602,6 +1602,18 @@ const docTemplate = `{
                 "email": {
                     "type": "string",
                     "example": "user@example.com"
+                },
+                "language_preference": {
+                    "description": "Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole)",
+                    "type": "string",
+                    "enum": [
+                        "en",
+                        "fr",
+                        "es",
+                        "pt",
+                        "ht"
+                    ],
+                    "example": "en"
                 },
                 "password": {
                     "type": "string",

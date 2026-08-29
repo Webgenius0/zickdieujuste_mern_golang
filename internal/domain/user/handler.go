@@ -66,7 +66,7 @@ func (h *Handler) Register(c *echo.Context) error {
 
 // Login godoc
 // @Summary      Login
-// @Description  Authenticates an EMAIL user. Returns access + refresh JWT pair.
+// @Description  Authenticates an EMAIL user. Returns access + refresh JWT pair. Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole).
 // @Tags         Auth
 // @Accept       json
 // @Produce      json

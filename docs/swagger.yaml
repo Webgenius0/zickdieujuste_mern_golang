@@ -289,6 +289,17 @@ definitions:
       email:
         example: user@example.com
         type: string
+      language_preference:
+        description: 'Available languages: en (English), fr (French), es (Spanish),
+          pt (Portuguese), ht (Haitian Creole)'
+        enum:
+        - en
+        - fr
+        - es
+        - pt
+        - ht
+        example: en
+        type: string
       password:
         example: Secret123!
         type: string
@@ -572,7 +583,9 @@ paths:
     post:
       consumes:
       - application/json
-      description: Authenticates an EMAIL user. Returns access + refresh JWT pair.
+      description: 'Authenticates an EMAIL user. Returns access + refresh JWT pair.
+        Available languages: en (English), fr (French), es (Spanish), pt (Portuguese),
+        ht (Haitian Creole).'
       parameters:
       - description: Login payload
         in: body
