@@ -36,6 +36,9 @@ func Start(db *gorm.DB, cfg *config.Config, uploader upload.Uploader) {
 	e := echo.New()
 	e.Validator = &customValidator{validator: validator.New()}
 	e.Use(middleware.RequestLogger())
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"*"},
+	}))
 
 	// System
 	e.GET("/", WelcomeHandler(cfg))

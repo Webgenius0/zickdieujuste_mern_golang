@@ -104,6 +104,14 @@ func (s *service) Login(req dto.LoginRequest) (*dto.AuthResponse, error) {
 	if err := u.CheckPassword(req.Password); err != nil {
 		return nil, ErrInvalidCredentials
 	}
+
+	if req.LanguagePreference != "" && req.LanguagePreference != u.LanguagePreference {
+		u.LanguagePreference = req.LanguagePreference
+		if err := s.repo.UpdateUser(u); err != nil {
+			return nil, fmt.Errorf("failed to update language preference: %w", err)
+		}
+	}
+
 	return s.issueTokenPair(u)
 }
 

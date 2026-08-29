@@ -85,7 +85,7 @@ const docTemplate = `{
         },
         "/api/v1/auth/login": {
             "post": {
-                "description": "Authenticates an EMAIL user. Returns access + refresh JWT pair.",
+                "description": "Authenticates an EMAIL user. Returns access + refresh JWT pair. Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole).",
                 "consumes": [
                     "application/json"
                 ],
@@ -979,7 +979,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Updates name, location, theme preference (Available: LIGHT, DARK), or language preference.",
+                "description": "Updates name, location, theme preference (Available: LIGHT, DARK), or language preference. Duplicate email returns 409. Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole).",
                 "consumes": [
                     "application/json"
                 ],
@@ -1603,6 +1603,18 @@ const docTemplate = `{
                     "type": "string",
                     "example": "user@example.com"
                 },
+                "language_preference": {
+                    "description": "Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole)",
+                    "type": "string",
+                    "enum": [
+                        "en",
+                        "fr",
+                        "es",
+                        "pt",
+                        "ht"
+                    ],
+                    "example": "en"
+                },
                 "password": {
                     "type": "string",
                     "example": "Secret123!"
@@ -1923,7 +1935,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "2.0",
-	Host:             "localhost:5525",
+	Host:             "",
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "ZICK API",
