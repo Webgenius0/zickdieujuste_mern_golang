@@ -4,6 +4,7 @@ tmp_dir = "tmp"
 
 [build]
   args_bin = []
+  pre_cmd = "swag init -g cmd/api_info.go --parseDependency --parseInternal"
   cmd = "go build -o ./tmp/main ./cmd/main.go"
   bin = "./tmp/main"
   
