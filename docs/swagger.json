@@ -1,8 +1,21 @@
 {
     "swagger": "2.0",
     "info": {
-        "contact": {}
+        "description": "ZICK — A spiritual-wellness app backend providing auth, content, schedules, and subscriptions.",
+        "title": "ZICK API",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "ZICK API Support",
+            "email": "support@zick.app"
+        },
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        },
+        "version": "2.0"
     },
+    "host": "localhost:5525",
+    "basePath": "/",
     "paths": {
         "/": {
             "get": {
@@ -195,7 +208,7 @@
         },
         "/api/v1/auth/register": {
             "post": {
-                "description": "Creates a new EMAIL-provider account. Returns access + refresh JWT pair. Duplicate email returns 409.",
+                "description": "Creates a new EMAIL-provider account. Returns access + refresh JWT pair. Duplicate email returns 409. Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole). Available auth providers: EMAIL, GOOGLE, APPLE.",
                 "consumes": [
                     "application/json"
                 ],
@@ -517,7 +530,7 @@
                         "BearerAuth": []
                     }
                 ],
-                "description": "Registers or refreshes an FCM (Android) or APNs (iOS) push notification token. Upserts on (user_id, token).",
+                "description": "Registers or refreshes an FCM (Android) or APNs (iOS) push notification token. Upserts on (user_id, token). Available platforms: IOS, ANDROID.",
                 "consumes": [
                     "application/json"
                 ],
@@ -960,7 +973,7 @@
                         "BearerAuth": []
                     }
                 ],
-                "description": "Updates name, location, theme preference, or language preference.",
+                "description": "Updates name, location, theme preference (Available: LIGHT, DARK), or language preference.",
                 "consumes": [
                     "application/json"
                 ],
@@ -1707,10 +1720,14 @@
                     "example": "user@example.com"
                 },
                 "language_preference": {
+                    "description": "Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole)",
                     "type": "string",
                     "enum": [
                         "en",
-                        "es"
+                        "fr",
+                        "es",
+                        "pt",
+                        "ht"
                     ],
                     "example": "en"
                 },
@@ -1760,7 +1777,15 @@
                     "example": 25
                 },
                 "language_preference": {
+                    "description": "Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole)",
                     "type": "string",
+                    "enum": [
+                        "en",
+                        "fr",
+                        "es",
+                        "pt",
+                        "ht"
+                    ],
                     "example": "en"
                 },
                 "location": {
@@ -1774,13 +1799,13 @@
                     "example": "John Doe"
                 },
                 "theme_preference": {
-                    "description": "Available themes: IVORY, NAVY",
+                    "description": "Available themes: LIGHT, DARK",
                     "type": "string",
                     "enum": [
-                        "IVORY",
-                        "NAVY"
+                        "LIGHT",
+                        "DARK"
                     ],
-                    "example": "NAVY"
+                    "example": "DARK"
                 }
             }
         },
@@ -1877,6 +1902,14 @@
                     "type": "string"
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "BearerAuth": {
+            "description": "Type \"Bearer\" followed by a space and the JWT access token.",
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }

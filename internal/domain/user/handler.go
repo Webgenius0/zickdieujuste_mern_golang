@@ -33,7 +33,7 @@ func NewHandler(svc Service, uploader upload.Uploader) *Handler {
 
 // Register godoc
 // @Summary      Register a new user
-// @Description  Creates a new EMAIL-provider account. Returns access + refresh JWT pair. Duplicate email returns 409.
+// @Description  Creates a new EMAIL-provider account. Returns access + refresh JWT pair. Duplicate email returns 409. Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole). Available auth providers: EMAIL, GOOGLE, APPLE.
 // @Tags         Auth
 // @Accept       json
 // @Produce      json
@@ -229,7 +229,7 @@ func (h *Handler) GetMe(c *echo.Context) error {
 
 // UpdateMe godoc
 // @Summary      Update profile
-// @Description  Updates name, location, theme preference, or language preference.
+// @Description  Updates name, location, theme preference (Available: LIGHT, DARK), or language preference. Duplicate email returns 409. Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole).
 // @Tags         Users
 // @Accept       json
 // @Produce      json
@@ -379,7 +379,7 @@ func (h *Handler) UploadAvatar(c *echo.Context) error {
 
 // RegisterDevice godoc
 // @Summary      Register device token
-// @Description  Registers or refreshes an FCM (Android) or APNs (iOS) push notification token. Upserts on (user_id, token).
+// @Description  Registers or refreshes an FCM (Android) or APNs (iOS) push notification token. Upserts on (user_id, token). Available platforms: IOS, ANDROID.
 // @Tags         Devices
 // @Accept       json
 // @Produce      json

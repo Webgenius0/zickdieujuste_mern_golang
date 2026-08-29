@@ -5,7 +5,8 @@ type RegisterRequest struct {
 	Email                   string `json:"email" example:"user@example.com"    validate:"required,email"`
 	Password                string `json:"password" example:"Secret123!" validate:"required,min=8"`
 	AgreeTermsAndConditions bool   `json:"agreeTermsAndConditions" example:"true" validate:"required"`
-	LanguagePreference      string `json:"language_preference" example:"en" validate:"omitempty,oneof=en es"`
+	// Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole)
+	LanguagePreference      string `json:"language_preference" example:"en" enums:"en,fr,es,pt,ht" validate:"omitempty,oneof=en fr es pt ht"`
 	Age                     int    `json:"age" example:"25" validate:"required,min=0,max=120"`
 }
 
@@ -31,9 +32,10 @@ type ResetPasswordRequest struct {
 type UpdateProfileRequest struct {
 	Name               *string `json:"name" example:"John Doe"                omitempty:"true" validate:"omitempty,min=2,max=100"`
 	Location           *string `json:"location" example:"New York, USA"            omitempty:"true"`
-	// Available themes: IVORY, NAVY
-	ThemePreference    *string `json:"theme_preference" example:"NAVY" enums:"IVORY,NAVY" omitempty:"true" validate:"omitempty,oneof=IVORY NAVY"`
-	LanguagePreference *string `json:"language_preference" example:"en" omitempty:"true"`
+	// Available themes: LIGHT, DARK
+	ThemePreference    *string `json:"theme_preference" example:"DARK" enums:"LIGHT,DARK" omitempty:"true" validate:"omitempty,oneof=LIGHT DARK"`
+	// Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole)
+	LanguagePreference *string `json:"language_preference" example:"en" enums:"en,fr,es,pt,ht" omitempty:"true" validate:"omitempty,oneof=en fr es pt ht"`
 	Age                *int    `json:"age" example:"25" omitempty:"true" validate:"omitempty,min=0,max=120"`
 }
 

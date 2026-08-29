@@ -9,7 +9,15 @@ const docTemplate = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "contact": {},
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "ZICK API Support",
+            "email": "support@zick.app"
+        },
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        },
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
@@ -206,7 +214,7 @@ const docTemplate = `{
         },
         "/api/v1/auth/register": {
             "post": {
-                "description": "Creates a new EMAIL-provider account. Returns access + refresh JWT pair. Duplicate email returns 409.",
+                "description": "Creates a new EMAIL-provider account. Returns access + refresh JWT pair. Duplicate email returns 409. Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole). Available auth providers: EMAIL, GOOGLE, APPLE.",
                 "consumes": [
                     "application/json"
                 ],
@@ -528,7 +536,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Registers or refreshes an FCM (Android) or APNs (iOS) push notification token. Upserts on (user_id, token).",
+                "description": "Registers or refreshes an FCM (Android) or APNs (iOS) push notification token. Upserts on (user_id, token). Available platforms: IOS, ANDROID.",
                 "consumes": [
                     "application/json"
                 ],
@@ -971,7 +979,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Updates name, location, theme preference, or language preference.",
+                "description": "Updates name, location, theme preference (Available: LIGHT, DARK), or language preference.",
                 "consumes": [
                     "application/json"
                 ],
@@ -1718,10 +1726,14 @@ const docTemplate = `{
                     "example": "user@example.com"
                 },
                 "language_preference": {
+                    "description": "Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole)",
                     "type": "string",
                     "enum": [
                         "en",
-                        "es"
+                        "fr",
+                        "es",
+                        "pt",
+                        "ht"
                     ],
                     "example": "en"
                 },
@@ -1771,7 +1783,15 @@ const docTemplate = `{
                     "example": 25
                 },
                 "language_preference": {
+                    "description": "Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole)",
                     "type": "string",
+                    "enum": [
+                        "en",
+                        "fr",
+                        "es",
+                        "pt",
+                        "ht"
+                    ],
                     "example": "en"
                 },
                 "location": {
@@ -1785,13 +1805,13 @@ const docTemplate = `{
                     "example": "John Doe"
                 },
                 "theme_preference": {
-                    "description": "Available themes: IVORY, NAVY",
+                    "description": "Available themes: LIGHT, DARK",
                     "type": "string",
                     "enum": [
-                        "IVORY",
-                        "NAVY"
+                        "LIGHT",
+                        "DARK"
                     ],
-                    "example": "NAVY"
+                    "example": "DARK"
                 }
             }
         },
@@ -1889,17 +1909,25 @@ const docTemplate = `{
                 }
             }
         }
+    },
+    "securityDefinitions": {
+        "BearerAuth": {
+            "description": "Type \"Bearer\" followed by a space and the JWT access token.",
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
     }
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "",
-	Host:             "",
-	BasePath:         "",
+	Version:          "2.0",
+	Host:             "localhost:5525",
+	BasePath:         "/",
 	Schemes:          []string{},
-	Title:            "",
-	Description:      "",
+	Title:            "ZICK API",
+	Description:      "ZICK — A spiritual-wellness app backend providing auth, content, schedules, and subscriptions.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",
