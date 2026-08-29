@@ -206,7 +206,7 @@ const docTemplate = `{
         },
         "/api/v1/auth/register": {
             "post": {
-                "description": "Creates a new EMAIL-provider account. Returns access + refresh JWT pair. Duplicate email returns 409.",
+                "description": "Creates a new EMAIL-provider account. Returns access + refresh JWT pair. Duplicate email returns 409. Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole). Available auth providers: EMAIL, GOOGLE, APPLE.",
                 "consumes": [
                     "application/json"
                 ],
@@ -528,7 +528,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Registers or refreshes an FCM (Android) or APNs (iOS) push notification token. Upserts on (user_id, token).",
+                "description": "Registers or refreshes an FCM (Android) or APNs (iOS) push notification token. Upserts on (user_id, token). Available platforms: IOS, ANDROID.",
                 "consumes": [
                     "application/json"
                 ],
@@ -971,7 +971,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Updates name, location, theme preference, or language preference.",
+                "description": "Updates name, location, theme preference (Available: LIGHT, DARK), or language preference.",
                 "consumes": [
                     "application/json"
                 ],
@@ -1797,13 +1797,13 @@ const docTemplate = `{
                     "example": "John Doe"
                 },
                 "theme_preference": {
-                    "description": "Available themes: IVORY, NAVY",
+                    "description": "Available themes: LIGHT, DARK",
                     "type": "string",
                     "enum": [
-                        "IVORY",
-                        "NAVY"
+                        "LIGHT",
+                        "DARK"
                     ],
-                    "example": "NAVY"
+                    "example": "DARK"
                 }
             }
         },

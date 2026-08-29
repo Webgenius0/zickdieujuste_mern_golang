@@ -22,8 +22,8 @@ const (
 	AuthProviderGoogle AuthProvider = "GOOGLE"
 	AuthProviderApple  AuthProvider = "APPLE"
 
-	ThemeIvory ThemePreference = "IVORY"
-	ThemeNavy  ThemePreference = "NAVY"
+	ThemeLight ThemePreference = "LIGHT"
+	ThemeDark  ThemePreference = "DARK"
 
 	PlatformIOS     Platform = "IOS"
 	PlatformAndroid Platform = "ANDROID"
@@ -38,7 +38,7 @@ type User struct {
 	AuthProvider       AuthProvider    `gorm:"type:varchar(20);not null;default:'EMAIL'"`
 	Location           *string         `gorm:"type:varchar(255)"`
 	AvatarURL          *string         `gorm:"type:text"`
-	ThemePreference    ThemePreference `gorm:"type:varchar(20);not null;default:'IVORY'"`
+	ThemePreference    ThemePreference `gorm:"type:varchar(20);not null;default:'LIGHT'"`
 	LanguagePreference string          `gorm:"type:varchar(10);not null;default:'en'"`
 	Age                int             `gorm:"not null;default:0"`
 	IsPremium          bool            `gorm:"not null;default:false"`
