@@ -375,9 +375,14 @@ definitions:
         example: user@example.com
         type: string
       language_preference:
+        description: 'Available languages: en (English), fr (French), es (Spanish),
+          pt (Portuguese), ht (Haitian Creole)'
         enum:
         - en
+        - fr
         - es
+        - pt
+        - ht
         example: en
         type: string
       name:
@@ -421,6 +426,14 @@ definitions:
         minimum: 0
         type: integer
       language_preference:
+        description: 'Available languages: en (English), fr (French), es (Spanish),
+          pt (Portuguese), ht (Haitian Creole)'
+        enum:
+        - en
+        - fr
+        - es
+        - pt
+        - ht
         example: en
         type: string
       location:

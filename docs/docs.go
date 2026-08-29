@@ -1718,10 +1718,14 @@ const docTemplate = `{
                     "example": "user@example.com"
                 },
                 "language_preference": {
+                    "description": "Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole)",
                     "type": "string",
                     "enum": [
                         "en",
-                        "es"
+                        "fr",
+                        "es",
+                        "pt",
+                        "ht"
                     ],
                     "example": "en"
                 },
@@ -1771,7 +1775,15 @@ const docTemplate = `{
                     "example": 25
                 },
                 "language_preference": {
+                    "description": "Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole)",
                     "type": "string",
+                    "enum": [
+                        "en",
+                        "fr",
+                        "es",
+                        "pt",
+                        "ht"
+                    ],
                     "example": "en"
                 },
                 "location": {
