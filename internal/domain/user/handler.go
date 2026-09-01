@@ -99,6 +99,35 @@ func (h *Handler) Login(c *echo.Context) error {
 	return c.JSON(http.StatusOK, resp)
 }
 
+// SocialLogin godoc
+// @Summary      Social Login
+// @Description  Authenticates a user using Firebase ID token (Google or Apple). Returns access + refresh JWT pair.
+// @Tags         Auth
+// @Accept       json
+// @Produce      json
+// @Param        request  body      dto.SocialLoginRequest  true  "Social Login payload"
+// @Success      200      {object}  dto.AuthResponse
+// @Failure      400      {object}  httpresponse.Error  "Validation error"
+// @Failure      401      {object}  httpresponse.Error  "Invalid token"
+// @Router       /api/v1/auth/social-login [post]
+func (h *Handler) SocialLogin(c *echo.Context) error {
+	var req dto.SocialLoginRequest
+	if err := c.Bind(&req); err != nil {
+		return c.JSON(http.StatusBadRequest, httpresponse.NewError(http.StatusBadRequest, "Invalid request body", err.Error()))
+	}
+	if err := c.Validate(req); err != nil {
+		return c.JSON(http.StatusBadRequest, httpresponse.NewError(http.StatusBadRequest, "Validation failed", err.Error()))
+	}
+
+	resp, err := h.svc.SocialLogin(c.Request().Context(), req)
+	if err != nil {
+		return c.JSON(http.StatusUnauthorized, httpresponse.NewError(http.StatusUnauthorized, "Social login failed", err.Error()))
+	}
+
+	setTokenCookies(c, resp.AccessToken, resp.RefreshToken)
+	return c.JSON(http.StatusOK, resp)
+}
+
 // Refresh godoc
 // @Summary      Refresh access token
 // @Description  Rotates the refresh token: revokes the old one and issues a new access + refresh pair. Token may be sent in body or "refresh_token" cookie.

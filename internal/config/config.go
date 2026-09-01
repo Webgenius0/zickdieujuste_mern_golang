@@ -24,6 +24,7 @@ type Config struct {
 	SMTPFromAddress          string
 	SMTPAppPassword          string
 	SMTPOTPExpirationMinutes int // Default: 10
+	FirebaseProjectID        string
 }
 
 func LoadEnv() *Config {
@@ -47,6 +48,7 @@ func LoadEnv() *Config {
 		SMTPFromAddress:          os.Getenv("SMTP_FROM_ADDRESS"),
 		SMTPAppPassword:          os.Getenv("SMTP_APP_PASSWORD"),
 		SMTPOTPExpirationMinutes: getEnvInt("SMTP_OTP_EXPIRATION_MINUTES", 10),
+		FirebaseProjectID:        os.Getenv("FIREBASE_PROJECT_ID"),
 	}
 }
 

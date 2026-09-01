@@ -1,12 +1,15 @@
 package user
 
 import (
+	"context"
 	"gotickets/internal/auth"
 	"gotickets/internal/config"
 	"gotickets/internal/email"
 	"gotickets/internal/middlewares"
 	"gotickets/internal/upload"
 
+	firebase "firebase.google.com/go/v4"
+	firebaseAuth "firebase.google.com/go/v4/auth"
 	"github.com/labstack/echo/v5"
 	"gorm.io/gorm"
 )
@@ -20,7 +23,20 @@ func RegisterRoutes(e *echo.Echo, db *gorm.DB, cfg *config.Config, uploader uplo
 		mailer = email.NewGmailMailer(cfg.SMTPFromName, cfg.SMTPFromAddress, cfg.SMTPAppPassword)
 	}
 
-	svc := NewService(repo, jwtSvc, uploader, mailer)
+	var fbAuthClient *firebaseAuth.Client
+	ctx := context.Background()
+	var app *firebase.App
+	var err error
+	if cfg.FirebaseProjectID != "" {
+		app, err = firebase.NewApp(ctx, &firebase.Config{ProjectID: cfg.FirebaseProjectID})
+	} else {
+		app, err = firebase.NewApp(ctx, nil)
+	}
+	if err == nil && app != nil {
+		fbAuthClient, _ = app.Auth(ctx)
+	}
+
+	svc := NewService(repo, jwtSvc, uploader, mailer, fbAuthClient)
 	h := NewHandler(svc, uploader)
 
 	authMW := middlewares.AuthMiddleware(jwtSvc)
@@ -28,6 +44,7 @@ func RegisterRoutes(e *echo.Echo, db *gorm.DB, cfg *config.Config, uploader uplo
 	authGroup := e.Group("/api/v1/auth")
 	authGroup.POST("/register", h.Register)
 	authGroup.POST("/login", h.Login)
+	authGroup.POST("/social-login", h.SocialLogin)
 	authGroup.POST("/refresh", h.Refresh)
 	authGroup.POST("/logout", h.Logout, authMW)
 	authGroup.POST("/forgot-password", h.ForgotPassword)
