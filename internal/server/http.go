@@ -1,7 +1,9 @@
 package server
 
 import (
+	"errors"
 	"fmt"
+	"strings"
 
 	"gotickets/internal/auth"
 	"gotickets/internal/config"
@@ -24,7 +26,15 @@ type customValidator struct {
 
 func (cv *customValidator) Validate(i any) error {
 	if err := cv.validator.Struct(i); err != nil {
-		return echo.ErrBadRequest.Wrap(err)
+		var valErrs validator.ValidationErrors
+		if errors.As(err, &valErrs) {
+			var errMsgs []string
+			for _, e := range valErrs {
+				errMsgs = append(errMsgs, fmt.Sprintf("Field '%s' failed validation on '%s' tag", e.Field(), e.Tag()))
+			}
+			return fmt.Errorf(strings.Join(errMsgs, ", "))
+		}
+		return err
 	}
 	return nil
 }
