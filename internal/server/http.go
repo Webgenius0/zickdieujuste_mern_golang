@@ -39,8 +39,6 @@ func (cv *customValidator) Validate(i any) error {
 	return nil
 }
 
-// humanizeValidationError converts a raw validator.FieldError into a
-// plain-English sentence that is safe to return directly to the client.
 func humanizeValidationError(e validator.FieldError) string {
 	field := e.Field()
 	switch e.Tag() {
@@ -73,7 +71,6 @@ func humanizeValidationError(e validator.FieldError) string {
 	}
 }
 
-// Start initializes and runs the HTTP server.
 func Start(db *gorm.DB, cfg *config.Config, uploader upload.Uploader) {
 	migrate(db)
 
@@ -84,17 +81,14 @@ func Start(db *gorm.DB, cfg *config.Config, uploader upload.Uploader) {
 		AllowOrigins: []string{"*"},
 	}))
 
-	// System
 	e.GET("/", WelcomeHandler(cfg))
 	e.GET("/health", HealthCheckHandler(db, cfg))
 	RegisterSwagger(e)
 
-	// Shared services
 	jwtSvc := auth.NewJWTService(cfg.JwtAccessSecret, cfg.JwtRefreshSecret, cfg.JwtAccessExpiry, cfg.JwtRefreshExpiry)
 	userRepo := user.NewRepository(db)
 	userSvc := user.NewService(userRepo, jwtSvc, uploader, nil, nil)
 
-	// Domain routes
 	user.RegisterRoutes(e, db, cfg, uploader)
 	content.RegisterRoutes(e, db, jwtSvc, userSvc)
 	schedule.RegisterRoutes(e, db, jwtSvc, userSvc)
@@ -108,21 +102,16 @@ func Start(db *gorm.DB, cfg *config.Config, uploader upload.Uploader) {
 	}
 }
 
-// migrate runs AutoMigrate for all domain entities.
 func migrate(db *gorm.DB) {
 	if err := db.AutoMigrate(
-		// user
 		&user.User{},
 		&user.RefreshToken{},
 		&user.OTP{},
 		&user.DeviceToken{},
-		// content
 		&content.Content{},
 		&content.ContentAudience{},
 		&content.RelatedContentJoin{},
-		// schedule
 		&schedule.UserSchedule{},
-		// subscription
 		&subscription.SubscriptionPlan{},
 		&subscription.Subscription{},
 	); err != nil {
