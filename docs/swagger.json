@@ -303,6 +303,52 @@
                 }
             }
         },
+        "/api/v1/auth/social-login": {
+            "post": {
+                "description": "Authenticates a user using Firebase ID token (Google or Apple). Returns access + refresh JWT pair.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Social Login",
+                "parameters": [
+                    {
+                        "description": "Social Login payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.SocialLoginRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.AuthResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid token",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/content": {
             "get": {
                 "security": [
@@ -1775,6 +1821,36 @@
                 "otp": {
                     "type": "string",
                     "example": "12345"
+                }
+            }
+        },
+        "gotickets_internal_domain_user_dto.SocialLoginRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "id_token",
+                "provider"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "user@example.com"
+                },
+                "id_token": {
+                    "type": "string",
+                    "example": "eyJhbGciOi..."
+                },
+                "name": {
+                    "type": "string",
+                    "example": "John Doe"
+                },
+                "provider": {
+                    "type": "string",
+                    "enum": [
+                        "google",
+                        "apple"
+                    ],
+                    "example": "google"
                 }
             }
         },

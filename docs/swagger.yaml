@@ -430,6 +430,28 @@ definitions:
     - new_password
     - otp
     type: object
+  gotickets_internal_domain_user_dto.SocialLoginRequest:
+    properties:
+      email:
+        example: user@example.com
+        type: string
+      id_token:
+        example: eyJhbGciOi...
+        type: string
+      name:
+        example: John Doe
+        type: string
+      provider:
+        enum:
+        - google
+        - apple
+        example: google
+        type: string
+    required:
+    - email
+    - id_token
+    - provider
+    type: object
   gotickets_internal_domain_user_dto.UpdateProfileRequest:
     properties:
       age:
@@ -729,6 +751,37 @@ paths:
           schema:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Reset password with OTP
+      tags:
+      - Auth
+  /api/v1/auth/social-login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticates a user using Firebase ID token (Google or Apple).
+        Returns access + refresh JWT pair.
+      parameters:
+      - description: Social Login payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/gotickets_internal_domain_user_dto.SocialLoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_user_dto.AuthResponse'
+        "400":
+          description: Validation error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "401":
+          description: Invalid token
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      summary: Social Login
       tags:
       - Auth
   /api/v1/content:

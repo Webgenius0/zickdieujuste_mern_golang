@@ -51,3 +51,10 @@ type RegisterDeviceRequest struct {
 	Token    string `json:"token" example:"fcm-token-123"    validate:"required"`
 	Platform string `json:"platform" example:"IOS" validate:"required,oneof=IOS ANDROID"`
 }
+
+type SocialLoginRequest struct {
+	IDToken  string `json:"id_token" example:"eyJhbGciOi..." validate:"required"`
+	Provider string `json:"provider" example:"google" validate:"required,oneof=google apple"`
+	Name     string `json:"name" example:"John Doe"`
+	Email    string `json:"email" example:"user@example.com" validate:"required,email"`
+}

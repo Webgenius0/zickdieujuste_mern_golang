@@ -15,6 +15,7 @@ import (
 	"gotickets/internal/email"
 	"gotickets/internal/upload"
 
+	firebaseAuth "firebase.google.com/go/v4/auth"
 	"github.com/google/uuid"
 )
 
@@ -31,6 +32,7 @@ var (
 type Service interface {
 	Register(req dto.RegisterRequest) (*dto.AuthResponse, error)
 	Login(req dto.LoginRequest) (*dto.AuthResponse, error)
+	SocialLogin(ctx context.Context, req dto.SocialLoginRequest) (*dto.AuthResponse, error)
 	RefreshToken(rawToken string) (*dto.AuthResponse, error)
 	Logout(rawToken string) error
 	ForgotPassword(req dto.ForgotPasswordRequest) error
@@ -47,16 +49,17 @@ type Service interface {
 }
 
 type service struct {
-	repo     Repository
-	jwt      auth.JWTService
-	uploader upload.Uploader
-	mailer   email.Mailer
-	limiter  *RateLimiter
+	repo         Repository
+	jwt          auth.JWTService
+	uploader     upload.Uploader
+	mailer       email.Mailer
+	firebaseAuth *firebaseAuth.Client
+	limiter      *RateLimiter
 }
 
-// NewService creates a new user Service. uploader and mailer may be nil.
-func NewService(repo Repository, jwt auth.JWTService, uploader upload.Uploader, mailer email.Mailer) Service {
-	return &service{repo: repo, jwt: jwt, uploader: uploader, mailer: mailer, limiter: newRateLimiter()}
+// NewService creates a new user Service. uploader, mailer, and firebaseAuth may be nil.
+func NewService(repo Repository, jwt auth.JWTService, uploader upload.Uploader, mailer email.Mailer, fbAuth *firebaseAuth.Client) Service {
+	return &service{repo: repo, jwt: jwt, uploader: uploader, mailer: mailer, firebaseAuth: fbAuth, limiter: newRateLimiter()}
 }
 
 // Auth operations
@@ -109,6 +112,44 @@ func (s *service) Login(req dto.LoginRequest) (*dto.AuthResponse, error) {
 		u.LanguagePreference = req.LanguagePreference
 		if err := s.repo.UpdateUser(u); err != nil {
 			return nil, fmt.Errorf("failed to update language preference: %w", err)
+		}
+	}
+
+	return s.issueTokenPair(u)
+}
+
+func (s *service) SocialLogin(ctx context.Context, req dto.SocialLoginRequest) (*dto.AuthResponse, error) {
+	if s.firebaseAuth == nil {
+		return nil, errors.New("social login is not configured")
+	}
+
+	token, err := s.firebaseAuth.VerifyIDToken(ctx, req.IDToken)
+	if err != nil {
+		return nil, fmt.Errorf("invalid id_token: %w", err)
+	}
+
+	email, ok := token.Claims["email"].(string)
+	if !ok || email == "" {
+		return nil, errors.New("email not found in id_token")
+	}
+
+	u, err := s.repo.GetUserByEmail(email)
+	if err != nil {
+		// User does not exist, create a new one
+		provider := AuthProviderGoogle
+		if req.Provider == "apple" {
+			provider = AuthProviderApple
+		}
+
+		u = &User{
+			Name:         req.Name,
+			Email:        email,
+			AuthProvider: provider,
+			// PasswordHash left as nil
+		}
+
+		if err := s.repo.CreateUser(u); err != nil {
+			return nil, fmt.Errorf("failed to create social user: %w", err)
 		}
 	}
 

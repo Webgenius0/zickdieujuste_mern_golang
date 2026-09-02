@@ -1,7 +1,9 @@
 package server
 
 import (
+	"errors"
 	"fmt"
+	"strings"
 
 	"gotickets/internal/auth"
 	"gotickets/internal/config"
@@ -24,12 +26,51 @@ type customValidator struct {
 
 func (cv *customValidator) Validate(i any) error {
 	if err := cv.validator.Struct(i); err != nil {
-		return echo.ErrBadRequest.Wrap(err)
+		var valErrs validator.ValidationErrors
+		if errors.As(err, &valErrs) {
+			var errMsgs []string
+			for _, e := range valErrs {
+				errMsgs = append(errMsgs, humanizeValidationError(e))
+			}
+			return fmt.Errorf("%s", strings.Join(errMsgs, "; "))
+		}
+		return err
 	}
 	return nil
 }
 
-// Start initializes and runs the HTTP server.
+func humanizeValidationError(e validator.FieldError) string {
+	field := e.Field()
+	switch e.Tag() {
+	case "required":
+		return fmt.Sprintf("%s is required", field)
+	case "email":
+		return fmt.Sprintf("%s must be a valid email address", field)
+	case "min":
+		switch e.Kind().String() {
+		case "string":
+			return fmt.Sprintf("%s must be at least %s characters long", field, e.Param())
+		default:
+			return fmt.Sprintf("%s must be at least %s", field, e.Param())
+		}
+	case "max":
+		switch e.Kind().String() {
+		case "string":
+			return fmt.Sprintf("%s must be no more than %s characters long", field, e.Param())
+		default:
+			return fmt.Sprintf("%s must be no more than %s", field, e.Param())
+		}
+	case "len":
+		return fmt.Sprintf("%s must be exactly %s characters long", field, e.Param())
+	case "oneof":
+		return fmt.Sprintf("%s must be one of: %s", field, strings.ReplaceAll(e.Param(), " ", ", "))
+	case "eqfield":
+		return fmt.Sprintf("%s must match %s", field, e.Param())
+	default:
+		return fmt.Sprintf("%s is invalid", field)
+	}
+}
+
 func Start(db *gorm.DB, cfg *config.Config, uploader upload.Uploader) {
 	migrate(db)
 
@@ -40,17 +81,14 @@ func Start(db *gorm.DB, cfg *config.Config, uploader upload.Uploader) {
 		AllowOrigins: []string{"*"},
 	}))
 
-	// System
 	e.GET("/", WelcomeHandler(cfg))
 	e.GET("/health", HealthCheckHandler(db, cfg))
 	RegisterSwagger(e)
 
-	// Shared services
 	jwtSvc := auth.NewJWTService(cfg.JwtAccessSecret, cfg.JwtRefreshSecret, cfg.JwtAccessExpiry, cfg.JwtRefreshExpiry)
 	userRepo := user.NewRepository(db)
-	userSvc := user.NewService(userRepo, jwtSvc, uploader, nil)
+	userSvc := user.NewService(userRepo, jwtSvc, uploader, nil, nil)
 
-	// Domain routes
 	user.RegisterRoutes(e, db, cfg, uploader)
 	content.RegisterRoutes(e, db, jwtSvc, userSvc)
 	schedule.RegisterRoutes(e, db, jwtSvc, userSvc)
@@ -64,21 +102,16 @@ func Start(db *gorm.DB, cfg *config.Config, uploader upload.Uploader) {
 	}
 }
 
-// migrate runs AutoMigrate for all domain entities.
 func migrate(db *gorm.DB) {
 	if err := db.AutoMigrate(
-		// user
 		&user.User{},
 		&user.RefreshToken{},
 		&user.OTP{},
 		&user.DeviceToken{},
-		// content
 		&content.Content{},
 		&content.ContentAudience{},
 		&content.RelatedContentJoin{},
-		// schedule
 		&schedule.UserSchedule{},
-		// subscription
 		&subscription.SubscriptionPlan{},
 		&subscription.Subscription{},
 	); err != nil {
