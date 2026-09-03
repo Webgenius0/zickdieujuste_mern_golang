@@ -36,6 +36,147 @@
                 }
             }
         },
+        "/api/v1/admin/motivations": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Admin endpoint to create a new motivation.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Motivation"
+                ],
+                "summary": "Create a motivation",
+                "parameters": [
+                    {
+                        "description": "Motivation payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_motivation_dto.CreateMotivationReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_motivation_dto.MotivationResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/admin/motivations/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Admin endpoint to update an existing motivation.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Motivation"
+                ],
+                "summary": "Update a motivation",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Motivation ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Motivation payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_motivation_dto.UpdateMotivationReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_motivation_dto.MotivationResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Admin endpoint to delete an existing motivation.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Motivation"
+                ],
+                "summary": "Delete a motivation",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Motivation ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/auth/admin/login": {
             "post": {
                 "description": "Authenticates an admin using hardcoded credentials. Returns access + refresh JWT pair.",
@@ -666,6 +807,32 @@
                         "description": "Internal Server Error",
                         "schema": {
                             "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/motivations": {
+            "get": {
+                "description": "Retrieves a list of all motivation items.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Motivation"
+                ],
+                "summary": "Get all motivations",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/gotickets_internal_domain_motivation_dto.MotivationResponse"
+                            }
                         }
                     }
                 }
@@ -1445,6 +1612,106 @@
                 "upgrade_url": {
                     "type": "string",
                     "example": "/api/v1/subscriptions/plans"
+                }
+            }
+        },
+        "gotickets_internal_domain_motivation_dto.CreateMotivationReq": {
+            "type": "object",
+            "required": [
+                "description",
+                "duration",
+                "speaker_name",
+                "thumbnail_url",
+                "title",
+                "video_url"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "duration": {
+                    "type": "string",
+                    "maxLength": 20
+                },
+                "speaker_name": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "thumbnail_url": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "video_url": {
+                    "type": "string"
+                }
+            }
+        },
+        "gotickets_internal_domain_motivation_dto.MotivationResponse": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "duration": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "speaker_name": {
+                    "type": "string"
+                },
+                "thumbnail_url": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "video_url": {
+                    "type": "string"
+                }
+            }
+        },
+        "gotickets_internal_domain_motivation_dto.UpdateMotivationReq": {
+            "type": "object",
+            "required": [
+                "description",
+                "duration",
+                "speaker_name",
+                "thumbnail_url",
+                "title",
+                "video_url"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "duration": {
+                    "type": "string",
+                    "maxLength": 20
+                },
+                "speaker_name": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "thumbnail_url": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "video_url": {
+                    "type": "string"
                 }
             }
         },

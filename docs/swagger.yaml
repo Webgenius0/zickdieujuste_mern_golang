@@ -119,6 +119,77 @@ definitions:
         example: /api/v1/subscriptions/plans
         type: string
     type: object
+  gotickets_internal_domain_motivation_dto.CreateMotivationReq:
+    properties:
+      description:
+        type: string
+      duration:
+        maxLength: 20
+        type: string
+      speaker_name:
+        maxLength: 255
+        type: string
+      thumbnail_url:
+        type: string
+      title:
+        maxLength: 255
+        type: string
+      video_url:
+        type: string
+    required:
+    - description
+    - duration
+    - speaker_name
+    - thumbnail_url
+    - title
+    - video_url
+    type: object
+  gotickets_internal_domain_motivation_dto.MotivationResponse:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      duration:
+        type: string
+      id:
+        type: string
+      speaker_name:
+        type: string
+      thumbnail_url:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+      video_url:
+        type: string
+    type: object
+  gotickets_internal_domain_motivation_dto.UpdateMotivationReq:
+    properties:
+      description:
+        type: string
+      duration:
+        maxLength: 20
+        type: string
+      speaker_name:
+        maxLength: 255
+        type: string
+      thumbnail_url:
+        type: string
+      title:
+        maxLength: 255
+        type: string
+      video_url:
+        type: string
+    required:
+    - description
+    - duration
+    - speaker_name
+    - thumbnail_url
+    - title
+    - video_url
+    type: object
   gotickets_internal_domain_schedule_dto.ScheduleResponse:
     properties:
       id:
@@ -574,6 +645,95 @@ paths:
       summary: Welcome
       tags:
       - System
+  /api/v1/admin/motivations:
+    post:
+      consumes:
+      - application/json
+      description: Admin endpoint to create a new motivation.
+      parameters:
+      - description: Motivation payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/gotickets_internal_domain_motivation_dto.CreateMotivationReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_motivation_dto.MotivationResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Create a motivation
+      tags:
+      - Motivation
+  /api/v1/admin/motivations/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Admin endpoint to delete an existing motivation.
+      parameters:
+      - description: Motivation ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Delete a motivation
+      tags:
+      - Motivation
+    put:
+      consumes:
+      - application/json
+      description: Admin endpoint to update an existing motivation.
+      parameters:
+      - description: Motivation ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Motivation payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/gotickets_internal_domain_motivation_dto.UpdateMotivationReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_motivation_dto.MotivationResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Update a motivation
+      tags:
+      - Motivation
   /api/v1/auth/admin/login:
     post:
       consumes:
@@ -997,6 +1157,23 @@ paths:
       summary: Register device token
       tags:
       - Devices
+  /api/v1/motivations:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves a list of all motivation items.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/gotickets_internal_domain_motivation_dto.MotivationResponse'
+            type: array
+      summary: Get all motivations
+      tags:
+      - Motivation
   /api/v1/schedules/me:
     get:
       description: Returns the authenticated user's prayer schedule. Creates a default

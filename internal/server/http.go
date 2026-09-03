@@ -9,6 +9,7 @@ import (
 	"gotickets/internal/config"
 	"gotickets/internal/domain/content"
 	"gotickets/internal/domain/media"
+	"gotickets/internal/domain/motivation"
 	"gotickets/internal/domain/schedule"
 	"gotickets/internal/domain/subscription"
 	"gotickets/internal/domain/user"
@@ -95,6 +96,7 @@ func Start(db *gorm.DB, cfg *config.Config, uploader upload.Uploader) {
 	schedule.RegisterRoutes(e, db, jwtSvc, userSvc)
 	subscription.RegisterRoutes(e, db, jwtSvc, userSvc, userRepo)
 	media.RegisterRoutes(e, jwtSvc, uploader)
+	motivation.RegisterRoutes(e, db, jwtSvc)
 
 	addr := fmt.Sprintf(":%s", cfg.Port)
 	fmt.Printf("\033[1;32m🚀 Server running on http://localhost:%s\033[0m\n", cfg.Port)
@@ -115,6 +117,7 @@ func migrate(db *gorm.DB) {
 		&schedule.UserSchedule{},
 		&subscription.SubscriptionPlan{},
 		&subscription.Subscription{},
+		&motivation.Motivation{},
 	); err != nil {
 		panic("AutoMigrate failed: " + err.Error())
 	}
