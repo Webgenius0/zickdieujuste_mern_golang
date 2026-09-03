@@ -144,6 +144,15 @@ definitions:
     - title
     - video_url
     type: object
+  gotickets_internal_domain_motivation_dto.MotivationDetailsResponse:
+    properties:
+      motivation:
+        $ref: '#/definitions/gotickets_internal_domain_motivation_dto.MotivationResponse'
+      related:
+        items:
+          $ref: '#/definitions/gotickets_internal_domain_motivation_dto.MotivationResponse'
+        type: array
+    type: object
   gotickets_internal_domain_motivation_dto.MotivationResponse:
     properties:
       created_at:
@@ -1212,6 +1221,35 @@ paths:
           schema:
             $ref: '#/definitions/gotickets_internal_domain_motivation_dto.PaginatedMotivationResponse'
       summary: Get all motivations
+      tags:
+      - Motivation
+  /api/v1/motivations/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves details of a specific motivation along with related motivations.
+      parameters:
+      - description: Motivation ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_motivation_dto.MotivationDetailsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      summary: Get motivation details
       tags:
       - Motivation
   /api/v1/schedules/me:

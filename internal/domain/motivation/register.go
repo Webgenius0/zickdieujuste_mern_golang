@@ -17,6 +17,7 @@ func RegisterRoutes(e *echo.Echo, db *gorm.DB, jwtSvc auth.JWTService) {
 
 	// Public routes
 	v1.GET("/motivations", h.FindAll)
+	v1.GET("/motivations/:id", h.GetDetails)
 
 	// Admin routes
 	adminMW := middlewares.AuthMiddleware(jwtSvc)

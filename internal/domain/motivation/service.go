@@ -18,6 +18,7 @@ type Service interface {
 	Create(req dto.CreateMotivationReq) (*dto.MotivationResponse, error)
 	FindAll(params querybuilder.Params) (*dto.PaginatedMotivationResponse, error)
 	FindByID(id uuid.UUID) (*dto.MotivationResponse, error)
+	GetDetails(id uuid.UUID) (*dto.MotivationDetailsResponse, error)
 	Update(id uuid.UUID, req dto.UpdateMotivationReq) (*dto.MotivationResponse, error)
 	Delete(id uuid.UUID) error
 }
@@ -69,6 +70,31 @@ func (s *service) FindByID(id uuid.UUID) (*dto.MotivationResponse, error) {
 		return nil, err
 	}
 	return toDTO(m), nil
+}
+
+func (s *service) GetDetails(id uuid.UUID) (*dto.MotivationDetailsResponse, error) {
+	m, err := s.repo.FindByID(id)
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, ErrMotivationNotFound
+		}
+		return nil, err
+	}
+
+	related, err := s.repo.FindRelated(id, 5)
+	if err != nil {
+		return nil, err
+	}
+
+	relatedDTOs := make([]*dto.MotivationResponse, 0, len(related))
+	for _, rm := range related {
+		relatedDTOs = append(relatedDTOs, toDTO(rm))
+	}
+
+	return &dto.MotivationDetailsResponse{
+		Motivation: toDTO(m),
+		Related:    relatedDTOs,
+	}, nil
 }
 
 func (s *service) Update(id uuid.UUID, req dto.UpdateMotivationReq) (*dto.MotivationResponse, error) {

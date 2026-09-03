@@ -11,6 +11,7 @@ type Repository interface {
 	Create(m *Motivation) error
 	FindAll(params querybuilder.Params) ([]*Motivation, *querybuilder.Meta, error)
 	FindByID(id uuid.UUID) (*Motivation, error)
+	FindRelated(excludeID uuid.UUID, limit int) ([]*Motivation, error)
 	Update(m *Motivation) error
 	Delete(id uuid.UUID) error
 }
@@ -50,6 +51,12 @@ func (r *repository) FindByID(id uuid.UUID) (*Motivation, error) {
 		return nil, err
 	}
 	return &m, nil
+}
+
+func (r *repository) FindRelated(excludeID uuid.UUID, limit int) ([]*Motivation, error) {
+	var motivations []*Motivation
+	err := r.db.Where("id != ?", excludeID).Order("created_at desc").Limit(limit).Find(&motivations).Error
+	return motivations, err
 }
 
 func (r *repository) Update(m *Motivation) error {

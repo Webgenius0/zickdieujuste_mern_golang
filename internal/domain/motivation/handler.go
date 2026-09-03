@@ -48,6 +48,33 @@ func (h *Handler) FindAll(c *echo.Context) error {
 	return c.JSON(http.StatusOK, res)
 }
 
+// GetDetails godoc
+// @Summary      Get motivation details
+// @Description  Retrieves details of a specific motivation along with related motivations.
+// @Tags         Motivation
+// @Accept       json
+// @Produce      json
+// @Param        id   path      string  true  "Motivation ID"
+// @Success      200  {object}  dto.MotivationDetailsResponse
+// @Failure      400  {object}  httpresponse.Error
+// @Failure      404  {object}  httpresponse.Error
+// @Router       /api/v1/motivations/{id} [get]
+func (h *Handler) GetDetails(c *echo.Context) error {
+	id, err := uuid.Parse(c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, httpresponse.NewError(http.StatusBadRequest, "Invalid ID format", err.Error()))
+	}
+
+	res, err := h.svc.GetDetails(id)
+	if err != nil {
+		if errors.Is(err, ErrMotivationNotFound) {
+			return c.JSON(http.StatusNotFound, httpresponse.NewError(http.StatusNotFound, "Motivation not found", ""))
+		}
+		return c.JSON(http.StatusInternalServerError, httpresponse.NewError(http.StatusInternalServerError, "Failed to retrieve motivation details", err.Error()))
+	}
+	return c.JSON(http.StatusOK, res)
+}
+
 // Create godoc
 // @Summary      Create a motivation
 // @Description  Admin endpoint to create a new motivation.

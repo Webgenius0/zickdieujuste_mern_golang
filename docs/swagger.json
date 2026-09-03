@@ -861,6 +861,50 @@
                 }
             }
         },
+        "/api/v1/motivations/{id}": {
+            "get": {
+                "description": "Retrieves details of a specific motivation along with related motivations.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Motivation"
+                ],
+                "summary": "Get motivation details",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Motivation ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_motivation_dto.MotivationDetailsResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/schedules/me": {
             "get": {
                 "security": [
@@ -1669,6 +1713,20 @@
                 },
                 "video_url": {
                     "type": "string"
+                }
+            }
+        },
+        "gotickets_internal_domain_motivation_dto.MotivationDetailsResponse": {
+            "type": "object",
+            "properties": {
+                "motivation": {
+                    "$ref": "#/definitions/gotickets_internal_domain_motivation_dto.MotivationResponse"
+                },
+                "related": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/gotickets_internal_domain_motivation_dto.MotivationResponse"
+                    }
                 }
             }
         },

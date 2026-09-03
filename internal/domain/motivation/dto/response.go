@@ -25,3 +25,9 @@ type PaginatedMotivationResponse struct {
 	Data []*MotivationResponse `json:"data"`
 	Meta *querybuilder.Meta    `json:"meta"`
 }
+
+// MotivationDetailsResponse is returned by the details endpoint.
+type MotivationDetailsResponse struct {
+	Motivation *MotivationResponse   `json:"motivation"`
+	Related    []*MotivationResponse `json:"related"`
+}
