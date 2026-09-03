@@ -161,37 +161,31 @@ func (s *service) SocialLogin(ctx context.Context, req dto.SocialLoginRequest) (
 }
 
 func (s *service) AdminLogin(email, password string) (*dto.AuthResponse, error) {
-	if email != s.adminEmail || password != s.adminPassword {
+	if !s.limiter.AllowLogin(email) {
+		return nil, ErrRateLimited
+	}
+
+	u, err := s.repo.GetUserByEmail(email)
+	if err != nil {
 		return nil, ErrInvalidCredentials
 	}
 
-	accessToken, refreshToken, err := s.jwt.GenerateToken(uuid.Nil, "Admin", s.adminEmail, "ADMIN", true)
-	if err != nil {
-		return nil, fmt.Errorf("failed to generate admin tokens: %w", err)
+	if err := u.CheckPassword(password); err != nil {
+		return nil, ErrInvalidCredentials
 	}
 
-	return &dto.AuthResponse{
-		AccessToken:  accessToken,
-		RefreshToken: refreshToken,
-	}, nil
+	if u.Role != RoleAdmin {
+		return nil, errors.New("unauthorized: account is not an admin")
+	}
+
+	return s.issueTokenPair(u)
 }
 
 func (s *service) RefreshToken(rawToken string) (*dto.AuthResponse, error) {
 
-	claims, err := s.jwt.ValidateToken(rawToken, true)
+	_, err := s.jwt.ValidateToken(rawToken, true)
 	if err != nil {
 		return nil, ErrInvalidRefreshToken
-	}
-
-	if claims.Role == "ADMIN" {
-		accessToken, refreshToken, err := s.jwt.GenerateToken(uuid.Nil, "Admin", s.adminEmail, "ADMIN", true)
-		if err != nil {
-			return nil, fmt.Errorf("failed to generate admin tokens: %w", err)
-		}
-		return &dto.AuthResponse{
-			AccessToken:  accessToken,
-			RefreshToken: refreshToken,
-		}, nil
 	}
 
 	hash := hashToken(rawToken)
@@ -216,11 +210,6 @@ func (s *service) Logout(rawToken string) error {
 	if rawToken == "" {
 		return nil
 	}
-	claims, err := s.jwt.ValidateToken(rawToken, true)
-	if err == nil && claims.Role == "ADMIN" {
-		return nil
-	}
-
 	hash := hashToken(rawToken)
 	return s.repo.RevokeRefreshToken(hash)
 }
@@ -411,7 +400,7 @@ func (s *service) RegisterDevice(userID uuid.UUID, req dto.RegisterDeviceRequest
 
 // issueTokenPair generates a new JWT access+refresh token pair, persists the refresh token, and returns both.
 func (s *service) issueTokenPair(u *User) (*dto.AuthResponse, error) {
-	accessToken, refreshToken, err := s.jwt.GenerateToken(u.ID, u.Name, u.Email, "USER", u.IsPremium)
+	accessToken, refreshToken, err := s.jwt.GenerateToken(u.ID, u.Name, u.Email, string(u.Role), u.IsPremium)
 	if err != nil {
 		return nil, fmt.Errorf("failed to generate tokens: %w", err)
 	}

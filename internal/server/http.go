@@ -73,6 +73,7 @@ func humanizeValidationError(e validator.FieldError) string {
 
 func Start(db *gorm.DB, cfg *config.Config, uploader upload.Uploader) {
 	migrate(db)
+	user.SeedAdmin(db, cfg.AdminEmail, cfg.AdminPassword)
 
 	e := echo.New()
 	e.Validator = &customValidator{validator: validator.New()}
