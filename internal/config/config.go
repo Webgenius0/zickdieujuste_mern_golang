@@ -29,6 +29,9 @@ type Config struct {
 	// Admin Settings
 	AdminEmail    string
 	AdminPassword string
+
+	// Media Settings
+	MaxUploadSizeMB int
 }
 
 func LoadEnv() *Config {
@@ -55,6 +58,7 @@ func LoadEnv() *Config {
 		FirebaseProjectID:        os.Getenv("FIREBASE_PROJECT_ID"),
 		AdminEmail:               os.Getenv("ADMIN_EMAIL"),
 		AdminPassword:            os.Getenv("ADMIN_PASSWORD"),
+		MaxUploadSizeMB:          getEnvInt("MAX_UPLOAD_SIZE_MB", 200),
 	}
 }
 

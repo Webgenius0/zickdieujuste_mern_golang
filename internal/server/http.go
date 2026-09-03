@@ -97,7 +97,7 @@ func Start(db *gorm.DB, cfg *config.Config, uploader upload.Uploader) {
 	content.RegisterRoutes(e, db, jwtSvc, userSvc)
 	schedule.RegisterRoutes(e, db, jwtSvc, userSvc)
 	subscription.RegisterRoutes(e, db, jwtSvc, userSvc, userRepo)
-	media.RegisterRoutes(e, jwtSvc, uploader)
+	media.RegisterRoutes(e, jwtSvc, uploader, cfg)
 	motivation.RegisterRoutes(e, db, jwtSvc)
 
 	addr := fmt.Sprintf(":%s", cfg.Port)
