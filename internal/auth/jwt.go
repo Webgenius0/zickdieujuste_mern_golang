@@ -18,12 +18,13 @@ type JwtCustomClaims struct {
 	UserID    uuid.UUID `json:"user_id"`
 	Name      string    `json:"name"`
 	Email     string    `json:"email"`
+	Role      string    `json:"role"`
 	IsPremium bool      `json:"is_premium"`
 	jwt.RegisteredClaims
 }
 
 type JWTService interface {
-	GenerateToken(userId uuid.UUID, name string, email string, isPremium bool) (string, string, error)
+	GenerateToken(userId uuid.UUID, name string, email string, role string, isPremium bool) (string, string, error)
 	ValidateToken(tokenString string, isRefresh bool) (*JwtCustomClaims, error)
 }
 
@@ -61,11 +62,12 @@ func NewJWTService(accessSecretKey, refreshSecretKey, accessExpiry, refreshExpir
 	}
 }
 
-func (js *jwtService) GenerateToken(userId uuid.UUID, name string, email string, isPremium bool) (string, string, error) {
+func (js *jwtService) GenerateToken(userId uuid.UUID, name string, email string, role string, isPremium bool) (string, string, error) {
 	accessClaims := &JwtCustomClaims{
 		UserID:    userId,
 		Name:      name,
 		Email:     email,
+		Role:      role,
 		IsPremium: isPremium,
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(js.accessTokenExp)),
@@ -81,6 +83,7 @@ func (js *jwtService) GenerateToken(userId uuid.UUID, name string, email string,
 		UserID:    userId,
 		Name:      name,
 		Email:     email,
+		Role:      role,
 		IsPremium: isPremium,
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(js.refreshTokenExp)),

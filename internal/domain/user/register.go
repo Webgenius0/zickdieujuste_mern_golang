@@ -36,7 +36,7 @@ func RegisterRoutes(e *echo.Echo, db *gorm.DB, cfg *config.Config, uploader uplo
 		fbAuthClient, _ = app.Auth(ctx)
 	}
 
-	svc := NewService(repo, jwtSvc, uploader, mailer, fbAuthClient)
+	svc := NewService(repo, jwtSvc, uploader, mailer, fbAuthClient, cfg.AdminEmail, cfg.AdminPassword)
 	h := NewHandler(svc, uploader)
 
 	authMW := middlewares.AuthMiddleware(jwtSvc)
@@ -44,6 +44,7 @@ func RegisterRoutes(e *echo.Echo, db *gorm.DB, cfg *config.Config, uploader uplo
 	authGroup := e.Group("/api/v1/auth")
 	authGroup.POST("/register", h.Register)
 	authGroup.POST("/login", h.Login)
+	authGroup.POST("/admin/login", h.AdminLogin)
 	authGroup.POST("/social-login", h.SocialLogin)
 	authGroup.POST("/refresh", h.Refresh)
 	authGroup.POST("/logout", h.Logout, authMW)

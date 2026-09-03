@@ -574,6 +574,37 @@ paths:
       summary: Welcome
       tags:
       - System
+  /api/v1/auth/admin/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticates an admin using hardcoded credentials. Returns access
+        + refresh JWT pair.
+      parameters:
+      - description: Admin Login payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/gotickets_internal_domain_user_dto.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_user_dto.AuthResponse'
+        "400":
+          description: Validation error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "401":
+          description: Invalid credentials
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      summary: Admin Login
+      tags:
+      - Auth
   /api/v1/auth/forgot-password:
     post:
       consumes:

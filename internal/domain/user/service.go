@@ -46,20 +46,24 @@ type Service interface {
 	GetUserIDByEmail(email string) (uuid.UUID, error)
 
 	RegisterDevice(userID uuid.UUID, req dto.RegisterDeviceRequest) error
+
+	AdminLogin(email, password string) (*dto.AuthResponse, error)
 }
 
 type service struct {
-	repo         Repository
-	jwt          auth.JWTService
-	uploader     upload.Uploader
-	mailer       email.Mailer
-	firebaseAuth *firebaseAuth.Client
-	limiter      *RateLimiter
+	repo          Repository
+	jwt           auth.JWTService
+	uploader      upload.Uploader
+	mailer        email.Mailer
+	firebaseAuth  *firebaseAuth.Client
+	limiter       *RateLimiter
+	adminEmail    string
+	adminPassword string
 }
 
 // NewService creates a new user Service. uploader, mailer, and firebaseAuth may be nil.
-func NewService(repo Repository, jwt auth.JWTService, uploader upload.Uploader, mailer email.Mailer, fbAuth *firebaseAuth.Client) Service {
-	return &service{repo: repo, jwt: jwt, uploader: uploader, mailer: mailer, firebaseAuth: fbAuth, limiter: newRateLimiter()}
+func NewService(repo Repository, jwt auth.JWTService, uploader upload.Uploader, mailer email.Mailer, fbAuth *firebaseAuth.Client, adminEmail, adminPassword string) Service {
+	return &service{repo: repo, jwt: jwt, uploader: uploader, mailer: mailer, firebaseAuth: fbAuth, limiter: newRateLimiter(), adminEmail: adminEmail, adminPassword: adminPassword}
 }
 
 // Auth operations
@@ -156,11 +160,38 @@ func (s *service) SocialLogin(ctx context.Context, req dto.SocialLoginRequest) (
 	return s.issueTokenPair(u)
 }
 
+func (s *service) AdminLogin(email, password string) (*dto.AuthResponse, error) {
+	if email != s.adminEmail || password != s.adminPassword {
+		return nil, ErrInvalidCredentials
+	}
+
+	accessToken, refreshToken, err := s.jwt.GenerateToken(uuid.Nil, "Admin", s.adminEmail, "ADMIN", true)
+	if err != nil {
+		return nil, fmt.Errorf("failed to generate admin tokens: %w", err)
+	}
+
+	return &dto.AuthResponse{
+		AccessToken:  accessToken,
+		RefreshToken: refreshToken,
+	}, nil
+}
+
 func (s *service) RefreshToken(rawToken string) (*dto.AuthResponse, error) {
 
-	_, err := s.jwt.ValidateToken(rawToken, true)
+	claims, err := s.jwt.ValidateToken(rawToken, true)
 	if err != nil {
 		return nil, ErrInvalidRefreshToken
+	}
+
+	if claims.Role == "ADMIN" {
+		accessToken, refreshToken, err := s.jwt.GenerateToken(uuid.Nil, "Admin", s.adminEmail, "ADMIN", true)
+		if err != nil {
+			return nil, fmt.Errorf("failed to generate admin tokens: %w", err)
+		}
+		return &dto.AuthResponse{
+			AccessToken:  accessToken,
+			RefreshToken: refreshToken,
+		}, nil
 	}
 
 	hash := hashToken(rawToken)
@@ -185,6 +216,11 @@ func (s *service) Logout(rawToken string) error {
 	if rawToken == "" {
 		return nil
 	}
+	claims, err := s.jwt.ValidateToken(rawToken, true)
+	if err == nil && claims.Role == "ADMIN" {
+		return nil
+	}
+
 	hash := hashToken(rawToken)
 	return s.repo.RevokeRefreshToken(hash)
 }
@@ -375,7 +411,7 @@ func (s *service) RegisterDevice(userID uuid.UUID, req dto.RegisterDeviceRequest
 
 // issueTokenPair generates a new JWT access+refresh token pair, persists the refresh token, and returns both.
 func (s *service) issueTokenPair(u *User) (*dto.AuthResponse, error) {
-	accessToken, refreshToken, err := s.jwt.GenerateToken(u.ID, u.Name, u.Email, u.IsPremium)
+	accessToken, refreshToken, err := s.jwt.GenerateToken(u.ID, u.Name, u.Email, "USER", u.IsPremium)
 	if err != nil {
 		return nil, fmt.Errorf("failed to generate tokens: %w", err)
 	}
