@@ -4,6 +4,7 @@ import (
 	"errors"
 
 	"gotickets/internal/domain/motivation/dto"
+	"gotickets/internal/querybuilder"
 
 	"github.com/google/uuid"
 	"gorm.io/gorm"
@@ -15,7 +16,7 @@ var (
 
 type Service interface {
 	Create(req dto.CreateMotivationReq) (*dto.MotivationResponse, error)
-	FindAll() ([]*dto.MotivationResponse, error)
+	FindAll(params querybuilder.Params) (*dto.PaginatedMotivationResponse, error)
 	FindByID(id uuid.UUID) (*dto.MotivationResponse, error)
 	Update(id uuid.UUID, req dto.UpdateMotivationReq) (*dto.MotivationResponse, error)
 	Delete(id uuid.UUID) error
@@ -46,17 +47,17 @@ func (s *service) Create(req dto.CreateMotivationReq) (*dto.MotivationResponse, 
 	return toDTO(m), nil
 }
 
-func (s *service) FindAll() ([]*dto.MotivationResponse, error) {
-	motivations, err := s.repo.FindAll()
+func (s *service) FindAll(params querybuilder.Params) (*dto.PaginatedMotivationResponse, error) {
+	motivations, meta, err := s.repo.FindAll(params)
 	if err != nil {
 		return nil, err
 	}
 
-	res := make([]*dto.MotivationResponse, 0, len(motivations))
+	data := make([]*dto.MotivationResponse, 0, len(motivations))
 	for _, m := range motivations {
-		res = append(res, toDTO(m))
+		data = append(data, toDTO(m))
 	}
-	return res, nil
+	return &dto.PaginatedMotivationResponse{Data: data, Meta: meta}, nil
 }
 
 func (s *service) FindByID(id uuid.UUID) (*dto.MotivationResponse, error) {

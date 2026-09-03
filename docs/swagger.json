@@ -814,7 +814,7 @@
         },
         "/api/v1/motivations": {
             "get": {
-                "description": "Retrieves a list of all motivation items.",
+                "description": "Retrieves a paginated list of motivation items. Supports search, sort, and pagination via query params.",
                 "consumes": [
                     "application/json"
                 ],
@@ -825,14 +825,37 @@
                     "Motivation"
                 ],
                 "summary": "Get all motivations",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Search by title or speaker name",
+                        "name": "search",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Page number (default: 1)",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Items per page (default: 10)",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Sort column; prefix with - for DESC (e.g. -created_at)",
+                        "name": "sort",
+                        "in": "query"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/gotickets_internal_domain_motivation_dto.MotivationResponse"
-                            }
+                            "$ref": "#/definitions/gotickets_internal_domain_motivation_dto.PaginatedMotivationResponse"
                         }
                     }
                 }
@@ -1681,6 +1704,20 @@
                 }
             }
         },
+        "gotickets_internal_domain_motivation_dto.PaginatedMotivationResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/gotickets_internal_domain_motivation_dto.MotivationResponse"
+                    }
+                },
+                "meta": {
+                    "$ref": "#/definitions/gotickets_internal_querybuilder.Meta"
+                }
+            }
+        },
         "gotickets_internal_domain_motivation_dto.UpdateMotivationReq": {
             "type": "object",
             "required": [
@@ -2220,6 +2257,27 @@
                 },
                 "message": {
                     "type": "string"
+                }
+            }
+        },
+        "gotickets_internal_querybuilder.Meta": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "description": "Limit is the number of items per page.",
+                    "type": "integer"
+                },
+                "page": {
+                    "description": "Page is the current page number (1-indexed).",
+                    "type": "integer"
+                },
+                "total": {
+                    "description": "Total is the total number of matching records.",
+                    "type": "integer"
+                },
+                "total_pages": {
+                    "description": "TotalPages is the total number of pages.",
+                    "type": "integer"
                 }
             }
         },

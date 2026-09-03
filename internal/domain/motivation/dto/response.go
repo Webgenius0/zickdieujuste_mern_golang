@@ -3,6 +3,8 @@ package dto
 import (
 	"time"
 
+	"gotickets/internal/querybuilder"
+
 	"github.com/google/uuid"
 )
 
@@ -16,4 +18,10 @@ type MotivationResponse struct {
 	Duration     string    `json:"duration"`
 	CreatedAt    time.Time `json:"created_at"`
 	UpdatedAt    time.Time `json:"updated_at"`
+}
+
+// PaginatedMotivationResponse is returned by the list endpoint.
+type PaginatedMotivationResponse struct {
+	Data []*MotivationResponse `json:"data"`
+	Meta *querybuilder.Meta    `json:"meta"`
 }

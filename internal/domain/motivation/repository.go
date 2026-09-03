@@ -1,13 +1,15 @@
 package motivation
 
 import (
+	"gotickets/internal/querybuilder"
+
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
 type Repository interface {
 	Create(m *Motivation) error
-	FindAll() ([]*Motivation, error)
+	FindAll(params querybuilder.Params) ([]*Motivation, *querybuilder.Meta, error)
 	FindByID(id uuid.UUID) (*Motivation, error)
 	Update(m *Motivation) error
 	Delete(id uuid.UUID) error
@@ -25,10 +27,20 @@ func (r *repository) Create(m *Motivation) error {
 	return r.db.Create(m).Error
 }
 
-func (r *repository) FindAll() ([]*Motivation, error) {
+func (r *repository) FindAll(params querybuilder.Params) ([]*Motivation, *querybuilder.Meta, error) {
 	var motivations []*Motivation
-	err := r.db.Order("created_at desc").Find(&motivations).Error
-	return motivations, err
+
+	meta, err := querybuilder.New(r.db.Model(&Motivation{}), params).
+		Search([]string{"title", "speaker_name"}).
+		Filter().
+		Sort().
+		Paginate().
+		ExecuteWithMeta(&motivations)
+
+	if err != nil {
+		return nil, nil, err
+	}
+	return motivations, meta, nil
 }
 
 func (r *repository) FindByID(id uuid.UUID) (*Motivation, error) {

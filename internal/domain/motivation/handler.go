@@ -6,6 +6,7 @@ import (
 
 	"gotickets/internal/domain/motivation/dto"
 	"gotickets/internal/httpresponse"
+	"gotickets/internal/querybuilder"
 
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v5"
@@ -21,14 +22,26 @@ func NewHandler(svc Service) *Handler {
 
 // FindAll godoc
 // @Summary      Get all motivations
-// @Description  Retrieves a list of all motivation items.
+// @Description  Retrieves a paginated list of motivation items. Supports search, sort, and pagination via query params.
 // @Tags         Motivation
 // @Accept       json
 // @Produce      json
-// @Success      200  {array}   dto.MotivationResponse
+// @Param        search  query  string  false  "Search by title or speaker name"
+// @Param        page    query  int     false  "Page number (default: 1)"
+// @Param        limit   query  int     false  "Items per page (default: 10)"
+// @Param        sort    query  string  false  "Sort column; prefix with - for DESC (e.g. -created_at)"
+// @Success      200  {object}  dto.PaginatedMotivationResponse
 // @Router       /api/v1/motivations [get]
 func (h *Handler) FindAll(c *echo.Context) error {
-	res, err := h.svc.FindAll()
+	// Extract all query string params into a flat map for the QueryBuilder.
+	params := make(querybuilder.Params)
+	for key, vals := range c.Request().URL.Query() {
+		if len(vals) > 0 {
+			params[key] = vals[0]
+		}
+	}
+
+	res, err := h.svc.FindAll(params)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, httpresponse.NewError(http.StatusInternalServerError, "Failed to retrieve motivations", err.Error()))
 	}
