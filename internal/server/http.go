@@ -88,7 +88,7 @@ func Start(db *gorm.DB, cfg *config.Config, uploader upload.Uploader) {
 
 	jwtSvc := auth.NewJWTService(cfg.JwtAccessSecret, cfg.JwtRefreshSecret, cfg.JwtAccessExpiry, cfg.JwtRefreshExpiry)
 	userRepo := user.NewRepository(db)
-	userSvc := user.NewService(userRepo, jwtSvc, uploader, nil, nil)
+	userSvc := user.NewService(userRepo, jwtSvc, uploader, nil, nil, cfg.AdminEmail, cfg.AdminPassword)
 
 	user.RegisterRoutes(e, db, cfg, uploader)
 	content.RegisterRoutes(e, db, jwtSvc, userSvc)
