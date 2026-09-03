@@ -8,6 +8,7 @@ import (
 	"gotickets/internal/auth"
 	"gotickets/internal/config"
 	"gotickets/internal/domain/content"
+	"gotickets/internal/domain/library"
 	"gotickets/internal/domain/media"
 	"gotickets/internal/domain/motivation"
 	"gotickets/internal/domain/schedule"
@@ -99,6 +100,7 @@ func Start(db *gorm.DB, cfg *config.Config, uploader upload.Uploader) {
 	subscription.RegisterRoutes(e, db, jwtSvc, userSvc, userRepo)
 	media.RegisterRoutes(e, jwtSvc, uploader, cfg)
 	motivation.RegisterRoutes(e, db, jwtSvc)
+	library.RegisterRoutes(e, db, jwtSvc)
 
 	addr := fmt.Sprintf(":%s", cfg.Port)
 	fmt.Printf("\033[1;32m🚀 Server running on http://localhost:%s\033[0m\n", cfg.Port)
@@ -120,6 +122,8 @@ func migrate(db *gorm.DB) {
 		&subscription.SubscriptionPlan{},
 		&subscription.Subscription{},
 		&motivation.Motivation{},
+		&library.LibraryItem{},
+		&library.LibraryCategory{},
 	); err != nil {
 		panic("AutoMigrate failed: " + err.Error())
 	}

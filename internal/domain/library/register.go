@@ -1,4 +1,4 @@
-package motivation
+package library
 
 import (
 	"gotickets/internal/auth"
@@ -16,15 +16,21 @@ func RegisterRoutes(e *echo.Echo, db *gorm.DB, jwtSvc auth.JWTService) {
 	v1 := e.Group("/api/v1")
 
 	// Public routes
-	v1.GET("/motivations", h.FindAll)
-	v1.GET("/motivations/:id", h.GetDetails)
+	v1.GET("/library", h.FindAll)
+	v1.GET("/library/:id", h.GetDetails)
+	v1.GET("/library-categories", h.FindAllCategories)
 
 	// Admin routes
 	adminMW := middlewares.AuthMiddleware(jwtSvc)
 	requireAdmin := middlewares.RequireAdmin
 
-	adminGroup := v1.Group("/admin/motivations", adminMW, requireAdmin)
+	adminGroup := v1.Group("/admin/library", adminMW, requireAdmin)
 	adminGroup.POST("", h.Create)
 	adminGroup.PUT("/:id", h.Update)
 	adminGroup.DELETE("/:id", h.Delete)
+
+	adminCatGroup := v1.Group("/admin/library-categories", adminMW, requireAdmin)
+	adminCatGroup.POST("", h.CreateCategory)
+	adminCatGroup.PUT("/:id", h.UpdateCategory)
+	adminCatGroup.DELETE("/:id", h.DeleteCategory)
 }
