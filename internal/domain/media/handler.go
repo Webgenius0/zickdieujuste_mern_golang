@@ -9,7 +9,6 @@ import (
 	"github.com/labstack/echo/v5"
 )
 
-const maxUploadSize = 10 << 20 // 10 MB
 
 // UploadResponse is returned by POST /api/v1/upload.
 type UploadResponse struct {
@@ -30,12 +29,16 @@ type DeleteResponse struct {
 
 // Handler holds the Echo HTTP handlers for the media domain.
 type Handler struct {
-	uploader upload.Uploader
+	uploader        upload.Uploader
+	maxUploadSizeMB int
 }
 
 // NewHandler creates a new media Handler.
-func NewHandler(uploader upload.Uploader) *Handler {
-	return &Handler{uploader: uploader}
+func NewHandler(uploader upload.Uploader, maxUploadSizeMB int) *Handler {
+	if maxUploadSizeMB <= 0 {
+		maxUploadSizeMB = 200 // default to 200MB if not set
+	}
+	return &Handler{uploader: uploader, maxUploadSizeMB: maxUploadSizeMB}
 }
 
 // Upload godoc
@@ -68,9 +71,10 @@ func (h *Handler) Upload(c *echo.Context) error {
 		))
 	}
 
-	if fileHeader.Size > maxUploadSize {
+	maxBytes := int64(h.maxUploadSizeMB) << 20
+	if fileHeader.Size > maxBytes {
 		return c.JSON(http.StatusBadRequest, httpresponse.NewError(
-			http.StatusBadRequest, "File too large (max 10 MB)", "",
+			http.StatusBadRequest, "File too large", "",
 		))
 	}
 

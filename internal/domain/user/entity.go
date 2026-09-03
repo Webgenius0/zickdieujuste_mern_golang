@@ -17,10 +17,16 @@ type ThemePreference string
 // Platform represents the device platform for push notifications.
 type Platform string
 
+// Role represents the user's role.
+type Role string
+
 const (
 	AuthProviderEmail  AuthProvider = "EMAIL"
 	AuthProviderGoogle AuthProvider = "GOOGLE"
 	AuthProviderApple  AuthProvider = "APPLE"
+
+	RoleUser  Role = "USER"
+	RoleAdmin Role = "ADMIN"
 
 	ThemeLight ThemePreference = "LIGHT"
 	ThemeDark  ThemePreference = "DARK"
@@ -36,6 +42,7 @@ type User struct {
 	Email              string          `gorm:"type:varchar(255);uniqueIndex;not null"`
 	PasswordHash       *string         `gorm:"type:varchar(255)"` // Nullable for OAuth users
 	AuthProvider       AuthProvider    `gorm:"type:varchar(20);not null;default:'EMAIL'"`
+	Role               Role            `gorm:"type:varchar(20);not null;default:'USER'"`
 	Location           *string         `gorm:"type:varchar(255)"`
 	AvatarURL          *string         `gorm:"type:text"`
 	ThemePreference    ThemePreference `gorm:"type:varchar(20);not null;default:'LIGHT'"`

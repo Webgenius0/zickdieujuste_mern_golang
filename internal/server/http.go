@@ -8,7 +8,9 @@ import (
 	"gotickets/internal/auth"
 	"gotickets/internal/config"
 	"gotickets/internal/domain/content"
+	"gotickets/internal/domain/library"
 	"gotickets/internal/domain/media"
+	"gotickets/internal/domain/motivation"
 	"gotickets/internal/domain/schedule"
 	"gotickets/internal/domain/subscription"
 	"gotickets/internal/domain/user"
@@ -73,12 +75,15 @@ func humanizeValidationError(e validator.FieldError) string {
 
 func Start(db *gorm.DB, cfg *config.Config, uploader upload.Uploader) {
 	migrate(db)
+	user.SeedAdmin(db, cfg.AdminEmail, cfg.AdminPassword)
 
 	e := echo.New()
 	e.Validator = &customValidator{validator: validator.New()}
 	e.Use(middleware.RequestLogger())
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{"*"},
+		AllowOrigins:     []string{"http://localhost:5173", "http://localhost:3000", "http://127.0.0.1:5173", "http://127.0.0.1:3000"},
+		AllowHeaders:     []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept, echo.HeaderAuthorization},
+		AllowCredentials: true,
 	}))
 
 	e.GET("/", WelcomeHandler(cfg))
@@ -87,13 +92,15 @@ func Start(db *gorm.DB, cfg *config.Config, uploader upload.Uploader) {
 
 	jwtSvc := auth.NewJWTService(cfg.JwtAccessSecret, cfg.JwtRefreshSecret, cfg.JwtAccessExpiry, cfg.JwtRefreshExpiry)
 	userRepo := user.NewRepository(db)
-	userSvc := user.NewService(userRepo, jwtSvc, uploader, nil, nil)
+	userSvc := user.NewService(userRepo, jwtSvc, uploader, nil, nil, cfg.AdminEmail, cfg.AdminPassword)
 
 	user.RegisterRoutes(e, db, cfg, uploader)
 	content.RegisterRoutes(e, db, jwtSvc, userSvc)
 	schedule.RegisterRoutes(e, db, jwtSvc, userSvc)
 	subscription.RegisterRoutes(e, db, jwtSvc, userSvc, userRepo)
-	media.RegisterRoutes(e, jwtSvc, uploader)
+	media.RegisterRoutes(e, jwtSvc, uploader, cfg)
+	motivation.RegisterRoutes(e, db, jwtSvc)
+	library.RegisterRoutes(e, db, jwtSvc)
 
 	addr := fmt.Sprintf(":%s", cfg.Port)
 	fmt.Printf("\033[1;32m🚀 Server running on http://localhost:%s\033[0m\n", cfg.Port)
@@ -114,6 +121,9 @@ func migrate(db *gorm.DB) {
 		&schedule.UserSchedule{},
 		&subscription.SubscriptionPlan{},
 		&subscription.Subscription{},
+		&motivation.Motivation{},
+		&library.LibraryItem{},
+		&library.LibraryCategory{},
 	); err != nil {
 		panic("AutoMigrate failed: " + err.Error())
 	}

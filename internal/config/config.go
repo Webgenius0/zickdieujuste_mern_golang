@@ -25,6 +25,13 @@ type Config struct {
 	SMTPAppPassword          string
 	SMTPOTPExpirationMinutes int // Default: 10
 	FirebaseProjectID        string
+
+	// Admin Settings
+	AdminEmail    string
+	AdminPassword string
+
+	// Media Settings
+	MaxUploadSizeMB int
 }
 
 func LoadEnv() *Config {
@@ -49,6 +56,9 @@ func LoadEnv() *Config {
 		SMTPAppPassword:          os.Getenv("SMTP_APP_PASSWORD"),
 		SMTPOTPExpirationMinutes: getEnvInt("SMTP_OTP_EXPIRATION_MINUTES", 10),
 		FirebaseProjectID:        os.Getenv("FIREBASE_PROJECT_ID"),
+		AdminEmail:               os.Getenv("ADMIN_EMAIL"),
+		AdminPassword:            os.Getenv("ADMIN_PASSWORD"),
+		MaxUploadSizeMB:          getEnvInt("MAX_UPLOAD_SIZE_MB", 200),
 	}
 }
 

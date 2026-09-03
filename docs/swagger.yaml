@@ -119,6 +119,203 @@ definitions:
         example: /api/v1/subscriptions/plans
         type: string
     type: object
+  gotickets_internal_domain_library_dto.CategoryResponse:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+  gotickets_internal_domain_library_dto.CreateCategoryReq:
+    properties:
+      name:
+        maxLength: 100
+        type: string
+    required:
+    - name
+    type: object
+  gotickets_internal_domain_library_dto.CreateLibraryReq:
+    properties:
+      category:
+        maxLength: 100
+        type: string
+      content_text:
+        type: string
+      media_url:
+        type: string
+      short_description:
+        type: string
+      thumbnail_url:
+        type: string
+      title:
+        maxLength: 255
+        type: string
+    required:
+    - category
+    - content_text
+    - short_description
+    - thumbnail_url
+    - title
+    type: object
+  gotickets_internal_domain_library_dto.LibraryDetailsResponse:
+    properties:
+      library_item:
+        $ref: '#/definitions/gotickets_internal_domain_library_dto.LibraryResponse'
+      related:
+        items:
+          $ref: '#/definitions/gotickets_internal_domain_library_dto.LibraryResponse'
+        type: array
+    type: object
+  gotickets_internal_domain_library_dto.LibraryResponse:
+    properties:
+      category:
+        type: string
+      content_text:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: string
+      media_url:
+        type: string
+      short_description:
+        type: string
+      thumbnail_url:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  gotickets_internal_domain_library_dto.PaginatedLibraryResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/gotickets_internal_domain_library_dto.LibraryResponse'
+        type: array
+      meta:
+        $ref: '#/definitions/gotickets_internal_querybuilder.Meta'
+    type: object
+  gotickets_internal_domain_library_dto.UpdateCategoryReq:
+    properties:
+      name:
+        maxLength: 100
+        type: string
+    required:
+    - name
+    type: object
+  gotickets_internal_domain_library_dto.UpdateLibraryReq:
+    properties:
+      category:
+        maxLength: 100
+        type: string
+      content_text:
+        type: string
+      media_url:
+        type: string
+      short_description:
+        type: string
+      thumbnail_url:
+        type: string
+      title:
+        maxLength: 255
+        type: string
+    required:
+    - category
+    - content_text
+    - short_description
+    - thumbnail_url
+    - title
+    type: object
+  gotickets_internal_domain_motivation_dto.CreateMotivationReq:
+    properties:
+      description:
+        type: string
+      duration:
+        maxLength: 20
+        type: string
+      speaker_name:
+        maxLength: 255
+        type: string
+      thumbnail_url:
+        type: string
+      title:
+        maxLength: 255
+        type: string
+      video_url:
+        type: string
+    required:
+    - description
+    - duration
+    - speaker_name
+    - thumbnail_url
+    - title
+    - video_url
+    type: object
+  gotickets_internal_domain_motivation_dto.MotivationDetailsResponse:
+    properties:
+      motivation:
+        $ref: '#/definitions/gotickets_internal_domain_motivation_dto.MotivationResponse'
+      related:
+        items:
+          $ref: '#/definitions/gotickets_internal_domain_motivation_dto.MotivationResponse'
+        type: array
+    type: object
+  gotickets_internal_domain_motivation_dto.MotivationResponse:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      duration:
+        type: string
+      id:
+        type: string
+      speaker_name:
+        type: string
+      thumbnail_url:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+      video_url:
+        type: string
+    type: object
+  gotickets_internal_domain_motivation_dto.PaginatedMotivationResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/gotickets_internal_domain_motivation_dto.MotivationResponse'
+        type: array
+      meta:
+        $ref: '#/definitions/gotickets_internal_querybuilder.Meta'
+    type: object
+  gotickets_internal_domain_motivation_dto.UpdateMotivationReq:
+    properties:
+      description:
+        type: string
+      duration:
+        maxLength: 20
+        type: string
+      speaker_name:
+        maxLength: 255
+        type: string
+      thumbnail_url:
+        type: string
+      title:
+        maxLength: 255
+        type: string
+      video_url:
+        type: string
+    required:
+    - description
+    - duration
+    - speaker_name
+    - thumbnail_url
+    - title
+    - video_url
+    type: object
   gotickets_internal_domain_schedule_dto.ScheduleResponse:
     properties:
       id:
@@ -495,6 +692,21 @@ definitions:
       message:
         type: string
     type: object
+  gotickets_internal_querybuilder.Meta:
+    properties:
+      limit:
+        description: Limit is the number of items per page.
+        type: integer
+      page:
+        description: Page is the current page number (1-indexed).
+        type: integer
+      total:
+        description: Total is the total number of matching records.
+        type: integer
+      total_pages:
+        description: TotalPages is the total number of pages.
+        type: integer
+    type: object
   internal_domain_media.DeleteRequest:
     properties:
       url:
@@ -574,6 +786,294 @@ paths:
       summary: Welcome
       tags:
       - System
+  /api/v1/admin/library:
+    post:
+      consumes:
+      - application/json
+      description: Admin endpoint to create a new library item.
+      parameters:
+      - description: Library payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/gotickets_internal_domain_library_dto.CreateLibraryReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_library_dto.LibraryResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Create a library item
+      tags:
+      - Library
+  /api/v1/admin/library-categories:
+    post:
+      consumes:
+      - application/json
+      description: Admin endpoint to create a new category.
+      parameters:
+      - description: Category payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/gotickets_internal_domain_library_dto.CreateCategoryReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_library_dto.CategoryResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Create a library category
+      tags:
+      - Library Categories
+  /api/v1/admin/library-categories/{id}:
+    delete:
+      description: Admin endpoint to delete a category.
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      security:
+      - BearerAuth: []
+      summary: Delete a library category
+      tags:
+      - Library Categories
+    put:
+      consumes:
+      - application/json
+      description: Admin endpoint to update a category.
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Category payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/gotickets_internal_domain_library_dto.UpdateCategoryReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_library_dto.CategoryResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Update a library category
+      tags:
+      - Library Categories
+  /api/v1/admin/library/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Admin endpoint to delete an existing library item.
+      parameters:
+      - description: Library Item ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Delete a library item
+      tags:
+      - Library
+    put:
+      consumes:
+      - application/json
+      description: Admin endpoint to update an existing library item.
+      parameters:
+      - description: Library Item ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Library payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/gotickets_internal_domain_library_dto.UpdateLibraryReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_library_dto.LibraryResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Update a library item
+      tags:
+      - Library
+  /api/v1/admin/motivations:
+    post:
+      consumes:
+      - application/json
+      description: Admin endpoint to create a new motivation.
+      parameters:
+      - description: Motivation payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/gotickets_internal_domain_motivation_dto.CreateMotivationReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_motivation_dto.MotivationResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Create a motivation
+      tags:
+      - Motivation
+  /api/v1/admin/motivations/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Admin endpoint to delete an existing motivation.
+      parameters:
+      - description: Motivation ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Delete a motivation
+      tags:
+      - Motivation
+    put:
+      consumes:
+      - application/json
+      description: Admin endpoint to update an existing motivation.
+      parameters:
+      - description: Motivation ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Motivation payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/gotickets_internal_domain_motivation_dto.UpdateMotivationReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_motivation_dto.MotivationResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Update a motivation
+      tags:
+      - Motivation
+  /api/v1/auth/admin/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticates an admin using hardcoded credentials. Returns access
+        + refresh JWT pair.
+      parameters:
+      - description: Admin Login payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/gotickets_internal_domain_user_dto.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_user_dto.AuthResponse'
+        "400":
+          description: Validation error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "401":
+          description: Invalid credentials
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      summary: Admin Login
+      tags:
+      - Auth
   /api/v1/auth/forgot-password:
     post:
       consumes:
@@ -966,6 +1466,150 @@ paths:
       summary: Register device token
       tags:
       - Devices
+  /api/v1/library:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves a paginated list of library items. Supports search, sort,
+        category filtering, and pagination via query params.
+      parameters:
+      - description: Search by title, category, or description
+        in: query
+        name: search
+        type: string
+      - description: Filter by category
+        in: query
+        name: category
+        type: string
+      - description: 'Page number (default: 1)'
+        in: query
+        name: page
+        type: integer
+      - description: 'Items per page (default: 10)'
+        in: query
+        name: limit
+        type: integer
+      - description: Sort column; prefix with - for DESC (e.g. -created_at)
+        in: query
+        name: sort
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_library_dto.PaginatedLibraryResponse'
+      summary: Get all library items
+      tags:
+      - Library
+  /api/v1/library-categories:
+    get:
+      description: Retrieves all library categories.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/gotickets_internal_domain_library_dto.CategoryResponse'
+            type: array
+      summary: Get all library categories
+      tags:
+      - Library Categories
+  /api/v1/library/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves details of a specific library item along with related
+        items.
+      parameters:
+      - description: Library Item ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_library_dto.LibraryDetailsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      summary: Get library item details
+      tags:
+      - Library
+  /api/v1/motivations:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves a paginated list of motivation items. Supports search,
+        sort, and pagination via query params.
+      parameters:
+      - description: Search by title or speaker name
+        in: query
+        name: search
+        type: string
+      - description: 'Page number (default: 1)'
+        in: query
+        name: page
+        type: integer
+      - description: 'Items per page (default: 10)'
+        in: query
+        name: limit
+        type: integer
+      - description: Sort column; prefix with - for DESC (e.g. -created_at)
+        in: query
+        name: sort
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_motivation_dto.PaginatedMotivationResponse'
+      summary: Get all motivations
+      tags:
+      - Motivation
+  /api/v1/motivations/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves details of a specific motivation along with related motivations.
+      parameters:
+      - description: Motivation ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_motivation_dto.MotivationDetailsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      summary: Get motivation details
+      tags:
+      - Motivation
   /api/v1/schedules/me:
     get:
       description: Returns the authenticated user's prayer schedule. Creates a default
