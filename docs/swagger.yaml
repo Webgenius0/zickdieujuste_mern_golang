@@ -441,6 +441,13 @@ definitions:
         example: APPLE
         type: string
     type: object
+  gotickets_internal_domain_user_dto.AuthDataResponse:
+    properties:
+      tokens:
+        $ref: '#/definitions/gotickets_internal_domain_user_dto.TokenDTO'
+      user:
+        $ref: '#/definitions/gotickets_internal_domain_user_dto.UserDTO'
+    type: object
   gotickets_internal_domain_user_dto.AuthResponse:
     properties:
       access_token:
@@ -649,6 +656,26 @@ definitions:
     - id_token
     - provider
     type: object
+  gotickets_internal_domain_user_dto.StandardAuthResponse:
+    properties:
+      data:
+        $ref: '#/definitions/gotickets_internal_domain_user_dto.AuthDataResponse'
+      message:
+        example: Login successful
+        type: string
+      success:
+        example: true
+        type: boolean
+    type: object
+  gotickets_internal_domain_user_dto.TokenDTO:
+    properties:
+      access_token:
+        example: eyJhbGciOiJIUzI1NiIsIn...
+        type: string
+      refresh_token:
+        example: eyJhbGciOiJIUzI1NiIsIn...
+        type: string
+    type: object
   gotickets_internal_domain_user_dto.UpdateProfileRequest:
     properties:
       age:
@@ -681,6 +708,24 @@ definitions:
         - LIGHT
         - DARK
         example: DARK
+        type: string
+    type: object
+  gotickets_internal_domain_user_dto.UserDTO:
+    properties:
+      avatar_url:
+        example: https://example.com/avatar.jpg
+        type: string
+      email:
+        example: user@example.com
+        type: string
+      id:
+        example: 123e4567-e89b-12d3-a456-426614174000
+        type: string
+      name:
+        example: John Doe
+        type: string
+      role:
+        example: user
         type: string
     type: object
   gotickets_internal_httpresponse.Error:
@@ -1105,9 +1150,9 @@ paths:
     post:
       consumes:
       - application/json
-      description: 'Authenticates an EMAIL user. Returns access + refresh JWT pair.
-        Available languages: en (English), fr (French), es (Spanish), pt (Portuguese),
-        ht (Haitian Creole).'
+      description: 'Authenticates an EMAIL user. Returns user profile + access/refresh
+        JWT pair. Available languages: en (English), fr (French), es (Spanish), pt
+        (Portuguese), ht (Haitian Creole).'
       parameters:
       - description: Login payload
         in: body
@@ -1119,9 +1164,9 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK
+          description: Login successful
           schema:
-            $ref: '#/definitions/gotickets_internal_domain_user_dto.AuthResponse'
+            $ref: '#/definitions/gotickets_internal_domain_user_dto.StandardAuthResponse'
         "400":
           description: Validation error
           schema:
@@ -1190,7 +1235,7 @@ paths:
     post:
       consumes:
       - application/json
-      description: 'Creates a new EMAIL-provider account. Returns access + refresh
+      description: 'Creates a new EMAIL-provider account. Returns user profile + access/refresh
         JWT pair. Duplicate email returns 409. Available languages: en (English),
         fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole). Available
         auth providers: EMAIL, GOOGLE, APPLE.'
@@ -1205,9 +1250,9 @@ paths:
       - application/json
       responses:
         "201":
-          description: Created
+          description: Registration successful
           schema:
-            $ref: '#/definitions/gotickets_internal_domain_user_dto.AuthResponse'
+            $ref: '#/definitions/gotickets_internal_domain_user_dto.StandardAuthResponse'
         "400":
           description: Validation error
           schema:

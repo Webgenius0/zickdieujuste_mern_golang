@@ -33,12 +33,12 @@ func NewHandler(svc Service, uploader upload.Uploader) *Handler {
 
 // Register godoc
 // @Summary      Register a new user
-// @Description  Creates a new EMAIL-provider account. Returns access + refresh JWT pair. Duplicate email returns 409. Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole). Available auth providers: EMAIL, GOOGLE, APPLE.
+// @Description  Creates a new EMAIL-provider account. Returns user profile + access/refresh JWT pair. Duplicate email returns 409. Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole). Available auth providers: EMAIL, GOOGLE, APPLE.
 // @Tags         Auth
 // @Accept       json
 // @Produce      json
-// @Param        request  body      dto.RegisterRequest  true  "Registration payload"
-// @Success      201      {object}  dto.AuthResponse
+// @Param        request  body      dto.RegisterRequest        true  "Registration payload"
+// @Success      201      {object}  dto.StandardAuthResponse        "Registration successful"
 // @Failure      400      {object}  httpresponse.Error  "Validation error"
 // @Failure      409      {object}  httpresponse.Error  "Email already registered"
 // @Failure      500      {object}  httpresponse.Error
@@ -60,18 +60,18 @@ func (h *Handler) Register(c *echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, httpresponse.NewError(http.StatusInternalServerError, "Registration failed", err.Error()))
 	}
 
-	setTokenCookies(c, resp.AccessToken, resp.RefreshToken)
+	setTokenCookies(c, resp.Data.Tokens.AccessToken, resp.Data.Tokens.RefreshToken)
 	return c.JSON(http.StatusCreated, resp)
 }
 
 // Login godoc
 // @Summary      Login
-// @Description  Authenticates an EMAIL user. Returns access + refresh JWT pair. Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole).
+// @Description  Authenticates an EMAIL user. Returns user profile + access/refresh JWT pair. Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole).
 // @Tags         Auth
 // @Accept       json
 // @Produce      json
-// @Param        request  body      dto.LoginRequest  true  "Login payload"
-// @Success      200      {object}  dto.AuthResponse
+// @Param        request  body      dto.LoginRequest          true  "Login payload"
+// @Success      200      {object}  dto.StandardAuthResponse       "Login successful"
 // @Failure      400      {object}  httpresponse.Error  "Validation error"
 // @Failure      401      {object}  httpresponse.Error  "Invalid credentials"
 // @Router       /api/v1/auth/login [post]
@@ -95,7 +95,7 @@ func (h *Handler) Login(c *echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, httpresponse.NewError(http.StatusInternalServerError, "Login failed", err.Error()))
 	}
 
-	setTokenCookies(c, resp.AccessToken, resp.RefreshToken)
+	setTokenCookies(c, resp.Data.Tokens.AccessToken, resp.Data.Tokens.RefreshToken)
 	return c.JSON(http.StatusOK, resp)
 }
 
