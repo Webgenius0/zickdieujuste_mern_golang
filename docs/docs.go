@@ -539,7 +539,7 @@ const docTemplate = `{
         },
         "/api/v1/auth/login": {
             "post": {
-                "description": "Authenticates an EMAIL user. Returns access + refresh JWT pair. Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole).",
+                "description": "Authenticates an EMAIL user. Returns user profile + access/refresh JWT pair. Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole).",
                 "consumes": [
                     "application/json"
                 ],
@@ -563,9 +563,9 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Login successful",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.AuthResponse"
+                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.StandardAuthResponse"
                         }
                     },
                     "400": {
@@ -668,7 +668,7 @@ const docTemplate = `{
         },
         "/api/v1/auth/register": {
             "post": {
-                "description": "Creates a new EMAIL-provider account. Returns access + refresh JWT pair. Duplicate email returns 409. Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole). Available auth providers: EMAIL, GOOGLE, APPLE.",
+                "description": "Creates a new EMAIL-provider account. Returns user profile + access/refresh JWT pair. Duplicate email returns 409. Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole). Available auth providers: EMAIL, GOOGLE, APPLE.",
                 "consumes": [
                     "application/json"
                 ],
@@ -692,9 +692,9 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "201": {
-                        "description": "Created",
+                        "description": "Registration successful",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.AuthResponse"
+                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.StandardAuthResponse"
                         }
                     },
                     "400": {
@@ -2537,6 +2537,17 @@ const docTemplate = `{
                 }
             }
         },
+        "gotickets_internal_domain_user_dto.AuthDataResponse": {
+            "type": "object",
+            "properties": {
+                "tokens": {
+                    "$ref": "#/definitions/gotickets_internal_domain_user_dto.TokenDTO"
+                },
+                "user": {
+                    "$ref": "#/definitions/gotickets_internal_domain_user_dto.UserDTO"
+                }
+            }
+        },
         "gotickets_internal_domain_user_dto.AuthResponse": {
             "type": "object",
             "properties": {
@@ -2817,6 +2828,35 @@ const docTemplate = `{
                 }
             }
         },
+        "gotickets_internal_domain_user_dto.StandardAuthResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/gotickets_internal_domain_user_dto.AuthDataResponse"
+                },
+                "message": {
+                    "type": "string",
+                    "example": "Login successful"
+                },
+                "success": {
+                    "type": "boolean",
+                    "example": true
+                }
+            }
+        },
+        "gotickets_internal_domain_user_dto.TokenDTO": {
+            "type": "object",
+            "properties": {
+                "access_token": {
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsIn..."
+                },
+                "refresh_token": {
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsIn..."
+                }
+            }
+        },
         "gotickets_internal_domain_user_dto.UpdateProfileRequest": {
             "type": "object",
             "properties": {
@@ -2856,6 +2896,31 @@ const docTemplate = `{
                         "DARK"
                     ],
                     "example": "DARK"
+                }
+            }
+        },
+        "gotickets_internal_domain_user_dto.UserDTO": {
+            "type": "object",
+            "properties": {
+                "avatar_url": {
+                    "type": "string",
+                    "example": "https://example.com/avatar.jpg"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "user@example.com"
+                },
+                "id": {
+                    "type": "string",
+                    "example": "123e4567-e89b-12d3-a456-426614174000"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "John Doe"
+                },
+                "role": {
+                    "type": "string",
+                    "example": "user"
                 }
             }
         },

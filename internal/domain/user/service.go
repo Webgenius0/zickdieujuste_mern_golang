@@ -30,8 +30,10 @@ var (
 
 // Service defines the business logic contract for the user domain.
 type Service interface {
-	Register(req dto.RegisterRequest) (*dto.AuthResponse, error)
-	Login(req dto.LoginRequest) (*dto.AuthResponse, error)
+	// Register creates a new email-provider account and returns the full standard response.
+	Register(req dto.RegisterRequest) (*dto.StandardAuthResponse, error)
+	// Login authenticates an email user and returns the full standard response.
+	Login(req dto.LoginRequest) (*dto.StandardAuthResponse, error)
 	SocialLogin(ctx context.Context, req dto.SocialLoginRequest) (*dto.AuthResponse, error)
 	RefreshToken(rawToken string) (*dto.AuthResponse, error)
 	Logout(rawToken string) error
@@ -68,7 +70,7 @@ func NewService(repo Repository, jwt auth.JWTService, uploader upload.Uploader, 
 
 // Auth operations
 
-func (s *service) Register(req dto.RegisterRequest) (*dto.AuthResponse, error) {
+func (s *service) Register(req dto.RegisterRequest) (*dto.StandardAuthResponse, error) {
 	// Check for duplicate email
 	existing, err := s.repo.GetUserByEmail(req.Email)
 	if err == nil && existing != nil {
@@ -97,10 +99,10 @@ func (s *service) Register(req dto.RegisterRequest) (*dto.AuthResponse, error) {
 		return nil, fmt.Errorf("failed to create user: %w", err)
 	}
 
-	return s.issueTokenPair(u)
+	return s.issueStandardResponse(u, "Registration successful")
 }
 
-func (s *service) Login(req dto.LoginRequest) (*dto.AuthResponse, error) {
+func (s *service) Login(req dto.LoginRequest) (*dto.StandardAuthResponse, error) {
 	if !s.limiter.AllowLogin(req.Email) {
 		return nil, ErrRateLimited
 	}
@@ -119,7 +121,7 @@ func (s *service) Login(req dto.LoginRequest) (*dto.AuthResponse, error) {
 		}
 	}
 
-	return s.issueTokenPair(u)
+	return s.issueStandardResponse(u, "Login successful")
 }
 
 func (s *service) SocialLogin(ctx context.Context, req dto.SocialLoginRequest) (*dto.AuthResponse, error) {
@@ -398,7 +400,50 @@ func (s *service) RegisterDevice(userID uuid.UUID, req dto.RegisterDeviceRequest
 
 // Helpers
 
+// issueStandardResponse generates tokens and builds the full StandardAuthResponse
+// envelope used by the Login and Register endpoints.
+func (s *service) issueStandardResponse(u *User, message string) (*dto.StandardAuthResponse, error) {
+	accessToken, refreshToken, err := s.jwt.GenerateToken(u.ID, u.Name, u.Email, string(u.Role), u.IsPremium)
+	if err != nil {
+		return nil, fmt.Errorf("failed to generate tokens: %w", err)
+	}
+
+	rt := &RefreshToken{
+		UserID:    u.ID,
+		TokenHash: hashToken(refreshToken),
+		ExpiresAt: time.Now().Add(30 * 24 * time.Hour),
+	}
+	if err := s.repo.CreateRefreshToken(rt); err != nil {
+		return nil, fmt.Errorf("failed to persist refresh token: %w", err)
+	}
+
+	// Resolve avatar URL (nil pointer → empty string for the DTO).
+	avatarURL := ""
+	if u.AvatarURL != nil {
+		avatarURL = *u.AvatarURL
+	}
+
+	return &dto.StandardAuthResponse{
+		Success: true,
+		Message: message,
+		Data: dto.AuthDataResponse{
+			User: dto.UserDTO{
+				ID:        u.ID,
+				Name:      u.Name,
+				Email:     u.Email,
+				AvatarURL: avatarURL,
+				Role:      string(u.Role),
+			},
+			Tokens: dto.TokenDTO{
+				AccessToken:  accessToken,
+				RefreshToken: refreshToken,
+			},
+		},
+	}, nil
+}
+
 // issueTokenPair generates a new JWT access+refresh token pair, persists the refresh token, and returns both.
+// Used by Refresh, AdminLogin, and SocialLogin which return the lightweight AuthResponse.
 func (s *service) issueTokenPair(u *User) (*dto.AuthResponse, error) {
 	accessToken, refreshToken, err := s.jwt.GenerateToken(u.ID, u.Name, u.Email, string(u.Role), u.IsPremium)
 	if err != nil {
