@@ -7,7 +7,6 @@ import (
 
 	"gotickets/internal/auth"
 	"gotickets/internal/config"
-	"gotickets/internal/domain/content"
 	"gotickets/internal/domain/library"
 	"gotickets/internal/domain/media"
 	"gotickets/internal/domain/motivation"
@@ -95,7 +94,6 @@ func Start(db *gorm.DB, cfg *config.Config, uploader upload.Uploader) {
 	userSvc := user.NewService(userRepo, jwtSvc, uploader, nil, nil, cfg.AdminEmail, cfg.AdminPassword)
 
 	user.RegisterRoutes(e, db, cfg, uploader)
-	content.RegisterRoutes(e, db, jwtSvc, userSvc)
 	schedule.RegisterRoutes(e, db, jwtSvc, userSvc)
 	subscription.RegisterRoutes(e, db, jwtSvc, userSvc, userRepo)
 	media.RegisterRoutes(e, jwtSvc, uploader, cfg)
@@ -115,9 +113,6 @@ func migrate(db *gorm.DB) {
 		&user.RefreshToken{},
 		&user.OTP{},
 		&user.DeviceToken{},
-		&content.Content{},
-		&content.ContentAudience{},
-		&content.RelatedContentJoin{},
 		&schedule.UserSchedule{},
 		&subscription.SubscriptionPlan{},
 		&subscription.Subscription{},
