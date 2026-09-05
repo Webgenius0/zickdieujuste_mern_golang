@@ -105,13 +105,13 @@ func (h *Handler) Login(c *echo.Context) error {
 // @Tags         Auth
 // @Accept       json
 // @Produce      json
-// @Param        request  body      dto.LoginRequest  true  "Admin Login payload"
+// @Param        request  body      dto.AdminLoginRequest  true  "Admin Login payload"
 // @Success      200      {object}  dto.AuthResponse
 // @Failure      400      {object}  httpresponse.Error  "Validation error"
 // @Failure      401      {object}  httpresponse.Error  "Invalid credentials"
 // @Router       /api/v1/auth/admin/login [post]
 func (h *Handler) AdminLogin(c *echo.Context) error {
-	var req dto.LoginRequest
+	var req dto.AdminLoginRequest
 	if err := c.Bind(&req); err != nil {
 		return c.JSON(http.StatusBadRequest, httpresponse.NewError(http.StatusBadRequest, "Invalid request body", err.Error()))
 	}
