@@ -1,8 +1,20 @@
 {
     "swagger": "2.0",
     "info": {
-        "contact": {}
+        "description": "ZICK — A spiritual-wellness app backend providing auth, content, schedules, and subscriptions.",
+        "title": "ZICK API",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "ZICK API Support",
+            "email": "support@zick.app"
+        },
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        },
+        "version": "2.0"
     },
+    "basePath": "/",
     "paths": {
         "/": {
             "get": {
@@ -2664,6 +2676,14 @@
                     "type": "string"
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "BearerAuth": {
+            "description": "Type \"Bearer\" followed by a space and the JWT access token.",
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }

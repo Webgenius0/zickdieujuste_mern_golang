@@ -67,7 +67,7 @@ func RequirePremium(next echo.HandlerFunc) echo.HandlerFunc {
 func RequireAdmin(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c *echo.Context) error {
 		claims, ok := c.Get("user").(*auth.JwtCustomClaims)
-		if !ok || claims.Role != "admin" {
+		if !ok || (claims.Role != "admin" && claims.Role != "ADMIN") {
 			return c.JSON(http.StatusForbidden, map[string]string{
 				"code":    "403",
 				"message": "This resource requires admin privileges.",

@@ -1,3 +1,4 @@
+basePath: /
 definitions:
   gotickets_internal_domain_library_dto.CategoryResponse:
     properties:
@@ -709,7 +710,17 @@ definitions:
         type: string
     type: object
 info:
-  contact: {}
+  contact:
+    email: support@zick.app
+    name: ZICK API Support
+  description: ZICK — A spiritual-wellness app backend providing auth, content, schedules,
+    and subscriptions.
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  termsOfService: http://swagger.io/terms/
+  title: ZICK API
+  version: "2.0"
 paths:
   /:
     get:
@@ -1807,4 +1818,10 @@ paths:
       summary: Health Check
       tags:
       - System
+securityDefinitions:
+  BearerAuth:
+    description: Type "Bearer" followed by a space and the JWT access token.
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"
