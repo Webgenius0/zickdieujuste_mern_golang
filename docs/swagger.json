@@ -1,20 +1,8 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "ZICK — A spiritual-wellness app backend providing auth, content, schedules, and subscriptions.",
-        "title": "ZICK API",
-        "termsOfService": "http://swagger.io/terms/",
-        "contact": {
-            "name": "ZICK API Support",
-            "email": "support@zick.app"
-        },
-        "license": {
-            "name": "MIT",
-            "url": "https://opensource.org/licenses/MIT"
-        },
-        "version": "2.0"
+        "contact": {}
     },
-    "basePath": "/",
     "paths": {
         "/": {
             "get": {
@@ -464,7 +452,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.LoginRequest"
+                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.AdminLoginRequest"
                         }
                     }
                 ],
@@ -2146,6 +2134,35 @@
                 }
             }
         },
+        "gotickets_internal_domain_user_dto.AdminLoginRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "admin@altar.com"
+                },
+                "language_preference": {
+                    "description": "Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole)",
+                    "type": "string",
+                    "enum": [
+                        "en",
+                        "fr",
+                        "es",
+                        "pt",
+                        "ht"
+                    ],
+                    "example": "en"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "Admin1234"
+                }
+            }
+        },
         "gotickets_internal_domain_user_dto.AuthDataResponse": {
             "type": "object",
             "properties": {
@@ -2647,14 +2664,6 @@
                     "type": "string"
                 }
             }
-        }
-    },
-    "securityDefinitions": {
-        "BearerAuth": {
-            "description": "Type \"Bearer\" followed by a space and the JWT access token.",
-            "type": "apiKey",
-            "name": "Authorization",
-            "in": "header"
         }
     }
 }

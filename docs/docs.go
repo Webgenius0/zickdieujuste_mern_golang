@@ -9,15 +9,7 @@ const docTemplate = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "termsOfService": "http://swagger.io/terms/",
-        "contact": {
-            "name": "ZICK API Support",
-            "email": "support@zick.app"
-        },
-        "license": {
-            "name": "MIT",
-            "url": "https://opensource.org/licenses/MIT"
-        },
+        "contact": {},
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
@@ -471,7 +463,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.LoginRequest"
+                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.AdminLoginRequest"
                         }
                     }
                 ],
@@ -2153,6 +2145,35 @@ const docTemplate = `{
                 }
             }
         },
+        "gotickets_internal_domain_user_dto.AdminLoginRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "admin@altar.com"
+                },
+                "language_preference": {
+                    "description": "Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole)",
+                    "type": "string",
+                    "enum": [
+                        "en",
+                        "fr",
+                        "es",
+                        "pt",
+                        "ht"
+                    ],
+                    "example": "en"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "Admin1234"
+                }
+            }
+        },
         "gotickets_internal_domain_user_dto.AuthDataResponse": {
             "type": "object",
             "properties": {
@@ -2655,25 +2676,17 @@ const docTemplate = `{
                 }
             }
         }
-    },
-    "securityDefinitions": {
-        "BearerAuth": {
-            "description": "Type \"Bearer\" followed by a space and the JWT access token.",
-            "type": "apiKey",
-            "name": "Authorization",
-            "in": "header"
-        }
     }
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "2.0",
+	Version:          "",
 	Host:             "",
-	BasePath:         "/",
+	BasePath:         "",
 	Schemes:          []string{},
-	Title:            "ZICK API",
-	Description:      "ZICK — A spiritual-wellness app backend providing auth, content, schedules, and subscriptions.",
+	Title:            "",
+	Description:      "",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",
