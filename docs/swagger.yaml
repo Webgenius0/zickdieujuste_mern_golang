@@ -2105,7 +2105,11 @@ paths:
       description: Returns a paginated list of worship tracks. Optionally filter by
         time_of_day.
       parameters:
-      - description: Filter by Day or Night
+      - default: Day
+        description: Filter by Day or Night
+        enum:
+        - Day
+        - Night
         in: query
         name: time_of_day
         type: string

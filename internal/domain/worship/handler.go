@@ -24,7 +24,7 @@ func NewHandler(svc Service) *Handler {
 // @Description  Returns a paginated list of worship tracks. Optionally filter by time_of_day.
 // @Tags         Worship
 // @Produce      json
-// @Param        time_of_day  query     string  false  "Filter by Day or Night"
+// @Param        time_of_day  query     string  false  "Filter by Day or Night" Enums(Day, Night) default(Day)
 // @Param        page         query     int     false  "Page number (default 1)"
 // @Param        limit        query     int     false  "Items per page (default 10, max 100)"
 // @Success      200  {object}  dto.PaginatedWorshipResponse

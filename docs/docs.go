@@ -1944,7 +1944,12 @@ const docTemplate = `{
                 "summary": "Get all worship tracks",
                 "parameters": [
                     {
+                        "enum": [
+                            "Day",
+                            "Night"
+                        ],
                         "type": "string",
+                        "default": "Day",
                         "description": "Filter by Day or Night",
                         "name": "time_of_day",
                         "in": "query"
