@@ -1054,7 +1054,7 @@ paths:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Admin Login
       tags:
-      - Auth
+      - 1. Auth - Onboarding
   /api/v1/auth/forgot-password:
     post:
       consumes:
@@ -1081,7 +1081,7 @@ paths:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Request password reset OTP
       tags:
-      - Auth
+      - 2. Auth - Password Recovery
   /api/v1/auth/login:
     post:
       consumes:
@@ -1113,7 +1113,7 @@ paths:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Login
       tags:
-      - Auth
+      - 1. Auth - Onboarding
   /api/v1/auth/logout:
     post:
       consumes:
@@ -1140,7 +1140,7 @@ paths:
       - BearerAuth: []
       summary: Logout
       tags:
-      - Auth
+      - 3. Auth - Session Management
   /api/v1/auth/refresh:
     post:
       consumes:
@@ -1166,7 +1166,7 @@ paths:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Refresh access token
       tags:
-      - Auth
+      - 3. Auth - Session Management
   /api/v1/auth/register:
     post:
       consumes:
@@ -1203,7 +1203,7 @@ paths:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Register a new user
       tags:
-      - Auth
+      - 1. Auth - Onboarding
   /api/v1/auth/resend-otp:
     post:
       consumes:
@@ -1234,7 +1234,7 @@ paths:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Resend password reset OTP
       tags:
-      - Auth
+      - 2. Auth - Password Recovery
   /api/v1/auth/reset-password:
     post:
       consumes:
@@ -1265,7 +1265,7 @@ paths:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Reset password with reset token
       tags:
-      - Auth
+      - 2. Auth - Password Recovery
   /api/v1/auth/social-login:
     post:
       consumes:
@@ -1296,7 +1296,7 @@ paths:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Social Login
       tags:
-      - Auth
+      - 1. Auth - Onboarding
   /api/v1/auth/verify-otp:
     post:
       consumes:
@@ -1327,7 +1327,7 @@ paths:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Verify OTP for password reset
       tags:
-      - Auth
+      - 2. Auth - Password Recovery
   /api/v1/devices:
     post:
       consumes:

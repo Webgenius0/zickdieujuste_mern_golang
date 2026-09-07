@@ -454,7 +454,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Auth"
+                    "1. Auth - Onboarding"
                 ],
                 "summary": "Admin Login",
                 "parameters": [
@@ -500,7 +500,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Auth"
+                    "2. Auth - Password Recovery"
                 ],
                 "summary": "Request password reset OTP",
                 "parameters": [
@@ -540,7 +540,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Auth"
+                    "1. Auth - Onboarding"
                 ],
                 "summary": "Login",
                 "parameters": [
@@ -591,7 +591,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Auth"
+                    "3. Auth - Session Management"
                 ],
                 "summary": "Logout",
                 "parameters": [
@@ -630,7 +630,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Auth"
+                    "3. Auth - Session Management"
                 ],
                 "summary": "Refresh access token",
                 "parameters": [
@@ -669,7 +669,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Auth"
+                    "1. Auth - Onboarding"
                 ],
                 "summary": "Register a new user",
                 "parameters": [
@@ -721,7 +721,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Auth"
+                    "2. Auth - Password Recovery"
                 ],
                 "summary": "Resend password reset OTP",
                 "parameters": [
@@ -767,7 +767,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Auth"
+                    "2. Auth - Password Recovery"
                 ],
                 "summary": "Reset password with reset token",
                 "parameters": [
@@ -813,7 +813,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Auth"
+                    "1. Auth - Onboarding"
                 ],
                 "summary": "Social Login",
                 "parameters": [
@@ -859,7 +859,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Auth"
+                    "2. Auth - Password Recovery"
                 ],
                 "summary": "Verify OTP for password reset",
                 "parameters": [

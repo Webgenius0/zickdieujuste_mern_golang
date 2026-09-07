@@ -461,7 +461,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Auth"
+                    "1. Auth - Onboarding"
                 ],
                 "summary": "Admin Login",
                 "parameters": [
@@ -507,7 +507,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Auth"
+                    "2. Auth - Password Recovery"
                 ],
                 "summary": "Request password reset OTP",
                 "parameters": [
@@ -547,7 +547,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Auth"
+                    "1. Auth - Onboarding"
                 ],
                 "summary": "Login",
                 "parameters": [
@@ -598,7 +598,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Auth"
+                    "3. Auth - Session Management"
                 ],
                 "summary": "Logout",
                 "parameters": [
@@ -637,7 +637,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Auth"
+                    "3. Auth - Session Management"
                 ],
                 "summary": "Refresh access token",
                 "parameters": [
@@ -676,7 +676,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Auth"
+                    "1. Auth - Onboarding"
                 ],
                 "summary": "Register a new user",
                 "parameters": [
@@ -728,7 +728,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Auth"
+                    "2. Auth - Password Recovery"
                 ],
                 "summary": "Resend password reset OTP",
                 "parameters": [
@@ -774,7 +774,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Auth"
+                    "2. Auth - Password Recovery"
                 ],
                 "summary": "Reset password with reset token",
                 "parameters": [
@@ -820,7 +820,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Auth"
+                    "1. Auth - Onboarding"
                 ],
                 "summary": "Social Login",
                 "parameters": [
@@ -866,7 +866,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Auth"
+                    "2. Auth - Password Recovery"
                 ],
                 "summary": "Verify OTP for password reset",
                 "parameters": [

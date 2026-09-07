@@ -33,7 +33,7 @@ func NewHandler(svc Service, uploader upload.Uploader) *Handler {
 // Register godoc
 // @Summary      Register a new user
 // @Description  Creates a new EMAIL-provider account. Returns user profile + access/refresh JWT pair. Duplicate email returns 409. Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole). Available auth providers: EMAIL, GOOGLE, APPLE.
-// @Tags         Auth
+// @Tags         1. Auth - Onboarding
 // @Accept       json
 // @Produce      json
 // @Param        request  body      dto.RegisterRequest        true  "Registration payload"
@@ -66,7 +66,7 @@ func (h *Handler) Register(c *echo.Context) error {
 // Login godoc
 // @Summary      Login
 // @Description  Authenticates an EMAIL user. Returns user profile + access/refresh JWT pair. Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole).
-// @Tags         Auth
+// @Tags         1. Auth - Onboarding
 // @Accept       json
 // @Produce      json
 // @Param        request  body      dto.LoginRequest          true  "Login payload"
@@ -101,7 +101,7 @@ func (h *Handler) Login(c *echo.Context) error {
 // AdminLogin godoc
 // @Summary      Admin Login
 // @Description  Authenticates an admin using hardcoded credentials. Returns access + refresh JWT pair.
-// @Tags         Auth
+// @Tags         1. Auth - Onboarding
 // @Accept       json
 // @Produce      json
 // @Param        request  body      dto.AdminLoginRequest  true  "Admin Login payload"
@@ -130,7 +130,7 @@ func (h *Handler) AdminLogin(c *echo.Context) error {
 // SocialLogin godoc
 // @Summary      Social Login
 // @Description  Authenticates a user using Firebase ID token (Google or Apple). Returns access + refresh JWT pair.
-// @Tags         Auth
+// @Tags         1. Auth - Onboarding
 // @Accept       json
 // @Produce      json
 // @Param        request  body      dto.SocialLoginRequest  true  "Social Login payload"
@@ -159,7 +159,7 @@ func (h *Handler) SocialLogin(c *echo.Context) error {
 // Refresh godoc
 // @Summary      Refresh access token
 // @Description  Rotates the refresh token: revokes the old one and issues a new access + refresh pair. Token may be sent in body or "refresh_token" cookie.
-// @Tags         Auth
+// @Tags         3. Auth - Session Management
 // @Accept       json
 // @Produce      json
 // @Param        request  body      dto.RefreshRequest  false  "Refresh token (omit if using cookie)"
@@ -184,7 +184,7 @@ func (h *Handler) Refresh(c *echo.Context) error {
 // Logout godoc
 // @Summary      Logout
 // @Description  Revokes the current refresh token, ending the session.
-// @Tags         Auth
+// @Tags         3. Auth - Session Management
 // @Accept       json
 // @Produce      json
 // @Security     BearerAuth
@@ -204,7 +204,7 @@ func (h *Handler) Logout(c *echo.Context) error {
 // ForgotPassword godoc
 // @Summary      Request password reset OTP
 // @Description  Sends a 5-digit OTP to the email (10-min expiry). Always returns 200 to prevent user enumeration.
-// @Tags         Auth
+// @Tags         2. Auth - Password Recovery
 // @Accept       json
 // @Produce      json
 // @Param        request  body      dto.ForgotPasswordRequest  true  "Email address"
@@ -231,7 +231,7 @@ func (h *Handler) ForgotPassword(c *echo.Context) error {
 // ResendOTP godoc
 // @Summary      Resend password reset OTP
 // @Description  Enforces a 1-minute cooldown, invalidates old OTPs, and sends a new 5-digit OTP to the email.
-// @Tags         Auth
+// @Tags         2. Auth - Password Recovery
 // @Accept       json
 // @Produce      json
 // @Param        request  body      dto.ResendOTPRequest  true  "Email address"
@@ -258,7 +258,7 @@ func (h *Handler) ResendOTP(c *echo.Context) error {
 // VerifyOTP godoc
 // @Summary      Verify OTP for password reset
 // @Description  Verifies the 5-digit OTP and returns a temporary reset token.
-// @Tags         Auth
+// @Tags         2. Auth - Password Recovery
 // @Accept       json
 // @Produce      json
 // @Param        request  body      dto.VerifyOTPRequest  true  "Email + OTP"
@@ -292,7 +292,7 @@ func (h *Handler) VerifyOTP(c *echo.Context) error {
 // ResetPassword godoc
 // @Summary      Reset password with reset token
 // @Description  Verifies the temporary reset token and updates the user password, revoking all existing sessions.
-// @Tags         Auth
+// @Tags         2. Auth - Password Recovery
 // @Accept       json
 // @Produce      json
 // @Param        request  body      dto.ResetPasswordRequest  true  "Reset token + new password"
