@@ -29,7 +29,6 @@ func NewHandler(svc Service, uploader upload.Uploader) *Handler {
 	return &Handler{svc: svc, uploader: uploader}
 }
 
-// Auth handlers
 
 // Register godoc
 // @Summary      Register a new user
@@ -226,18 +225,79 @@ func (h *Handler) ForgotPassword(c *echo.Context) error {
 	if errors.Is(err, ErrRateLimited) {
 		return c.JSON(http.StatusTooManyRequests, httpresponse.NewError(http.StatusTooManyRequests, "Too many requests", "Please try again later"))
 	}
-	return c.JSON(http.StatusOK, dto.MessageResponse{Message: "If this email is registered, an OTP has been sent."})
+	return c.JSON(http.StatusOK, dto.MessageResponse{Message: "If your email is registered, you will receive an OTP"})
 }
 
-// ResetPassword godoc
-// @Summary      Reset password with OTP
-// @Description  Verifies the 5-digit OTP and updates the user password.
+// ResendOTP godoc
+// @Summary      Resend password reset OTP
+// @Description  Enforces a 1-minute cooldown, invalidates old OTPs, and sends a new 5-digit OTP to the email.
 // @Tags         Auth
 // @Accept       json
 // @Produce      json
-// @Param        request  body      dto.ResetPasswordRequest  true  "Email + OTP + new password"
+// @Param        request  body      dto.ResendOTPRequest  true  "Email address"
 // @Success      200      {object}  dto.MessageResponse
+// @Failure      400      {object}  httpresponse.Error  "Validation error"
+// @Failure      429      {object}  httpresponse.Error  "Too many requests"
+// @Router       /api/v1/auth/resend-otp [post]
+func (h *Handler) ResendOTP(c *echo.Context) error {
+	var req dto.ResendOTPRequest
+	if err := c.Bind(&req); err != nil {
+		return c.JSON(http.StatusBadRequest, httpresponse.NewError(http.StatusBadRequest, "Invalid request body", err.Error()))
+	}
+	if err := c.Validate(req); err != nil {
+		return c.JSON(http.StatusBadRequest, httpresponse.NewError(http.StatusBadRequest, "Validation failed", err.Error()))
+	}
+
+	err := h.svc.ResendOTP(req)
+	if errors.Is(err, ErrRateLimited) {
+		return c.JSON(http.StatusTooManyRequests, httpresponse.NewError(http.StatusTooManyRequests, "Too many requests", "Please wait 1 minute before resending"))
+	}
+	return c.JSON(http.StatusOK, dto.MessageResponse{Message: "If your email is registered, you will receive an OTP"})
+}
+
+// VerifyOTP godoc
+// @Summary      Verify OTP for password reset
+// @Description  Verifies the 5-digit OTP and returns a temporary reset token.
+// @Tags         Auth
+// @Accept       json
+// @Produce      json
+// @Param        request  body      dto.VerifyOTPRequest  true  "Email + OTP"
+// @Success      200      {object}  dto.StandardResponse{data=dto.VerifyOTPResponse}
 // @Failure      400      {object}  httpresponse.Error  "Invalid or expired OTP"
+// @Router       /api/v1/auth/verify-otp [post]
+func (h *Handler) VerifyOTP(c *echo.Context) error {
+	var req dto.VerifyOTPRequest
+	if err := c.Bind(&req); err != nil {
+		return c.JSON(http.StatusBadRequest, httpresponse.NewError(http.StatusBadRequest, "Invalid request body", err.Error()))
+	}
+	if err := c.Validate(req); err != nil {
+		return c.JSON(http.StatusBadRequest, httpresponse.NewError(http.StatusBadRequest, "Validation failed", err.Error()))
+	}
+
+	resp, err := h.svc.VerifyOTP(req)
+	if err != nil {
+		if errors.Is(err, ErrInvalidOTP) {
+			return c.JSON(http.StatusBadRequest, httpresponse.NewError(http.StatusBadRequest, "Invalid, expired, or already used OTP", ""))
+		}
+		return c.JSON(http.StatusInternalServerError, httpresponse.NewError(http.StatusInternalServerError, "Failed to verify OTP", err.Error()))
+	}
+
+	return c.JSON(http.StatusOK, dto.StandardResponse{
+		Success: true,
+		Message: "OTP verified successfully",
+		Data:    resp,
+	})
+}
+
+// ResetPassword godoc
+// @Summary      Reset password with reset token
+// @Description  Verifies the temporary reset token and updates the user password, revoking all existing sessions.
+// @Tags         Auth
+// @Accept       json
+// @Produce      json
+// @Param        request  body      dto.ResetPasswordRequest  true  "Reset token + new password"
+// @Success      200      {object}  dto.MessageResponse
+// @Failure      400      {object}  httpresponse.Error  "Invalid or expired reset token"
 // @Failure      500      {object}  httpresponse.Error
 // @Router       /api/v1/auth/reset-password [post]
 func (h *Handler) ResetPassword(c *echo.Context) error {
@@ -250,17 +310,14 @@ func (h *Handler) ResetPassword(c *echo.Context) error {
 	}
 
 	if err := h.svc.ResetPassword(req); err != nil {
-		if errors.Is(err, ErrInvalidOTP) {
-			return c.JSON(http.StatusBadRequest, httpresponse.NewError(http.StatusBadRequest, "Invalid, expired, or already used OTP", ""))
+		if err.Error() == "invalid or expired reset token" {
+			return c.JSON(http.StatusBadRequest, httpresponse.NewError(http.StatusBadRequest, "Invalid or expired reset token", ""))
 		}
 		return c.JSON(http.StatusInternalServerError, httpresponse.NewError(http.StatusInternalServerError, "Failed to reset password", err.Error()))
 	}
 	return c.JSON(http.StatusOK, dto.MessageResponse{Message: "Password reset successfully"})
 }
 
-// ──────────────────────────────────────────────────────────────────────────────
-// Profile handlers
-// ──────────────────────────────────────────────────────────────────────────────
 
 // GetMe godoc
 // @Summary      Get current user profile
@@ -431,9 +488,6 @@ func (h *Handler) UploadAvatar(c *echo.Context) error {
 	return c.JSON(http.StatusOK, dto.AvatarResponse{AvatarURL: result.URL})
 }
 
-// ──────────────────────────────────────────────────────────────────────────────
-// Device handler
-// ──────────────────────────────────────────────────────────────────────────────
 
 // RegisterDevice godoc
 // @Summary      Register device token
@@ -473,9 +527,6 @@ func (h *Handler) RegisterDevice(c *echo.Context) error {
 	return c.JSON(http.StatusOK, dto.MessageResponse{Message: "Device registered successfully"})
 }
 
-// ──────────────────────────────────────────────────────────────────────────────
-// Shared helpers
-// ──────────────────────────────────────────────────────────────────────────────
 
 // claimsEmail extracts the email from JWT claims stored in Echo context.
 // NOTE: The current jwt.go stores email in JwtCustomClaims.Email; UUID is resolved by email.

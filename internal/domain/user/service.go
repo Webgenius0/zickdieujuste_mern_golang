@@ -38,6 +38,8 @@ type Service interface {
 	RefreshToken(rawToken string) (*dto.AuthResponse, error)
 	Logout(rawToken string) error
 	ForgotPassword(req dto.ForgotPasswordRequest) error
+	ResendOTP(req dto.ResendOTPRequest) error
+	VerifyOTP(req dto.VerifyOTPRequest) (*dto.VerifyOTPResponse, error)
 	ResetPassword(req dto.ResetPasswordRequest) error
 
 	GetProfileByEmail(email string) (*dto.ProfileResponse, error)
@@ -68,7 +70,6 @@ func NewService(repo Repository, jwt auth.JWTService, uploader upload.Uploader, 
 	return &service{repo: repo, jwt: jwt, uploader: uploader, mailer: mailer, firebaseAuth: fbAuth, limiter: newRateLimiter(), adminEmail: adminEmail, adminPassword: adminPassword}
 }
 
-// Auth operations
 
 func (s *service) Register(req dto.RegisterRequest) (*dto.StandardAuthResponse, error) {
 	// Check for duplicate email
@@ -261,15 +262,82 @@ func (s *service) ForgotPassword(req dto.ForgotPasswordRequest) error {
 	return nil
 }
 
-func (s *service) ResetPassword(req dto.ResetPasswordRequest) error {
-	// TODO: add rate limiting here (e.g. Redis-backed per-email limiter)
-
-	otp, err := s.repo.GetValidOTP(req.Email, req.OTP)
-	if err != nil {
-		return ErrInvalidOTP
+func (s *service) ResendOTP(req dto.ResendOTPRequest) error {
+	if !s.limiter.AllowResendOTP(req.Email) {
+		return ErrRateLimited
 	}
 
 	u, err := s.repo.GetUserByEmail(req.Email)
+	if err != nil {
+		return nil
+	}
+
+	_ = s.repo.InvalidatePendingOTPs(req.Email)
+
+	code, err := generateOTPCode()
+	if err != nil {
+		return fmt.Errorf("failed to generate OTP: %w", err)
+	}
+
+	otp := &OTP{
+		Email:     req.Email,
+		Code:      code,
+		Purpose:   "PASSWORD_RESET",
+		ExpiresAt: time.Now().Add(10 * time.Minute),
+	}
+	if u != nil {
+		otp.UserID = &u.ID
+	}
+
+	if err := s.repo.CreateOTP(otp); err != nil {
+		return fmt.Errorf("failed to create OTP: %w", err)
+	}
+
+	if s.mailer != nil {
+		if err := s.mailer.SendOTP(u.Email, u.Name, code); err != nil {
+			log.Printf("[EMAIL] failed to send OTP to %s: %v", u.Email, err)
+		}
+	} else {
+		fmt.Printf("[OTP][DEV_MODE] Email: %s Code: %s (expires in 10m)\n", req.Email, code)
+	}
+
+	return nil
+}
+
+func (s *service) VerifyOTP(req dto.VerifyOTPRequest) (*dto.VerifyOTPResponse, error) {
+	otp, err := s.repo.GetValidOTP(req.Email, req.OTP)
+	if err != nil {
+		return nil, ErrInvalidOTP
+	}
+
+	u, err := s.repo.GetUserByEmail(req.Email)
+	if err != nil {
+		return nil, errors.New("user not found")
+	}
+
+	if err := s.repo.MarkOTPUsed(otp.ID); err != nil {
+		return nil, fmt.Errorf("failed to mark OTP used: %w", err)
+	}
+
+	resetToken, err := s.jwt.GenerateResetToken(u.ID, u.Email)
+	if err != nil {
+		return nil, fmt.Errorf("failed to generate reset token: %w", err)
+	}
+
+	return &dto.VerifyOTPResponse{
+		ResetToken: resetToken,
+	}, nil
+}
+
+func (s *service) ResetPassword(req dto.ResetPasswordRequest) error {
+	// TODO: add rate limiting here (e.g. Redis-backed per-limiter if necessary)
+
+	claims, err := s.jwt.ValidateResetToken(req.ResetToken)
+	if err != nil {
+		return errors.New("invalid or expired reset token")
+	}
+
+	u, err := s.repo.GetUserByID(claims.UserID)
 	if err != nil {
 		return errors.New("user not found")
 	}
@@ -281,10 +349,14 @@ func (s *service) ResetPassword(req dto.ResetPasswordRequest) error {
 		return fmt.Errorf("failed to update password: %w", err)
 	}
 
-	return s.repo.MarkOTPUsed(otp.ID)
+	// Invalidate existing sessions
+	if err := s.repo.RevokeAllRefreshTokens(u.ID); err != nil {
+		log.Printf("[WARNING] failed to revoke refresh tokens for user %s: %v", u.ID, err)
+	}
+
+	return nil
 }
 
-// Profile operations
 
 func (s *service) GetProfileByEmail(email string) (*dto.ProfileResponse, error) {
 	u, err := s.repo.GetUserByEmail(email)
@@ -387,7 +459,6 @@ func (s *service) UpdateAvatar(ctx context.Context, userID uuid.UUID, file inter
 	return nil, errors.New("use handler-level UploadAvatar — this method is a handler-level concern")
 }
 
-// Device operations
 
 func (s *service) RegisterDevice(userID uuid.UUID, req dto.RegisterDeviceRequest) error {
 	dt := &DeviceToken{
@@ -398,7 +469,6 @@ func (s *service) RegisterDevice(userID uuid.UUID, req dto.RegisterDeviceRequest
 	return s.repo.UpsertDeviceToken(dt)
 }
 
-// Helpers
 
 // issueStandardResponse generates tokens and builds the full StandardAuthResponse
 // envelope used by the Login and Register endpoints.
