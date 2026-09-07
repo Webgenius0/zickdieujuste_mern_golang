@@ -25,7 +25,9 @@ type JwtCustomClaims struct {
 
 type JWTService interface {
 	GenerateToken(userId uuid.UUID, name string, email string, role string, isPremium bool) (string, string, error)
+	GenerateResetToken(userId uuid.UUID, email string) (string, error)
 	ValidateToken(tokenString string, isRefresh bool) (*JwtCustomClaims, error)
+	ValidateResetToken(tokenString string) (*JwtCustomClaims, error)
 }
 
 type jwtService struct {
@@ -98,6 +100,19 @@ func (js *jwtService) GenerateToken(userId uuid.UUID, name string, email string,
 	return aToken, rToken, nil
 }
 
+func (js *jwtService) GenerateResetToken(userId uuid.UUID, email string) (string, error) {
+	resetClaims := &JwtCustomClaims{
+		UserID: userId,
+		Email:  email,
+		RegisteredClaims: jwt.RegisteredClaims{
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(15 * time.Minute)),
+			Subject:   "reset",
+		},
+	}
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, resetClaims)
+	return token.SignedString(js.jwtAccessSecretKey)
+}
+
 func (js *jwtService) ValidateToken(tokenString string, isRefresh bool) (*JwtCustomClaims, error) {
 	token, err := jwt.ParseWithClaims(tokenString, &JwtCustomClaims{}, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
@@ -112,6 +127,28 @@ func (js *jwtService) ValidateToken(tokenString string, isRefresh bool) (*JwtCus
 		return nil, err
 	}
 	if claims, ok := token.Claims.(*JwtCustomClaims); ok && token.Valid {
+		if claims.Subject == "reset" {
+			return nil, errors.New("invalid token: expected access token")
+		}
+		return claims, nil
+	}
+	return nil, errors.New("invalid token")
+}
+
+func (js *jwtService) ValidateResetToken(tokenString string) (*JwtCustomClaims, error) {
+	token, err := jwt.ParseWithClaims(tokenString, &JwtCustomClaims{}, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
+		}
+		return js.jwtAccessSecretKey, nil
+	})
+	if err != nil {
+		return nil, err
+	}
+	if claims, ok := token.Claims.(*JwtCustomClaims); ok && token.Valid {
+		if claims.Subject != "reset" {
+			return nil, errors.New("invalid token: expected reset token")
+		}
 		return claims, nil
 	}
 	return nil, errors.New("invalid token")

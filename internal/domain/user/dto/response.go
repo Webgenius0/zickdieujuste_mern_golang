@@ -6,9 +6,7 @@ import (
 	"github.com/google/uuid"
 )
 
-// ──────────────────────────────────────────────────────────────────────────────
-// Standard auth response (Login & Register)
-// ──────────────────────────────────────────────────────────────────────────────
+
 
 // UserDTO carries the minimal user fields returned inside an auth response.
 type UserDTO struct {
@@ -39,9 +37,14 @@ type StandardAuthResponse struct {
 	Data    AuthDataResponse `json:"data"`
 }
 
-// ──────────────────────────────────────────────────────────────────────────────
-// Legacy token-only response (Refresh / AdminLogin / SocialLogin)
-// ──────────────────────────────────────────────────────────────────────────────
+// StandardResponse is a generic production-ready envelope.
+type StandardResponse struct {
+	Success bool        `json:"success" example:"true"`
+	Message string      `json:"message" example:"Operation successful"`
+	Data    interface{} `json:"data,omitempty"`
+}
+
+
 
 // AuthResponse is kept for internal use by Refresh, AdminLogin, and SocialLogin
 // which do not yet require the full standard envelope.
@@ -50,9 +53,7 @@ type AuthResponse struct {
 	RefreshToken string `json:"refresh_token" example:"eyJhbGciOiJIUzI1NiIsIn..."`
 }
 
-// ──────────────────────────────────────────────────────────────────────────────
-// Profile & utility responses
-// ──────────────────────────────────────────────────────────────────────────────
+
 
 type ProfileResponse struct {
 	ID                 uuid.UUID  `json:"id"                  example:"a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"`
@@ -75,4 +76,8 @@ type AvatarResponse struct {
 
 type MessageResponse struct {
 	Message string `json:"message" example:"Operation successful"`
+}
+
+type VerifyOTPResponse struct {
+	ResetToken string `json:"reset_token" example:"eyJhbGciOiJIUzI1NiIsIn..."`
 }

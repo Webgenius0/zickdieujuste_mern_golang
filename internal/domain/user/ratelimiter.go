@@ -23,6 +23,9 @@ type RateLimiter struct {
 	loginBurst   int
 	forgotRate   rate.Limit
 	forgotBurst  int
+	resendMap    map[string]*rateLimitEntry
+	resendRate   rate.Limit
+	resendBurst  int
 }
 
 // newRateLimiter creates a RateLimiter and starts the background eviction goroutine.
@@ -37,6 +40,9 @@ func newRateLimiter() *RateLimiter {
 		loginBurst:  5,
 		forgotRate:  rate.Every(10 * time.Minute / 3), // 3 req/10min
 		forgotBurst: 3,
+		resendMap:   make(map[string]*rateLimitEntry),
+		resendRate:  rate.Every(1 * time.Minute),      // 1 req/min
+		resendBurst: 1,
 	}
 	go rl.evictLoop()
 	return rl
@@ -50,6 +56,11 @@ func (rl *RateLimiter) AllowLogin(email string) bool {
 // AllowForgotPassword returns true when the given email is within the forgot-password rate limit.
 func (rl *RateLimiter) AllowForgotPassword(email string) bool {
 	return rl.allow(rl.forgotMap, email, rl.forgotRate, rl.forgotBurst)
+}
+
+// AllowResendOTP returns true when the given email is within the resend rate limit (1 per min).
+func (rl *RateLimiter) AllowResendOTP(email string) bool {
+	return rl.allow(rl.resendMap, email, rl.resendRate, rl.resendBurst)
 }
 
 func (rl *RateLimiter) allow(m map[string]*rateLimitEntry, key string, r rate.Limit, burst int) bool {
@@ -87,6 +98,11 @@ func (rl *RateLimiter) evict() {
 	for k, v := range rl.forgotMap {
 		if v.lastSeen.Before(cutoff) {
 			delete(rl.forgotMap, k)
+		}
+	}
+	for k, v := range rl.resendMap {
+		if v.lastSeen.Before(cutoff) {
+			delete(rl.resendMap, k)
 		}
 	}
 }

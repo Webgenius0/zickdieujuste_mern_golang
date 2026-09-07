@@ -461,7 +461,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Auth"
+                    "1. Auth - Onboarding"
                 ],
                 "summary": "Admin Login",
                 "parameters": [
@@ -507,7 +507,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Auth"
+                    "2. Auth - Password Recovery"
                 ],
                 "summary": "Request password reset OTP",
                 "parameters": [
@@ -547,7 +547,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Auth"
+                    "1. Auth - Onboarding"
                 ],
                 "summary": "Login",
                 "parameters": [
@@ -598,7 +598,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Auth"
+                    "3. Auth - Session Management"
                 ],
                 "summary": "Logout",
                 "parameters": [
@@ -637,7 +637,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Auth"
+                    "3. Auth - Session Management"
                 ],
                 "summary": "Refresh access token",
                 "parameters": [
@@ -676,7 +676,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Auth"
+                    "1. Auth - Onboarding"
                 ],
                 "summary": "Register a new user",
                 "parameters": [
@@ -718,9 +718,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/auth/reset-password": {
+        "/api/v1/auth/resend-otp": {
             "post": {
-                "description": "Verifies the 5-digit OTP and updates the user password.",
+                "description": "Enforces a 1-minute cooldown, invalidates old OTPs, and sends a new 5-digit OTP to the email.",
                 "consumes": [
                     "application/json"
                 ],
@@ -728,12 +728,58 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Auth"
+                    "2. Auth - Password Recovery"
                 ],
-                "summary": "Reset password with OTP",
+                "summary": "Resend password reset OTP",
                 "parameters": [
                     {
-                        "description": "Email + OTP + new password",
+                        "description": "Email address",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.ResendOTPRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.MessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "429": {
+                        "description": "Too many requests",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/reset-password": {
+            "post": {
+                "description": "Verifies the temporary reset token and updates the user password, revoking all existing sessions.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "2. Auth - Password Recovery"
+                ],
+                "summary": "Reset password with reset token",
+                "parameters": [
+                    {
+                        "description": "Reset token + new password",
                         "name": "request",
                         "in": "body",
                         "required": true,
@@ -750,7 +796,7 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "Invalid or expired OTP",
+                        "description": "Invalid or expired reset token",
                         "schema": {
                             "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
                         }
@@ -774,7 +820,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Auth"
+                    "1. Auth - Onboarding"
                 ],
                 "summary": "Social Login",
                 "parameters": [
@@ -803,6 +849,58 @@ const docTemplate = `{
                     },
                     "401": {
                         "description": "Invalid token",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/verify-otp": {
+            "post": {
+                "description": "Verifies the 5-digit OTP and returns a temporary reset token.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "2. Auth - Password Recovery"
+                ],
+                "summary": "Verify OTP for password reset",
+                "parameters": [
+                    {
+                        "description": "Email + OTP",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.VerifyOTPRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/gotickets_internal_domain_user_dto.StandardResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.VerifyOTPResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid or expired OTP",
                         "schema": {
                             "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
                         }
@@ -2420,26 +2518,33 @@ const docTemplate = `{
                 }
             }
         },
-        "gotickets_internal_domain_user_dto.ResetPasswordRequest": {
+        "gotickets_internal_domain_user_dto.ResendOTPRequest": {
             "type": "object",
             "required": [
-                "email",
-                "new_password",
-                "otp"
+                "email"
             ],
             "properties": {
                 "email": {
                     "type": "string",
                     "example": "user@example.com"
-                },
+                }
+            }
+        },
+        "gotickets_internal_domain_user_dto.ResetPasswordRequest": {
+            "type": "object",
+            "required": [
+                "new_password",
+                "reset_token"
+            ],
+            "properties": {
                 "new_password": {
                     "type": "string",
                     "minLength": 8,
                     "example": "NewSecret123!"
                 },
-                "otp": {
+                "reset_token": {
                     "type": "string",
-                    "example": "12345"
+                    "example": "eyJhb..."
                 }
             }
         },
@@ -2482,6 +2587,20 @@ const docTemplate = `{
                 "message": {
                     "type": "string",
                     "example": "Login successful"
+                },
+                "success": {
+                    "type": "boolean",
+                    "example": true
+                }
+            }
+        },
+        "gotickets_internal_domain_user_dto.StandardResponse": {
+            "type": "object",
+            "properties": {
+                "data": {},
+                "message": {
+                    "type": "string",
+                    "example": "Operation successful"
                 },
                 "success": {
                     "type": "boolean",
@@ -2566,6 +2685,32 @@ const docTemplate = `{
                 "role": {
                     "type": "string",
                     "example": "user"
+                }
+            }
+        },
+        "gotickets_internal_domain_user_dto.VerifyOTPRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "otp"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "user@example.com"
+                },
+                "otp": {
+                    "type": "string",
+                    "example": "12345"
+                }
+            }
+        },
+        "gotickets_internal_domain_user_dto.VerifyOTPResponse": {
+            "type": "object",
+            "properties": {
+                "reset_token": {
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsIn..."
                 }
             }
         },

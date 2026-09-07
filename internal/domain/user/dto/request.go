@@ -32,9 +32,17 @@ type ForgotPasswordRequest struct {
 	Email string `json:"email" example:"user@example.com" validate:"required,email"`
 }
 
+type ResendOTPRequest struct {
+	Email string `json:"email" example:"user@example.com" validate:"required,email"`
+}
+
+type VerifyOTPRequest struct {
+	Email string `json:"email" example:"user@example.com" validate:"required,email"`
+	OTP   string `json:"otp" example:"12345"          validate:"required,len=5"`
+}
+
 type ResetPasswordRequest struct {
-	Email       string `json:"email" example:"user@example.com"        validate:"required,email"`
-	OTP         string `json:"otp" example:"12345"          validate:"required,len=5"`
+	ResetToken  string `json:"reset_token" example:"eyJhb..." validate:"required"`
 	NewPassword string `json:"new_password" example:"NewSecret123!" validate:"required,min=8"`
 }
 

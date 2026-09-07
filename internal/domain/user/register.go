@@ -49,6 +49,8 @@ func RegisterRoutes(e *echo.Echo, db *gorm.DB, cfg *config.Config, uploader uplo
 	authGroup.POST("/refresh", h.Refresh)
 	authGroup.POST("/logout", h.Logout, authMW)
 	authGroup.POST("/forgot-password", h.ForgotPassword)
+	authGroup.POST("/resend-otp", h.ResendOTP)
+	authGroup.POST("/verify-otp", h.VerifyOTP)
 	authGroup.POST("/reset-password", h.ResetPassword)
 
 	userGroup := e.Group("/api/v1/users", authMW)
