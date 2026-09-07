@@ -225,7 +225,7 @@ func (h *Handler) ForgotPassword(c *echo.Context) error {
 	if errors.Is(err, ErrRateLimited) {
 		return c.JSON(http.StatusTooManyRequests, httpresponse.NewError(http.StatusTooManyRequests, "Too many requests", "Please try again later"))
 	}
-	return c.JSON(http.StatusOK, dto.MessageResponse{Message: "If your email is registered, you will receive an OTP"})
+	return c.JSON(http.StatusOK, dto.MessageResponse{Message: "If your email is registered, you will receive an OTP valid for 10 minutes."})
 }
 
 // ResendOTP godoc
@@ -252,7 +252,7 @@ func (h *Handler) ResendOTP(c *echo.Context) error {
 	if errors.Is(err, ErrRateLimited) {
 		return c.JSON(http.StatusTooManyRequests, httpresponse.NewError(http.StatusTooManyRequests, "Too many requests", "Please wait 1 minute before resending"))
 	}
-	return c.JSON(http.StatusOK, dto.MessageResponse{Message: "If your email is registered, you will receive an OTP"})
+	return c.JSON(http.StatusOK, dto.MessageResponse{Message: "If your email is registered, you will receive an OTP valid for 10 minutes."})
 }
 
 // VerifyOTP godoc
