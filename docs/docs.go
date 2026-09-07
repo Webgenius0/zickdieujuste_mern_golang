@@ -451,6 +451,168 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/admin/proverbs": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Creates a new proverb. Requires ADMIN role.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Proverbs"
+                ],
+                "summary": "Create a proverb",
+                "parameters": [
+                    {
+                        "description": "Proverb data",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_proverb_dto.CreateProverbReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_proverb_dto.ProverbResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/admin/proverbs/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Updates an existing proverb. Requires ADMIN role.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Proverbs"
+                ],
+                "summary": "Update a proverb",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Proverb ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Proverb data",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_proverb_dto.UpdateProverbReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_proverb_dto.ProverbResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Deletes a proverb by ID and removes its assets from Cloudinary. Requires ADMIN role.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Proverbs"
+                ],
+                "summary": "Delete a proverb",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Proverb ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/admin/worships": {
             "post": {
                 "security": [
@@ -1325,6 +1487,87 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/gotickets_internal_domain_motivation_dto.MotivationDetailsResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/proverbs": {
+            "get": {
+                "description": "Returns a paginated list of proverbs, ordered by publish_date DESC.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Proverbs"
+                ],
+                "summary": "Get all proverbs",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Page number (default 1)",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Items per page (default 10, max 100)",
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_proverb_dto.PaginatedProverbResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/proverbs/{id}": {
+            "get": {
+                "description": "Returns a single proverb by its ID.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Proverbs"
+                ],
+                "summary": "Get proverb by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Proverb ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_proverb_dto.ProverbResponse"
                         }
                     },
                     "400": {
@@ -2329,6 +2572,156 @@ const docTemplate = `{
                     "maxLength": 255
                 },
                 "video_url": {
+                    "type": "string"
+                }
+            }
+        },
+        "gotickets_internal_domain_proverb_dto.CreateProverbReq": {
+            "type": "object",
+            "required": [
+                "audio_url",
+                "category",
+                "duration",
+                "explanation",
+                "main_text",
+                "publish_date",
+                "scripture_reference",
+                "thumbnail_url",
+                "title"
+            ],
+            "properties": {
+                "audio_url": {
+                    "type": "string"
+                },
+                "category": {
+                    "type": "string"
+                },
+                "duration": {
+                    "type": "string"
+                },
+                "explanation": {
+                    "type": "string"
+                },
+                "main_text": {
+                    "type": "string"
+                },
+                "publish_date": {
+                    "type": "string"
+                },
+                "scripture_reference": {
+                    "type": "string"
+                },
+                "thumbnail_url": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "gotickets_internal_domain_proverb_dto.PaginatedProverbResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/gotickets_internal_domain_proverb_dto.ProverbResponse"
+                    }
+                },
+                "limit": {
+                    "type": "integer"
+                },
+                "page": {
+                    "type": "integer"
+                },
+                "total_items": {
+                    "type": "integer"
+                },
+                "total_pages": {
+                    "type": "integer"
+                }
+            }
+        },
+        "gotickets_internal_domain_proverb_dto.ProverbResponse": {
+            "type": "object",
+            "properties": {
+                "audio_url": {
+                    "type": "string"
+                },
+                "category": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "duration": {
+                    "type": "string"
+                },
+                "explanation": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "main_text": {
+                    "type": "string"
+                },
+                "publish_date": {
+                    "type": "string"
+                },
+                "scripture_reference": {
+                    "type": "string"
+                },
+                "thumbnail_url": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "gotickets_internal_domain_proverb_dto.UpdateProverbReq": {
+            "type": "object",
+            "required": [
+                "audio_url",
+                "category",
+                "duration",
+                "explanation",
+                "main_text",
+                "publish_date",
+                "scripture_reference",
+                "thumbnail_url",
+                "title"
+            ],
+            "properties": {
+                "audio_url": {
+                    "type": "string"
+                },
+                "category": {
+                    "type": "string"
+                },
+                "duration": {
+                    "type": "string"
+                },
+                "explanation": {
+                    "type": "string"
+                },
+                "main_text": {
+                    "type": "string"
+                },
+                "publish_date": {
+                    "type": "string"
+                },
+                "scripture_reference": {
+                    "type": "string"
+                },
+                "thumbnail_url": {
+                    "type": "string"
+                },
+                "title": {
                     "type": "string"
                 }
             }

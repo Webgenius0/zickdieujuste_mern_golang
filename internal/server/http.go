@@ -14,6 +14,7 @@ import (
 	"gotickets/internal/domain/subscription"
 	"gotickets/internal/domain/user"
 	"gotickets/internal/domain/worship"
+	"gotickets/internal/domain/proverb"
 	"gotickets/internal/upload"
 
 	"github.com/go-playground/validator/v10"
@@ -101,6 +102,7 @@ func Start(db *gorm.DB, cfg *config.Config, uploader upload.Uploader) {
 	motivation.RegisterRoutes(e, db, jwtSvc)
 	library.RegisterRoutes(e, db, jwtSvc)
 	worship.RegisterRoutes(e, db, jwtSvc, uploader)
+	proverb.RegisterRoutes(e, db, jwtSvc, uploader)
 
 	addr := fmt.Sprintf(":%s", cfg.Port)
 	fmt.Printf("\033[1;32m🚀 Server running on http://localhost:%s\033[0m\n", cfg.Port)
@@ -122,6 +124,7 @@ func migrate(db *gorm.DB) {
 		&library.LibraryItem{},
 		&library.LibraryCategory{},
 		&worship.Worship{},
+		&proverb.Proverb{},
 	); err != nil {
 		panic("AutoMigrate failed: " + err.Error())
 	}

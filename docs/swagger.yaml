@@ -197,6 +197,110 @@ definitions:
     - title
     - video_url
     type: object
+  gotickets_internal_domain_proverb_dto.CreateProverbReq:
+    properties:
+      audio_url:
+        type: string
+      category:
+        type: string
+      duration:
+        type: string
+      explanation:
+        type: string
+      main_text:
+        type: string
+      publish_date:
+        type: string
+      scripture_reference:
+        type: string
+      thumbnail_url:
+        type: string
+      title:
+        type: string
+    required:
+    - audio_url
+    - category
+    - duration
+    - explanation
+    - main_text
+    - publish_date
+    - scripture_reference
+    - thumbnail_url
+    - title
+    type: object
+  gotickets_internal_domain_proverb_dto.PaginatedProverbResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/gotickets_internal_domain_proverb_dto.ProverbResponse'
+        type: array
+      limit:
+        type: integer
+      page:
+        type: integer
+      total_items:
+        type: integer
+      total_pages:
+        type: integer
+    type: object
+  gotickets_internal_domain_proverb_dto.ProverbResponse:
+    properties:
+      audio_url:
+        type: string
+      category:
+        type: string
+      created_at:
+        type: string
+      duration:
+        type: string
+      explanation:
+        type: string
+      id:
+        type: string
+      main_text:
+        type: string
+      publish_date:
+        type: string
+      scripture_reference:
+        type: string
+      thumbnail_url:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  gotickets_internal_domain_proverb_dto.UpdateProverbReq:
+    properties:
+      audio_url:
+        type: string
+      category:
+        type: string
+      duration:
+        type: string
+      explanation:
+        type: string
+      main_text:
+        type: string
+      publish_date:
+        type: string
+      scripture_reference:
+        type: string
+      thumbnail_url:
+        type: string
+      title:
+        type: string
+    required:
+    - audio_url
+    - category
+    - duration
+    - explanation
+    - main_text
+    - publish_date
+    - scripture_reference
+    - thumbnail_url
+    - title
+    type: object
   gotickets_internal_domain_schedule_dto.ScheduleResponse:
     properties:
       id:
@@ -1120,6 +1224,110 @@ paths:
       summary: Update a motivation
       tags:
       - Motivation
+  /api/v1/admin/proverbs:
+    post:
+      consumes:
+      - application/json
+      description: Creates a new proverb. Requires ADMIN role.
+      parameters:
+      - description: Proverb data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/gotickets_internal_domain_proverb_dto.CreateProverbReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_proverb_dto.ProverbResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Create a proverb
+      tags:
+      - Proverbs
+  /api/v1/admin/proverbs/{id}:
+    delete:
+      description: Deletes a proverb by ID and removes its assets from Cloudinary.
+        Requires ADMIN role.
+      parameters:
+      - description: Proverb ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Delete a proverb
+      tags:
+      - Proverbs
+    put:
+      consumes:
+      - application/json
+      description: Updates an existing proverb. Requires ADMIN role.
+      parameters:
+      - description: Proverb ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Proverb data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/gotickets_internal_domain_proverb_dto.UpdateProverbReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_proverb_dto.ProverbResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Update a proverb
+      tags:
+      - Proverbs
   /api/v1/admin/worships:
     post:
       consumes:
@@ -1709,6 +1917,59 @@ paths:
       summary: Get motivation details
       tags:
       - Motivation
+  /api/v1/proverbs:
+    get:
+      description: Returns a paginated list of proverbs, ordered by publish_date DESC.
+      parameters:
+      - description: Page number (default 1)
+        in: query
+        name: page
+        type: integer
+      - description: Items per page (default 10, max 100)
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_proverb_dto.PaginatedProverbResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      summary: Get all proverbs
+      tags:
+      - Proverbs
+  /api/v1/proverbs/{id}:
+    get:
+      description: Returns a single proverb by its ID.
+      parameters:
+      - description: Proverb ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_proverb_dto.ProverbResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      summary: Get proverb by ID
+      tags:
+      - Proverbs
   /api/v1/schedules/me:
     get:
       description: Returns the authenticated user's prayer schedule. Creates a default
