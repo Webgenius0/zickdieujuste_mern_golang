@@ -664,6 +664,102 @@ definitions:
         example: eyJhbGciOiJIUzI1NiIsIn...
         type: string
     type: object
+  gotickets_internal_domain_worship_dto.CreateWorshipReq:
+    properties:
+      artist:
+        maxLength: 255
+        type: string
+      audio_url:
+        type: string
+      duration:
+        type: string
+      prayer_text:
+        type: string
+      thumbnail_url:
+        type: string
+      time_of_day:
+        enum:
+        - Day
+        - Night
+        type: string
+      title:
+        maxLength: 255
+        type: string
+    required:
+    - artist
+    - audio_url
+    - duration
+    - thumbnail_url
+    - time_of_day
+    - title
+    type: object
+  gotickets_internal_domain_worship_dto.PaginatedWorshipResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/gotickets_internal_domain_worship_dto.WorshipResponse'
+        type: array
+      limit:
+        type: integer
+      page:
+        type: integer
+      total_items:
+        type: integer
+      total_pages:
+        type: integer
+    type: object
+  gotickets_internal_domain_worship_dto.UpdateWorshipReq:
+    properties:
+      artist:
+        maxLength: 255
+        type: string
+      audio_url:
+        type: string
+      duration:
+        type: string
+      prayer_text:
+        type: string
+      thumbnail_url:
+        type: string
+      time_of_day:
+        enum:
+        - Day
+        - Night
+        type: string
+      title:
+        maxLength: 255
+        type: string
+    required:
+    - artist
+    - audio_url
+    - duration
+    - thumbnail_url
+    - time_of_day
+    - title
+    type: object
+  gotickets_internal_domain_worship_dto.WorshipResponse:
+    properties:
+      artist:
+        type: string
+      audio_url:
+        type: string
+      created_at:
+        type: string
+      duration:
+        type: string
+      id:
+        type: string
+      prayer_text:
+        type: string
+      thumbnail_url:
+        type: string
+      time_of_day:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+    type: object
   gotickets_internal_httpresponse.Error:
     properties:
       code:
@@ -1024,6 +1120,110 @@ paths:
       summary: Update a motivation
       tags:
       - Motivation
+  /api/v1/admin/worships:
+    post:
+      consumes:
+      - application/json
+      description: Creates a new worship track. Requires ADMIN role.
+      parameters:
+      - description: Worship data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/gotickets_internal_domain_worship_dto.CreateWorshipReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_worship_dto.WorshipResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Create a worship track
+      tags:
+      - Worship
+  /api/v1/admin/worships/{id}:
+    delete:
+      description: Deletes a worship track by ID and removes its assets from Cloudinary.
+        Requires ADMIN role.
+      parameters:
+      - description: Worship ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Delete a worship track
+      tags:
+      - Worship
+    put:
+      consumes:
+      - application/json
+      description: Updates an existing worship track. Requires ADMIN role.
+      parameters:
+      - description: Worship ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Worship data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/gotickets_internal_domain_worship_dto.UpdateWorshipReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_worship_dto.WorshipResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Update a worship track
+      tags:
+      - Worship
   /api/v1/auth/admin/login:
     post:
       consumes:
@@ -1900,6 +2100,64 @@ paths:
       summary: Change password
       tags:
       - Users
+  /api/v1/worships:
+    get:
+      description: Returns a paginated list of worship tracks. Optionally filter by
+        time_of_day.
+      parameters:
+      - description: Filter by Day or Night
+        in: query
+        name: time_of_day
+        type: string
+      - description: Page number (default 1)
+        in: query
+        name: page
+        type: integer
+      - description: Items per page (default 10, max 100)
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_worship_dto.PaginatedWorshipResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      summary: Get all worship tracks
+      tags:
+      - Worship
+  /api/v1/worships/{id}:
+    get:
+      description: Returns a single worship track by its ID.
+      parameters:
+      - description: Worship ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_worship_dto.WorshipResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      summary: Get worship track by ID
+      tags:
+      - Worship
   /health:
     get:
       description: Returns API metadata and database connectivity status.

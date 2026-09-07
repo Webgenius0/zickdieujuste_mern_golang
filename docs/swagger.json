@@ -444,6 +444,168 @@
                 }
             }
         },
+        "/api/v1/admin/worships": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Creates a new worship track. Requires ADMIN role.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Worship"
+                ],
+                "summary": "Create a worship track",
+                "parameters": [
+                    {
+                        "description": "Worship data",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_worship_dto.CreateWorshipReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_worship_dto.WorshipResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/admin/worships/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Updates an existing worship track. Requires ADMIN role.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Worship"
+                ],
+                "summary": "Update a worship track",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Worship ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Worship data",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_worship_dto.UpdateWorshipReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_worship_dto.WorshipResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Deletes a worship track by ID and removes its assets from Cloudinary. Requires ADMIN role.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Worship"
+                ],
+                "summary": "Delete a worship track",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Worship ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/auth/admin/login": {
             "post": {
                 "description": "Authenticates an admin using hardcoded credentials. Returns access + refresh JWT pair.",
@@ -1763,6 +1925,93 @@
                 }
             }
         },
+        "/api/v1/worships": {
+            "get": {
+                "description": "Returns a paginated list of worship tracks. Optionally filter by time_of_day.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Worship"
+                ],
+                "summary": "Get all worship tracks",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Filter by Day or Night",
+                        "name": "time_of_day",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Page number (default 1)",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Items per page (default 10, max 100)",
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_worship_dto.PaginatedWorshipResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/worships/{id}": {
+            "get": {
+                "description": "Returns a single worship track by its ID.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Worship"
+                ],
+                "summary": "Get worship track by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Worship ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_worship_dto.WorshipResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/health": {
             "get": {
                 "description": "Returns API metadata and database connectivity status.",
@@ -2704,6 +2953,144 @@
                 "reset_token": {
                     "type": "string",
                     "example": "eyJhbGciOiJIUzI1NiIsIn..."
+                }
+            }
+        },
+        "gotickets_internal_domain_worship_dto.CreateWorshipReq": {
+            "type": "object",
+            "required": [
+                "artist",
+                "audio_url",
+                "duration",
+                "thumbnail_url",
+                "time_of_day",
+                "title"
+            ],
+            "properties": {
+                "artist": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "audio_url": {
+                    "type": "string"
+                },
+                "duration": {
+                    "type": "string"
+                },
+                "prayer_text": {
+                    "type": "string"
+                },
+                "thumbnail_url": {
+                    "type": "string"
+                },
+                "time_of_day": {
+                    "type": "string",
+                    "enum": [
+                        "Day",
+                        "Night"
+                    ]
+                },
+                "title": {
+                    "type": "string",
+                    "maxLength": 255
+                }
+            }
+        },
+        "gotickets_internal_domain_worship_dto.PaginatedWorshipResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/gotickets_internal_domain_worship_dto.WorshipResponse"
+                    }
+                },
+                "limit": {
+                    "type": "integer"
+                },
+                "page": {
+                    "type": "integer"
+                },
+                "total_items": {
+                    "type": "integer"
+                },
+                "total_pages": {
+                    "type": "integer"
+                }
+            }
+        },
+        "gotickets_internal_domain_worship_dto.UpdateWorshipReq": {
+            "type": "object",
+            "required": [
+                "artist",
+                "audio_url",
+                "duration",
+                "thumbnail_url",
+                "time_of_day",
+                "title"
+            ],
+            "properties": {
+                "artist": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "audio_url": {
+                    "type": "string"
+                },
+                "duration": {
+                    "type": "string"
+                },
+                "prayer_text": {
+                    "type": "string"
+                },
+                "thumbnail_url": {
+                    "type": "string"
+                },
+                "time_of_day": {
+                    "type": "string",
+                    "enum": [
+                        "Day",
+                        "Night"
+                    ]
+                },
+                "title": {
+                    "type": "string",
+                    "maxLength": 255
+                }
+            }
+        },
+        "gotickets_internal_domain_worship_dto.WorshipResponse": {
+            "type": "object",
+            "properties": {
+                "artist": {
+                    "type": "string"
+                },
+                "audio_url": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "duration": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "prayer_text": {
+                    "type": "string"
+                },
+                "thumbnail_url": {
+                    "type": "string"
+                },
+                "time_of_day": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
                 }
             }
         },
