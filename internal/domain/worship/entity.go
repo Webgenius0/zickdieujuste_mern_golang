@@ -9,7 +9,7 @@ import (
 
 // Worship represents a worship audio track in the system.
 type Worship struct {
-	ID           uuid.UUID      `gorm:"type:uuid;primaryKey;default:uuid_generate_v4()"`
+	ID           uuid.UUID      `gorm:"type:uuid;primaryKey"`
 	Title        string         `gorm:"type:varchar(255);not null"`
 	Artist       string         `gorm:"type:varchar(255);not null"`
 	TimeOfDay    string         `gorm:"type:varchar(50);not null"` // e.g., "Day", "Night"
@@ -20,4 +20,10 @@ type Worship struct {
 	CreatedAt    time.Time      `gorm:"autoCreateTime"`
 	UpdatedAt    time.Time      `gorm:"autoUpdateTime"`
 	DeletedAt    gorm.DeletedAt `gorm:"index"`
+}
+
+// BeforeCreate will set a UUID rather than numeric ID.
+func (w *Worship) BeforeCreate(tx *gorm.DB) (err error) {
+	w.ID = uuid.New()
+	return
 }
