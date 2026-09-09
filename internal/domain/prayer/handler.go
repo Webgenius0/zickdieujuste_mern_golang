@@ -55,6 +55,7 @@ func (h *Handler) CreateCategory(c *echo.Context) error {
 // @Success      200  {array}   dto.CategoryResponse
 // @Failure      500  {object}  httpresponse.Error
 // @Router       /api/v1/admin/categories [get]
+// @Router       /api/v1/categories [get]
 func (h *Handler) GetAllCategories(c *echo.Context) error {
 	resp, err := h.svc.GetAllCategories()
 	if err != nil {
@@ -74,6 +75,7 @@ func (h *Handler) GetAllCategories(c *echo.Context) error {
 // @Failure      404  {object}  httpresponse.Error
 // @Failure      500  {object}  httpresponse.Error
 // @Router       /api/v1/admin/categories/{id} [get]
+// @Router       /api/v1/categories/{id} [get]
 func (h *Handler) GetCategoryByID(c *echo.Context) error {
 	id, err := uuid.Parse(c.Param("id"))
 	if err != nil {
@@ -186,6 +188,7 @@ func (h *Handler) CreateSubCategory(c *echo.Context) error {
 // @Failure      400         {object}  httpresponse.Error
 // @Failure      500         {object}  httpresponse.Error
 // @Router       /api/v1/admin/subcategories [get]
+// @Router       /api/v1/subcategories [get]
 func (h *Handler) GetSubCategoriesByCategoryID(c *echo.Context) error {
 	catID, err := uuid.Parse(c.QueryParam("categoryId"))
 	if err != nil {
@@ -209,6 +212,7 @@ func (h *Handler) GetSubCategoriesByCategoryID(c *echo.Context) error {
 // @Failure      404  {object}  httpresponse.Error
 // @Failure      500  {object}  httpresponse.Error
 // @Router       /api/v1/admin/subcategories/{id} [get]
+// @Router       /api/v1/subcategories/{id} [get]
 func (h *Handler) GetSubCategoryByID(c *echo.Context) error {
 	id, err := uuid.Parse(c.Param("id"))
 	if err != nil {
@@ -325,6 +329,7 @@ func (h *Handler) CreatePrayer(c *echo.Context) error {
 // @Success      200             {object}  dto.PaginatedPrayerResponse
 // @Failure      500             {object}  httpresponse.Error
 // @Router       /api/v1/admin/prayers [get]
+// @Router       /api/v1/prayers [get]
 func (h *Handler) GetAllPrayers(c *echo.Context) error {
 	page, _ := strconv.Atoi(c.QueryParam("page"))
 	limit, _ := strconv.Atoi(c.QueryParam("limit"))
@@ -361,6 +366,7 @@ func (h *Handler) GetAllPrayers(c *echo.Context) error {
 // @Failure      404  {object}  httpresponse.Error
 // @Failure      500  {object}  httpresponse.Error
 // @Router       /api/v1/admin/prayers/{id} [get]
+// @Router       /api/v1/prayers/{id} [get]
 func (h *Handler) GetPrayerByID(c *echo.Context) error {
 	id, err := uuid.Parse(c.Param("id"))
 	if err != nil {

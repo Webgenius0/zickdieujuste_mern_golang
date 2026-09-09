@@ -13,6 +13,20 @@ func RegisterRoutes(e *echo.Echo, db *gorm.DB, jwtService auth.JWTService, uploa
 	svc := NewService(repo, uploader)
 	handler := NewHandler(svc)
 
+	publicGroup := e.Group("/api/v1")
+
+	// Public Categories
+	publicGroup.GET("/categories", handler.GetAllCategories)
+	publicGroup.GET("/categories/:id", handler.GetCategoryByID)
+
+	// Public SubCategories
+	publicGroup.GET("/subcategories", handler.GetSubCategoriesByCategoryID)
+	publicGroup.GET("/subcategories/:id", handler.GetSubCategoryByID)
+
+	// Public Prayers
+	publicGroup.GET("/prayers", handler.GetAllPrayers)
+	publicGroup.GET("/prayers/:id", handler.GetPrayerByID)
+
 	adminGroup := e.Group("/api/v1/admin")
 	adminGroup.Use(middlewares.AuthMiddleware(jwtService))
 	adminGroup.Use(middlewares.RequireAdmin)
