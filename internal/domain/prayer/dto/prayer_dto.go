@@ -56,3 +56,16 @@ type PaginatedPrayerResponse struct {
 	Page       int              `json:"page"`
 	Limit      int              `json:"limit"`
 }
+
+type MobileCategoryResponse struct {
+	ID             uuid.UUID             `json:"id"`
+	Name           string                `json:"name"`
+	TargetAudience string                `json:"targetAudience"`
+	SubCategories  []SubCategoryResponse `json:"subCategories"`
+}
+
+type MobileMetadataResponse struct {
+	TargetAudience string                   `json:"targetAudience"`
+	Categories     []MobileCategoryResponse `json:"categories"`
+	AgeGroups      []string                 `json:"ageGroups"`
+}

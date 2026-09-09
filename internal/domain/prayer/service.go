@@ -31,6 +31,9 @@ type Service interface {
 	GetPrayerByID(id uuid.UUID) (dto.PrayerResponse, error)
 	UpdatePrayer(ctx context.Context, id uuid.UUID, req dto.UpdatePrayerRequest) (dto.PrayerResponse, error)
 	DeletePrayer(ctx context.Context, id uuid.UUID) error
+
+	// Mobile
+	GetMobileMetadata(targetAudience string) (dto.MobileMetadataResponse, error)
 }
 
 type service struct {
@@ -348,4 +351,46 @@ func (s *service) DeletePrayer(ctx context.Context, id uuid.UUID) error {
 	}
 
 	return s.repo.DeletePrayer(id)
+}
+
+// Mobile
+func (s *service) GetMobileMetadata(targetAudience string) (dto.MobileMetadataResponse, error) {
+	var cats []Category
+	if err := s.repo.(*repository).db.Where("target_audience = ?", targetAudience).Order("name ASC").Find(&cats).Error; err != nil {
+		return dto.MobileMetadataResponse{}, err
+	}
+
+	var mobileCats []dto.MobileCategoryResponse
+	for _, c := range cats {
+		var subs []SubCategory
+		if err := s.repo.(*repository).db.Where("category_id = ?", c.ID).Order("name ASC").Find(&subs).Error; err != nil {
+			return dto.MobileMetadataResponse{}, err
+		}
+		var subResponses []dto.SubCategoryResponse
+		for _, sub := range subs {
+			subResponses = append(subResponses, mapSubCategoryToResponse(&sub))
+		}
+		if subResponses == nil {
+			subResponses = make([]dto.SubCategoryResponse, 0)
+		}
+
+		mobileCats = append(mobileCats, dto.MobileCategoryResponse{
+			ID:             c.ID,
+			Name:           c.Name,
+			TargetAudience: string(c.TargetAudience),
+			SubCategories:  subResponses,
+		})
+	}
+	if mobileCats == nil {
+		mobileCats = make([]dto.MobileCategoryResponse, 0)
+	}
+
+	// Predefine age groups for the mobile UI
+	ageGroups := []string{"Age 0-5", "Age 6-13", "Age 13-15", "Age 15-18"}
+
+	return dto.MobileMetadataResponse{
+		TargetAudience: targetAudience,
+		Categories:     mobileCats,
+		AgeGroups:      ageGroups,
+	}, nil
 }

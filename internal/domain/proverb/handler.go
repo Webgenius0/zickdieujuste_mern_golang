@@ -22,7 +22,7 @@ func NewHandler(svc Service) *Handler {
 // GetAll godoc
 // @Summary      Get all proverbs
 // @Description  Returns a paginated list of proverbs, ordered by publish_date DESC.
-// @Tags         Proverbs
+// @Tags         Proverb
 // @Produce      json
 // @Param        page         query     int     false  "Page number (default 1)"
 // @Param        limit        query     int     false  "Items per page (default 10, max 100)"
@@ -43,7 +43,7 @@ func (h *Handler) GetAll(c *echo.Context) error {
 // GetByID godoc
 // @Summary      Get proverb by ID
 // @Description  Returns a single proverb by its ID.
-// @Tags         Proverbs
+// @Tags         Proverb
 // @Produce      json
 // @Param        id   path      string  true  "Proverb ID"
 // @Success      200  {object}  dto.ProverbResponse
@@ -69,7 +69,7 @@ func (h *Handler) GetByID(c *echo.Context) error {
 // Create godoc
 // @Summary      Create a proverb
 // @Description  Creates a new proverb. Requires ADMIN role.
-// @Tags         Proverbs
+// @Tags         Proverb
 // @Accept       json
 // @Produce      json
 // @Security     BearerAuth
@@ -97,7 +97,7 @@ func (h *Handler) Create(c *echo.Context) error {
 // Update godoc
 // @Summary      Update a proverb
 // @Description  Updates an existing proverb. Requires ADMIN role.
-// @Tags         Proverbs
+// @Tags         Proverb
 // @Accept       json
 // @Produce      json
 // @Security     BearerAuth
@@ -135,7 +135,7 @@ func (h *Handler) Update(c *echo.Context) error {
 // Delete godoc
 // @Summary      Delete a proverb
 // @Description  Deletes a proverb by ID and removes its assets from Cloudinary. Requires ADMIN role.
-// @Tags         Proverbs
+// @Tags         Proverb
 // @Produce      json
 // @Security     BearerAuth
 // @Param        id   path      string  true  "Proverb ID"

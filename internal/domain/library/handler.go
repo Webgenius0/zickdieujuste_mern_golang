@@ -165,7 +165,7 @@ func (h *Handler) Delete(c *echo.Context) error {
 // FindAllCategories godoc
 // @Summary      Get all library categories
 // @Description  Retrieves all library categories.
-// @Tags         Library Categories
+// @Tags         Library
 // @Produce      json
 // @Success      200  {array}   dto.CategoryResponse
 // @Router       /api/v1/library-categories [get]
@@ -180,7 +180,7 @@ func (h *Handler) FindAllCategories(c *echo.Context) error {
 // CreateCategory godoc
 // @Summary      Create a library category
 // @Description  Admin endpoint to create a new category.
-// @Tags         Library Categories
+// @Tags         Library
 // @Accept       json
 // @Produce      json
 // @Security     BearerAuth
@@ -207,7 +207,7 @@ func (h *Handler) CreateCategory(c *echo.Context) error {
 // UpdateCategory godoc
 // @Summary      Update a library category
 // @Description  Admin endpoint to update a category.
-// @Tags         Library Categories
+// @Tags         Library
 // @Accept       json
 // @Produce      json
 // @Security     BearerAuth
@@ -243,7 +243,7 @@ func (h *Handler) UpdateCategory(c *echo.Context) error {
 // DeleteCategory godoc
 // @Summary      Delete a library category
 // @Description  Admin endpoint to delete a category.
-// @Tags         Library Categories
+// @Tags         Library
 // @Produce      json
 // @Security     BearerAuth
 // @Param        id   path      string  true  "Category ID"

@@ -50,7 +50,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Prayer Categories"
+                    "Prayer"
                 ],
                 "summary": "Get all categories",
                 "responses": {
@@ -85,7 +85,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Prayer Categories"
+                    "Prayer"
                 ],
                 "summary": "Create a category",
                 "parameters": [
@@ -128,7 +128,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Prayer Categories"
+                    "Prayer"
                 ],
                 "summary": "Get category by ID",
                 "parameters": [
@@ -181,7 +181,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Prayer Categories"
+                    "Prayer"
                 ],
                 "summary": "Update a category",
                 "parameters": [
@@ -240,7 +240,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Prayer Categories"
+                    "Prayer"
                 ],
                 "summary": "Delete a category",
                 "parameters": [
@@ -331,7 +331,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Library Categories"
+                    "Library"
                 ],
                 "summary": "Create a library category",
                 "parameters": [
@@ -376,7 +376,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Library Categories"
+                    "Library"
                 ],
                 "summary": "Update a library category",
                 "parameters": [
@@ -423,7 +423,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Library Categories"
+                    "Library"
                 ],
                 "summary": "Delete a library category",
                 "parameters": [
@@ -686,7 +686,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Prayers"
+                    "Prayer"
                 ],
                 "summary": "Get all prayers",
                 "parameters": [
@@ -756,7 +756,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Prayers"
+                    "Prayer"
                 ],
                 "summary": "Create a prayer",
                 "parameters": [
@@ -799,7 +799,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Prayers"
+                    "Prayer"
                 ],
                 "summary": "Get prayer by ID",
                 "parameters": [
@@ -852,7 +852,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Prayers"
+                    "Prayer"
                 ],
                 "summary": "Update a prayer",
                 "parameters": [
@@ -911,7 +911,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Prayers"
+                    "Prayer"
                 ],
                 "summary": "Delete a prayer",
                 "parameters": [
@@ -963,7 +963,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Proverbs"
+                    "Proverb"
                 ],
                 "summary": "Create a proverb",
                 "parameters": [
@@ -1014,7 +1014,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Proverbs"
+                    "Proverb"
                 ],
                 "summary": "Update a proverb",
                 "parameters": [
@@ -1073,7 +1073,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Proverbs"
+                    "Proverb"
                 ],
                 "summary": "Delete a proverb",
                 "parameters": [
@@ -1117,7 +1117,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Prayer SubCategories"
+                    "Prayer"
                 ],
                 "summary": "Get subcategories by category ID",
                 "parameters": [
@@ -1167,7 +1167,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Prayer SubCategories"
+                    "Prayer"
                 ],
                 "summary": "Create a subcategory",
                 "parameters": [
@@ -1210,7 +1210,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Prayer SubCategories"
+                    "Prayer"
                 ],
                 "summary": "Get subcategory by ID",
                 "parameters": [
@@ -1263,7 +1263,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Prayer SubCategories"
+                    "Prayer"
                 ],
                 "summary": "Update a subcategory",
                 "parameters": [
@@ -1322,7 +1322,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Prayer SubCategories"
+                    "Prayer"
                 ],
                 "summary": "Delete a subcategory",
                 "parameters": [
@@ -1525,7 +1525,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "1. Auth - Onboarding"
+                    "Auth"
                 ],
                 "summary": "Admin Login",
                 "parameters": [
@@ -1571,7 +1571,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "2. Auth - Password Recovery"
+                    "Auth"
                 ],
                 "summary": "Request password reset OTP",
                 "parameters": [
@@ -1611,7 +1611,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "1. Auth - Onboarding"
+                    "Auth"
                 ],
                 "summary": "Login",
                 "parameters": [
@@ -1662,7 +1662,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "3. Auth - Session Management"
+                    "Auth"
                 ],
                 "summary": "Logout",
                 "parameters": [
@@ -1701,7 +1701,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "3. Auth - Session Management"
+                    "Auth"
                 ],
                 "summary": "Refresh access token",
                 "parameters": [
@@ -1740,7 +1740,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "1. Auth - Onboarding"
+                    "Auth"
                 ],
                 "summary": "Register a new user",
                 "parameters": [
@@ -1792,7 +1792,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "2. Auth - Password Recovery"
+                    "Auth"
                 ],
                 "summary": "Resend password reset OTP",
                 "parameters": [
@@ -1838,7 +1838,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "2. Auth - Password Recovery"
+                    "Auth"
                 ],
                 "summary": "Reset password with reset token",
                 "parameters": [
@@ -1884,7 +1884,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "1. Auth - Onboarding"
+                    "Auth"
                 ],
                 "summary": "Social Login",
                 "parameters": [
@@ -1930,7 +1930,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "2. Auth - Password Recovery"
+                    "Auth"
                 ],
                 "summary": "Verify OTP for password reset",
                 "parameters": [
@@ -1979,7 +1979,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Prayer Categories"
+                    "Prayer"
                 ],
                 "summary": "Get all categories",
                 "responses": {
@@ -2008,7 +2008,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Prayer Categories"
+                    "Prayer"
                 ],
                 "summary": "Get category by ID",
                 "parameters": [
@@ -2063,7 +2063,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Devices"
+                    "User"
                 ],
                 "summary": "Register device token",
                 "parameters": [
@@ -2167,7 +2167,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Library Categories"
+                    "Library"
                 ],
                 "summary": "Get all library categories",
                 "responses": {
@@ -2327,7 +2327,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Prayers"
+                    "Prayer"
                 ],
                 "summary": "Get all prayers",
                 "parameters": [
@@ -2384,6 +2384,47 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/prayers/mobile/metadata": {
+            "get": {
+                "description": "Returns categories, subcategories, and age groups grouped by target audience for mobile screens.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Prayers"
+                ],
+                "summary": "Get mobile metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Target audience (e.g., Kids, Teens, General)",
+                        "name": "targetAudience",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.MobileMetadataResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/prayers/{id}": {
             "get": {
                 "description": "Returns a single prayer by its ID.",
@@ -2391,7 +2432,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Prayers"
+                    "Prayer"
                 ],
                 "summary": "Get prayer by ID",
                 "parameters": [
@@ -2438,7 +2479,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Proverbs"
+                    "Proverb"
                 ],
                 "summary": "Get all proverbs",
                 "parameters": [
@@ -2478,7 +2519,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Proverbs"
+                    "Proverb"
                 ],
                 "summary": "Get proverb by ID",
                 "parameters": [
@@ -2611,7 +2652,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Prayer SubCategories"
+                    "Prayer"
                 ],
                 "summary": "Get subcategories by category ID",
                 "parameters": [
@@ -2655,7 +2696,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Prayer SubCategories"
+                    "Prayer"
                 ],
                 "summary": "Get subcategory by ID",
                 "parameters": [
@@ -2707,7 +2748,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Subscriptions"
+                    "Subscription"
                 ],
                 "summary": "List subscription plans",
                 "responses": {
@@ -2750,7 +2791,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Subscriptions"
+                    "Subscription"
                 ],
                 "summary": "Verify purchase receipt",
                 "parameters": [
@@ -2802,7 +2843,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Subscriptions"
+                    "Subscription"
                 ],
                 "summary": "Handle store webhook",
                 "parameters": [
@@ -2966,7 +3007,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Users"
+                    "User"
                 ],
                 "summary": "Get current user profile",
                 "responses": {
@@ -3004,7 +3045,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Users"
+                    "User"
                 ],
                 "summary": "Update profile",
                 "parameters": [
@@ -3056,7 +3097,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Users"
+                    "User"
                 ],
                 "summary": "Delete account",
                 "responses": {
@@ -3096,7 +3137,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Users"
+                    "User"
                 ],
                 "summary": "Upload avatar",
                 "parameters": [
@@ -3151,7 +3192,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Users"
+                    "User"
                 ],
                 "summary": "Change password",
                 "parameters": [
@@ -3677,6 +3718,46 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "gotickets_internal_domain_prayer_dto.MobileCategoryResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "subCategories": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.SubCategoryResponse"
+                    }
+                },
+                "targetAudience": {
+                    "type": "string"
+                }
+            }
+        },
+        "gotickets_internal_domain_prayer_dto.MobileMetadataResponse": {
+            "type": "object",
+            "properties": {
+                "ageGroups": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "categories": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.MobileCategoryResponse"
+                    }
+                },
+                "targetAudience": {
                     "type": "string"
                 }
             }

@@ -255,6 +255,32 @@ definitions:
     - categoryId
     - name
     type: object
+  gotickets_internal_domain_prayer_dto.MobileCategoryResponse:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      subCategories:
+        items:
+          $ref: '#/definitions/gotickets_internal_domain_prayer_dto.SubCategoryResponse'
+        type: array
+      targetAudience:
+        type: string
+    type: object
+  gotickets_internal_domain_prayer_dto.MobileMetadataResponse:
+    properties:
+      ageGroups:
+        items:
+          type: string
+        type: array
+      categories:
+        items:
+          $ref: '#/definitions/gotickets_internal_domain_prayer_dto.MobileCategoryResponse'
+        type: array
+      targetAudience:
+        type: string
+    type: object
   gotickets_internal_domain_prayer_dto.PaginatedPrayerResponse:
     properties:
       data:
@@ -1149,7 +1175,7 @@ paths:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Get all categories
       tags:
-      - Prayer Categories
+      - Prayer
     post:
       consumes:
       - application/json
@@ -1180,7 +1206,7 @@ paths:
       - BearerAuth: []
       summary: Create a category
       tags:
-      - Prayer Categories
+      - Prayer
   /api/v1/admin/categories/{id}:
     delete:
       description: Deletes a prayer category and its subcategories. Requires ADMIN
@@ -1208,7 +1234,7 @@ paths:
       - BearerAuth: []
       summary: Delete a category
       tags:
-      - Prayer Categories
+      - Prayer
     get:
       description: Returns a single category by its ID.
       parameters:
@@ -1238,7 +1264,7 @@ paths:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Get category by ID
       tags:
-      - Prayer Categories
+      - Prayer
     put:
       consumes:
       - application/json
@@ -1278,7 +1304,7 @@ paths:
       - BearerAuth: []
       summary: Update a category
       tags:
-      - Prayer Categories
+      - Prayer
   /api/v1/admin/library:
     post:
       consumes:
@@ -1334,7 +1360,7 @@ paths:
       - BearerAuth: []
       summary: Create a library category
       tags:
-      - Library Categories
+      - Library
   /api/v1/admin/library-categories/{id}:
     delete:
       description: Admin endpoint to delete a category.
@@ -1353,7 +1379,7 @@ paths:
       - BearerAuth: []
       summary: Delete a library category
       tags:
-      - Library Categories
+      - Library
     put:
       consumes:
       - application/json
@@ -1385,7 +1411,7 @@ paths:
       - BearerAuth: []
       summary: Update a library category
       tags:
-      - Library Categories
+      - Library
   /api/v1/admin/library/{id}:
     delete:
       consumes:
@@ -1577,7 +1603,7 @@ paths:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Get all prayers
       tags:
-      - Prayers
+      - Prayer
     post:
       consumes:
       - application/json
@@ -1608,7 +1634,7 @@ paths:
       - BearerAuth: []
       summary: Create a prayer
       tags:
-      - Prayers
+      - Prayer
   /api/v1/admin/prayers/{id}:
     delete:
       description: Deletes a prayer by ID and removes its assets from Cloudinary.
@@ -1640,7 +1666,7 @@ paths:
       - BearerAuth: []
       summary: Delete a prayer
       tags:
-      - Prayers
+      - Prayer
     get:
       description: Returns a single prayer by its ID.
       parameters:
@@ -1670,7 +1696,7 @@ paths:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Get prayer by ID
       tags:
-      - Prayers
+      - Prayer
     put:
       consumes:
       - application/json
@@ -1710,7 +1736,7 @@ paths:
       - BearerAuth: []
       summary: Update a prayer
       tags:
-      - Prayers
+      - Prayer
   /api/v1/admin/proverbs:
     post:
       consumes:
@@ -1742,7 +1768,7 @@ paths:
       - BearerAuth: []
       summary: Create a proverb
       tags:
-      - Proverbs
+      - Proverb
   /api/v1/admin/proverbs/{id}:
     delete:
       description: Deletes a proverb by ID and removes its assets from Cloudinary.
@@ -1774,7 +1800,7 @@ paths:
       - BearerAuth: []
       summary: Delete a proverb
       tags:
-      - Proverbs
+      - Proverb
     put:
       consumes:
       - application/json
@@ -1814,7 +1840,7 @@ paths:
       - BearerAuth: []
       summary: Update a proverb
       tags:
-      - Proverbs
+      - Proverb
   /api/v1/admin/subcategories:
     get:
       description: Returns a list of subcategories belonging to a specific category.
@@ -1843,7 +1869,7 @@ paths:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Get subcategories by category ID
       tags:
-      - Prayer SubCategories
+      - Prayer
     post:
       consumes:
       - application/json
@@ -1874,7 +1900,7 @@ paths:
       - BearerAuth: []
       summary: Create a subcategory
       tags:
-      - Prayer SubCategories
+      - Prayer
   /api/v1/admin/subcategories/{id}:
     delete:
       description: Deletes a prayer subcategory. Requires ADMIN role.
@@ -1901,7 +1927,7 @@ paths:
       - BearerAuth: []
       summary: Delete a subcategory
       tags:
-      - Prayer SubCategories
+      - Prayer
     get:
       description: Returns a single subcategory by its ID.
       parameters:
@@ -1931,7 +1957,7 @@ paths:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Get subcategory by ID
       tags:
-      - Prayer SubCategories
+      - Prayer
     put:
       consumes:
       - application/json
@@ -1971,7 +1997,7 @@ paths:
       - BearerAuth: []
       summary: Update a subcategory
       tags:
-      - Prayer SubCategories
+      - Prayer
   /api/v1/admin/worships:
     post:
       consumes:
@@ -2106,7 +2132,7 @@ paths:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Admin Login
       tags:
-      - 1. Auth - Onboarding
+      - Auth
   /api/v1/auth/forgot-password:
     post:
       consumes:
@@ -2133,7 +2159,7 @@ paths:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Request password reset OTP
       tags:
-      - 2. Auth - Password Recovery
+      - Auth
   /api/v1/auth/login:
     post:
       consumes:
@@ -2165,7 +2191,7 @@ paths:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Login
       tags:
-      - 1. Auth - Onboarding
+      - Auth
   /api/v1/auth/logout:
     post:
       consumes:
@@ -2192,7 +2218,7 @@ paths:
       - BearerAuth: []
       summary: Logout
       tags:
-      - 3. Auth - Session Management
+      - Auth
   /api/v1/auth/refresh:
     post:
       consumes:
@@ -2218,7 +2244,7 @@ paths:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Refresh access token
       tags:
-      - 3. Auth - Session Management
+      - Auth
   /api/v1/auth/register:
     post:
       consumes:
@@ -2255,7 +2281,7 @@ paths:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Register a new user
       tags:
-      - 1. Auth - Onboarding
+      - Auth
   /api/v1/auth/resend-otp:
     post:
       consumes:
@@ -2286,7 +2312,7 @@ paths:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Resend password reset OTP
       tags:
-      - 2. Auth - Password Recovery
+      - Auth
   /api/v1/auth/reset-password:
     post:
       consumes:
@@ -2317,7 +2343,7 @@ paths:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Reset password with reset token
       tags:
-      - 2. Auth - Password Recovery
+      - Auth
   /api/v1/auth/social-login:
     post:
       consumes:
@@ -2348,7 +2374,7 @@ paths:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Social Login
       tags:
-      - 1. Auth - Onboarding
+      - Auth
   /api/v1/auth/verify-otp:
     post:
       consumes:
@@ -2379,7 +2405,7 @@ paths:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Verify OTP for password reset
       tags:
-      - 2. Auth - Password Recovery
+      - Auth
   /api/v1/categories:
     get:
       description: Returns a list of all prayer categories.
@@ -2398,7 +2424,7 @@ paths:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Get all categories
       tags:
-      - Prayer Categories
+      - Prayer
   /api/v1/categories/{id}:
     get:
       description: Returns a single category by its ID.
@@ -2429,7 +2455,7 @@ paths:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Get category by ID
       tags:
-      - Prayer Categories
+      - Prayer
   /api/v1/devices:
     post:
       consumes:
@@ -2466,7 +2492,7 @@ paths:
       - BearerAuth: []
       summary: Register device token
       tags:
-      - Devices
+      - User
   /api/v1/library:
     get:
       consumes:
@@ -2518,7 +2544,7 @@ paths:
             type: array
       summary: Get all library categories
       tags:
-      - Library Categories
+      - Library
   /api/v1/library/{id}:
     get:
       consumes:
@@ -2652,7 +2678,7 @@ paths:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Get all prayers
       tags:
-      - Prayers
+      - Prayer
   /api/v1/prayers/{id}:
     get:
       description: Returns a single prayer by its ID.
@@ -2683,6 +2709,34 @@ paths:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Get prayer by ID
       tags:
+      - Prayer
+  /api/v1/prayers/mobile/metadata:
+    get:
+      description: Returns categories, subcategories, and age groups grouped by target
+        audience for mobile screens.
+      parameters:
+      - description: Target audience (e.g., Kids, Teens, General)
+        in: query
+        name: targetAudience
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_prayer_dto.MobileMetadataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      summary: Get mobile metadata
+      tags:
       - Prayers
   /api/v1/proverbs:
     get:
@@ -2709,7 +2763,7 @@ paths:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Get all proverbs
       tags:
-      - Proverbs
+      - Proverb
   /api/v1/proverbs/{id}:
     get:
       description: Returns a single proverb by its ID.
@@ -2736,7 +2790,7 @@ paths:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Get proverb by ID
       tags:
-      - Proverbs
+      - Proverb
   /api/v1/schedules/me:
     get:
       description: Returns the authenticated user's prayer schedule. Creates a default
@@ -2826,7 +2880,7 @@ paths:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Get subcategories by category ID
       tags:
-      - Prayer SubCategories
+      - Prayer
   /api/v1/subcategories/{id}:
     get:
       description: Returns a single subcategory by its ID.
@@ -2857,7 +2911,7 @@ paths:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Get subcategory by ID
       tags:
-      - Prayer SubCategories
+      - Prayer
   /api/v1/subscriptions/plans:
     get:
       description: Returns all active subscription plans (Biannual, Annual, Friends
@@ -2883,7 +2937,7 @@ paths:
       - BearerAuth: []
       summary: List subscription plans
       tags:
-      - Subscriptions
+      - Subscription
   /api/v1/subscriptions/verify:
     post:
       consumes:
@@ -2921,7 +2975,7 @@ paths:
       - BearerAuth: []
       summary: Verify purchase receipt
       tags:
-      - Subscriptions
+      - Subscription
   /api/v1/subscriptions/webhook:
     post:
       consumes:
@@ -2953,7 +3007,7 @@ paths:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Handle store webhook
       tags:
-      - Subscriptions
+      - Subscription
   /api/v1/upload:
     delete:
       consumes:
@@ -3056,7 +3110,7 @@ paths:
       - BearerAuth: []
       summary: Delete account
       tags:
-      - Users
+      - User
     get:
       description: Returns the full profile and settings for the authenticated user.
       produces:
@@ -3078,7 +3132,7 @@ paths:
       - BearerAuth: []
       summary: Get current user profile
       tags:
-      - Users
+      - User
     put:
       consumes:
       - application/json
@@ -3115,7 +3169,7 @@ paths:
       - BearerAuth: []
       summary: Update profile
       tags:
-      - Users
+      - User
   /api/v1/users/me/avatar:
     post:
       consumes:
@@ -3151,7 +3205,7 @@ paths:
       - BearerAuth: []
       summary: Upload avatar
       tags:
-      - Users
+      - User
   /api/v1/users/me/password:
     put:
       consumes:
@@ -3187,7 +3241,7 @@ paths:
       - BearerAuth: []
       summary: Change password
       tags:
-      - Users
+      - User
   /api/v1/worships:
     get:
       description: Returns a paginated list of worship tracks. Optionally filter by

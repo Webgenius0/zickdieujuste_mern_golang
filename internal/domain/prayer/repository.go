@@ -120,6 +120,9 @@ func (r *repository) FindAllPrayers(page, limit int, filters map[string]interfac
 	if categoryID, ok := filters["categoryId"]; ok && categoryID != "" {
 		query = query.Where("prayers.category_id = ?", categoryID)
 	}
+	if subCategoryID, ok := filters["subCategoryId"]; ok && subCategoryID != "" {
+		query = query.Where("prayers.sub_category_id = ?", subCategoryID)
+	}
 	if ageGroup, ok := filters["ageGroup"]; ok && ageGroup != "" {
 		query = query.Where("prayers.age_group = ?", ageGroup)
 	}

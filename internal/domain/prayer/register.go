@@ -26,6 +26,7 @@ func RegisterRoutes(e *echo.Echo, db *gorm.DB, jwtService auth.JWTService, uploa
 	// Public Prayers
 	publicGroup.GET("/prayers", handler.GetAllPrayers)
 	publicGroup.GET("/prayers/:id", handler.GetPrayerByID)
+	publicGroup.GET("/prayers/mobile/metadata", handler.GetMobileMetadata)
 
 	adminGroup := e.Group("/api/v1/admin")
 	adminGroup.Use(middlewares.AuthMiddleware(jwtService))

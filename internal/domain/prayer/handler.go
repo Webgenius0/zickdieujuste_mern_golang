@@ -23,7 +23,7 @@ func NewHandler(svc Service) *Handler {
 // CreateCategory godoc
 // @Summary      Create a category
 // @Description  Creates a new prayer category. Requires ADMIN role.
-// @Tags         Prayer Categories
+// @Tags         Prayer
 // @Accept       json
 // @Produce      json
 // @Security     BearerAuth
@@ -50,7 +50,7 @@ func (h *Handler) CreateCategory(c *echo.Context) error {
 // GetAllCategories godoc
 // @Summary      Get all categories
 // @Description  Returns a list of all prayer categories.
-// @Tags         Prayer Categories
+// @Tags         Prayer
 // @Produce      json
 // @Success      200  {array}   dto.CategoryResponse
 // @Failure      500  {object}  httpresponse.Error
@@ -67,7 +67,7 @@ func (h *Handler) GetAllCategories(c *echo.Context) error {
 // GetCategoryByID godoc
 // @Summary      Get category by ID
 // @Description  Returns a single category by its ID.
-// @Tags         Prayer Categories
+// @Tags         Prayer
 // @Produce      json
 // @Param        id   path      string  true  "Category ID"
 // @Success      200  {object}  dto.CategoryResponse
@@ -94,7 +94,7 @@ func (h *Handler) GetCategoryByID(c *echo.Context) error {
 // UpdateCategory godoc
 // @Summary      Update a category
 // @Description  Updates an existing prayer category. Requires ADMIN role.
-// @Tags         Prayer Categories
+// @Tags         Prayer
 // @Accept       json
 // @Produce      json
 // @Security     BearerAuth
@@ -130,7 +130,7 @@ func (h *Handler) UpdateCategory(c *echo.Context) error {
 // DeleteCategory godoc
 // @Summary      Delete a category
 // @Description  Deletes a prayer category and its subcategories. Requires ADMIN role.
-// @Tags         Prayer Categories
+// @Tags         Prayer
 // @Produce      json
 // @Security     BearerAuth
 // @Param        id   path      string  true  "Category ID"
@@ -154,7 +154,7 @@ func (h *Handler) DeleteCategory(c *echo.Context) error {
 // CreateSubCategory godoc
 // @Summary      Create a subcategory
 // @Description  Creates a new prayer subcategory. Requires ADMIN role.
-// @Tags         Prayer SubCategories
+// @Tags         Prayer
 // @Accept       json
 // @Produce      json
 // @Security     BearerAuth
@@ -181,7 +181,7 @@ func (h *Handler) CreateSubCategory(c *echo.Context) error {
 // GetSubCategoriesByCategoryID godoc
 // @Summary      Get subcategories by category ID
 // @Description  Returns a list of subcategories belonging to a specific category.
-// @Tags         Prayer SubCategories
+// @Tags         Prayer
 // @Produce      json
 // @Param        categoryId  query     string  true  "Category ID"
 // @Success      200         {array}   dto.SubCategoryResponse
@@ -204,7 +204,7 @@ func (h *Handler) GetSubCategoriesByCategoryID(c *echo.Context) error {
 // GetSubCategoryByID godoc
 // @Summary      Get subcategory by ID
 // @Description  Returns a single subcategory by its ID.
-// @Tags         Prayer SubCategories
+// @Tags         Prayer
 // @Produce      json
 // @Param        id   path      string  true  "SubCategory ID"
 // @Success      200  {object}  dto.SubCategoryResponse
@@ -231,7 +231,7 @@ func (h *Handler) GetSubCategoryByID(c *echo.Context) error {
 // UpdateSubCategory godoc
 // @Summary      Update a subcategory
 // @Description  Updates an existing prayer subcategory. Requires ADMIN role.
-// @Tags         Prayer SubCategories
+// @Tags         Prayer
 // @Accept       json
 // @Produce      json
 // @Security     BearerAuth
@@ -267,7 +267,7 @@ func (h *Handler) UpdateSubCategory(c *echo.Context) error {
 // DeleteSubCategory godoc
 // @Summary      Delete a subcategory
 // @Description  Deletes a prayer subcategory. Requires ADMIN role.
-// @Tags         Prayer SubCategories
+// @Tags         Prayer
 // @Produce      json
 // @Security     BearerAuth
 // @Param        id   path      string  true  "SubCategory ID"
@@ -291,7 +291,7 @@ func (h *Handler) DeleteSubCategory(c *echo.Context) error {
 // CreatePrayer godoc
 // @Summary      Create a prayer
 // @Description  Creates a new prayer. Requires ADMIN role.
-// @Tags         Prayers
+// @Tags         Prayer
 // @Accept       json
 // @Produce      json
 // @Security     BearerAuth
@@ -318,7 +318,7 @@ func (h *Handler) CreatePrayer(c *echo.Context) error {
 // GetAllPrayers godoc
 // @Summary      Get all prayers
 // @Description  Returns a paginated list of prayers with optional filtering.
-// @Tags         Prayers
+// @Tags         Prayer
 // @Produce      json
 // @Param        page            query     int     false  "Page number (default 1)"
 // @Param        limit           query     int     false  "Items per page (default 10)"
@@ -341,6 +341,9 @@ func (h *Handler) GetAllPrayers(c *echo.Context) error {
 	if cat := c.QueryParam("categoryId"); cat != "" {
 		filters["categoryId"] = cat
 	}
+	if subCat := c.QueryParam("subCategoryId"); subCat != "" {
+		filters["subCategoryId"] = subCat
+	}
 	if a := c.QueryParam("ageGroup"); a != "" {
 		filters["ageGroup"] = a
 	}
@@ -358,7 +361,7 @@ func (h *Handler) GetAllPrayers(c *echo.Context) error {
 // GetPrayerByID godoc
 // @Summary      Get prayer by ID
 // @Description  Returns a single prayer by its ID.
-// @Tags         Prayers
+// @Tags         Prayer
 // @Produce      json
 // @Param        id   path      string  true  "Prayer ID"
 // @Success      200  {object}  dto.PrayerResponse
@@ -385,7 +388,7 @@ func (h *Handler) GetPrayerByID(c *echo.Context) error {
 // UpdatePrayer godoc
 // @Summary      Update a prayer
 // @Description  Updates an existing prayer. Requires ADMIN role.
-// @Tags         Prayers
+// @Tags         Prayer
 // @Accept       json
 // @Produce      json
 // @Security     BearerAuth
@@ -421,7 +424,7 @@ func (h *Handler) UpdatePrayer(c *echo.Context) error {
 // DeletePrayer godoc
 // @Summary      Delete a prayer
 // @Description  Deletes a prayer by ID and removes its assets from Cloudinary. Requires ADMIN role.
-// @Tags         Prayers
+// @Tags         Prayer
 // @Produce      json
 // @Security     BearerAuth
 // @Param        id   path      string  true  "Prayer ID"
@@ -442,4 +445,29 @@ func (h *Handler) DeletePrayer(c *echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, httpresponse.NewError(http.StatusInternalServerError, "Failed to delete prayer", err.Error()))
 	}
 	return c.NoContent(http.StatusNoContent)
+}
+
+// Mobile
+
+// GetMobileMetadata godoc
+// @Summary      Get mobile metadata
+// @Description  Returns categories, subcategories, and age groups grouped by target audience for mobile screens.
+// @Tags         Prayers
+// @Produce      json
+// @Param        targetAudience  query     string  true  "Target audience (e.g., Kids, Teens, General)"
+// @Success      200             {object}  dto.MobileMetadataResponse
+// @Failure      400             {object}  httpresponse.Error
+// @Failure      500             {object}  httpresponse.Error
+// @Router       /api/v1/prayers/mobile/metadata [get]
+func (h *Handler) GetMobileMetadata(c *echo.Context) error {
+	targetAudience := c.QueryParam("targetAudience")
+	if targetAudience == "" {
+		return c.JSON(http.StatusBadRequest, httpresponse.NewError(http.StatusBadRequest, "targetAudience is required", ""))
+	}
+
+	resp, err := h.svc.GetMobileMetadata(targetAudience)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, httpresponse.NewError(http.StatusInternalServerError, "Failed to fetch mobile metadata", err.Error()))
+	}
+	return c.JSON(http.StatusOK, resp)
 }
