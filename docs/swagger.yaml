@@ -197,6 +197,170 @@ definitions:
     - title
     - video_url
     type: object
+  gotickets_internal_domain_prayer_dto.CategoryResponse:
+    properties:
+      createdAt:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      targetAudience:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  gotickets_internal_domain_prayer_dto.CreateCategoryRequest:
+    properties:
+      name:
+        type: string
+      targetAudience:
+        type: string
+    required:
+    - name
+    - targetAudience
+    type: object
+  gotickets_internal_domain_prayer_dto.CreatePrayerRequest:
+    properties:
+      ageGroup:
+        type: string
+      categoryId:
+        type: string
+      contentText:
+        type: string
+      duration:
+        type: string
+      mediaType:
+        type: string
+      mediaUrl:
+        type: string
+      subCategoryId:
+        type: string
+      thumbnailUrl:
+        type: string
+      title:
+        type: string
+    required:
+    - categoryId
+    - mediaType
+    - title
+    type: object
+  gotickets_internal_domain_prayer_dto.CreateSubCategoryRequest:
+    properties:
+      categoryId:
+        type: string
+      name:
+        type: string
+    required:
+    - categoryId
+    - name
+    type: object
+  gotickets_internal_domain_prayer_dto.PaginatedPrayerResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/gotickets_internal_domain_prayer_dto.PrayerResponse'
+        type: array
+      limit:
+        type: integer
+      page:
+        type: integer
+      totalItems:
+        type: integer
+      totalPages:
+        type: integer
+    type: object
+  gotickets_internal_domain_prayer_dto.PrayerResponse:
+    properties:
+      ageGroup:
+        type: string
+      category:
+        allOf:
+        - $ref: '#/definitions/gotickets_internal_domain_prayer_dto.CategoryResponse'
+        description: Preloaded relations
+      categoryId:
+        type: string
+      contentText:
+        type: string
+      createdAt:
+        type: string
+      duration:
+        type: string
+      id:
+        type: string
+      mediaType:
+        type: string
+      mediaUrl:
+        type: string
+      subCategory:
+        $ref: '#/definitions/gotickets_internal_domain_prayer_dto.SubCategoryResponse'
+      subCategoryId:
+        type: string
+      thumbnailUrl:
+        type: string
+      title:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  gotickets_internal_domain_prayer_dto.SubCategoryResponse:
+    properties:
+      categoryId:
+        type: string
+      createdAt:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  gotickets_internal_domain_prayer_dto.UpdateCategoryRequest:
+    properties:
+      name:
+        type: string
+      targetAudience:
+        type: string
+    required:
+    - name
+    - targetAudience
+    type: object
+  gotickets_internal_domain_prayer_dto.UpdatePrayerRequest:
+    properties:
+      ageGroup:
+        type: string
+      categoryId:
+        type: string
+      contentText:
+        type: string
+      duration:
+        type: string
+      mediaType:
+        type: string
+      mediaUrl:
+        type: string
+      subCategoryId:
+        type: string
+      thumbnailUrl:
+        type: string
+      title:
+        type: string
+    required:
+    - categoryId
+    - mediaType
+    - title
+    type: object
+  gotickets_internal_domain_prayer_dto.UpdateSubCategoryRequest:
+    properties:
+      categoryId:
+        type: string
+      name:
+        type: string
+    required:
+    - categoryId
+    - name
+    type: object
   gotickets_internal_domain_proverb_dto.CreateProverbReq:
     properties:
       audio_url:
@@ -967,6 +1131,154 @@ paths:
       summary: Welcome
       tags:
       - System
+  /api/v1/admin/categories:
+    get:
+      description: Returns a list of all prayer categories.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/gotickets_internal_domain_prayer_dto.CategoryResponse'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      summary: Get all categories
+      tags:
+      - Prayer Categories
+    post:
+      consumes:
+      - application/json
+      description: Creates a new prayer category. Requires ADMIN role.
+      parameters:
+      - description: Category data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/gotickets_internal_domain_prayer_dto.CreateCategoryRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_prayer_dto.CategoryResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Create a category
+      tags:
+      - Prayer Categories
+  /api/v1/admin/categories/{id}:
+    delete:
+      description: Deletes a prayer category and its subcategories. Requires ADMIN
+        role.
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Delete a category
+      tags:
+      - Prayer Categories
+    get:
+      description: Returns a single category by its ID.
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_prayer_dto.CategoryResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      summary: Get category by ID
+      tags:
+      - Prayer Categories
+    put:
+      consumes:
+      - application/json
+      description: Updates an existing prayer category. Requires ADMIN role.
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Category data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/gotickets_internal_domain_prayer_dto.UpdateCategoryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_prayer_dto.CategoryResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Update a category
+      tags:
+      - Prayer Categories
   /api/v1/admin/library:
     post:
       consumes:
@@ -1224,6 +1536,181 @@ paths:
       summary: Update a motivation
       tags:
       - Motivation
+  /api/v1/admin/prayers:
+    get:
+      description: Returns a paginated list of prayers with optional filtering.
+      parameters:
+      - description: Page number (default 1)
+        in: query
+        name: page
+        type: integer
+      - description: Items per page (default 10)
+        in: query
+        name: limit
+        type: integer
+      - description: Filter by target audience
+        in: query
+        name: targetAudience
+        type: string
+      - description: Filter by category ID
+        in: query
+        name: categoryId
+        type: string
+      - description: Filter by age group
+        in: query
+        name: ageGroup
+        type: string
+      - description: Filter by media type
+        in: query
+        name: mediaType
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_prayer_dto.PaginatedPrayerResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      summary: Get all prayers
+      tags:
+      - Prayers
+    post:
+      consumes:
+      - application/json
+      description: Creates a new prayer. Requires ADMIN role.
+      parameters:
+      - description: Prayer data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/gotickets_internal_domain_prayer_dto.CreatePrayerRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_prayer_dto.PrayerResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Create a prayer
+      tags:
+      - Prayers
+  /api/v1/admin/prayers/{id}:
+    delete:
+      description: Deletes a prayer by ID and removes its assets from Cloudinary.
+        Requires ADMIN role.
+      parameters:
+      - description: Prayer ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Delete a prayer
+      tags:
+      - Prayers
+    get:
+      description: Returns a single prayer by its ID.
+      parameters:
+      - description: Prayer ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_prayer_dto.PrayerResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      summary: Get prayer by ID
+      tags:
+      - Prayers
+    put:
+      consumes:
+      - application/json
+      description: Updates an existing prayer. Requires ADMIN role.
+      parameters:
+      - description: Prayer ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Prayer data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/gotickets_internal_domain_prayer_dto.UpdatePrayerRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_prayer_dto.PrayerResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Update a prayer
+      tags:
+      - Prayers
   /api/v1/admin/proverbs:
     post:
       consumes:
@@ -1328,6 +1815,163 @@ paths:
       summary: Update a proverb
       tags:
       - Proverbs
+  /api/v1/admin/subcategories:
+    get:
+      description: Returns a list of subcategories belonging to a specific category.
+      parameters:
+      - description: Category ID
+        in: query
+        name: categoryId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/gotickets_internal_domain_prayer_dto.SubCategoryResponse'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      summary: Get subcategories by category ID
+      tags:
+      - Prayer SubCategories
+    post:
+      consumes:
+      - application/json
+      description: Creates a new prayer subcategory. Requires ADMIN role.
+      parameters:
+      - description: SubCategory data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/gotickets_internal_domain_prayer_dto.CreateSubCategoryRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_prayer_dto.SubCategoryResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Create a subcategory
+      tags:
+      - Prayer SubCategories
+  /api/v1/admin/subcategories/{id}:
+    delete:
+      description: Deletes a prayer subcategory. Requires ADMIN role.
+      parameters:
+      - description: SubCategory ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Delete a subcategory
+      tags:
+      - Prayer SubCategories
+    get:
+      description: Returns a single subcategory by its ID.
+      parameters:
+      - description: SubCategory ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_prayer_dto.SubCategoryResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      summary: Get subcategory by ID
+      tags:
+      - Prayer SubCategories
+    put:
+      consumes:
+      - application/json
+      description: Updates an existing prayer subcategory. Requires ADMIN role.
+      parameters:
+      - description: SubCategory ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: SubCategory data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/gotickets_internal_domain_prayer_dto.UpdateSubCategoryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_prayer_dto.SubCategoryResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Update a subcategory
+      tags:
+      - Prayer SubCategories
   /api/v1/admin/worships:
     post:
       consumes:

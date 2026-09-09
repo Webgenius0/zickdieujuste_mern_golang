@@ -48,3 +48,11 @@ type PrayerResponse struct {
 	Category      *CategoryResponse    `json:"category,omitempty"`
 	SubCategory   *SubCategoryResponse `json:"subCategory,omitempty"`
 }
+
+type PaginatedPrayerResponse struct {
+	Data       []PrayerResponse `json:"data"`
+	TotalItems int              `json:"totalItems"`
+	TotalPages int              `json:"totalPages"`
+	Page       int              `json:"page"`
+	Limit      int              `json:"limit"`
+}
