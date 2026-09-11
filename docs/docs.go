@@ -43,6 +43,234 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/admin/categories": {
+            "get": {
+                "description": "Returns a list of all prayer categories.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Prayer"
+                ],
+                "summary": "Get all categories",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.CategoryResponse"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Creates a new prayer category. Requires ADMIN role.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Prayer"
+                ],
+                "summary": "Create a category",
+                "parameters": [
+                    {
+                        "description": "Category data",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.CreateCategoryRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.CategoryResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/admin/categories/{id}": {
+            "get": {
+                "description": "Returns a single category by its ID.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Prayer"
+                ],
+                "summary": "Get category by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Category ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.CategoryResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Updates an existing prayer category. Requires ADMIN role.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Prayer"
+                ],
+                "summary": "Update a category",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Category ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Category data",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.UpdateCategoryRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.CategoryResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Deletes a prayer category and its subcategories. Requires ADMIN role.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Prayer"
+                ],
+                "summary": "Delete a category",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Category ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/admin/library": {
             "post": {
                 "security": [
@@ -103,7 +331,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Library Categories"
+                    "Library"
                 ],
                 "summary": "Create a library category",
                 "parameters": [
@@ -148,7 +376,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Library Categories"
+                    "Library"
                 ],
                 "summary": "Update a library category",
                 "parameters": [
@@ -195,7 +423,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Library Categories"
+                    "Library"
                 ],
                 "summary": "Delete a library category",
                 "parameters": [
@@ -451,6 +679,842 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/admin/prayers": {
+            "get": {
+                "description": "Returns a paginated list of prayers with optional filtering.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Prayer"
+                ],
+                "summary": "Get all prayers",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Page number (default 1)",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Items per page (default 10)",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by target audience",
+                        "name": "targetAudience",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by category ID",
+                        "name": "categoryId",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by age group",
+                        "name": "ageGroup",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by media type",
+                        "name": "mediaType",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.PaginatedPrayerResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Creates a new prayer. Requires ADMIN role.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Prayer"
+                ],
+                "summary": "Create a prayer",
+                "parameters": [
+                    {
+                        "description": "Prayer data",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.CreatePrayerRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.PrayerResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/admin/prayers/{id}": {
+            "get": {
+                "description": "Returns a single prayer by its ID.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Prayer"
+                ],
+                "summary": "Get prayer by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Prayer ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.PrayerResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Updates an existing prayer. Requires ADMIN role.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Prayer"
+                ],
+                "summary": "Update a prayer",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Prayer ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Prayer data",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.UpdatePrayerRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.PrayerResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Deletes a prayer by ID and removes its assets from Cloudinary. Requires ADMIN role.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Prayer"
+                ],
+                "summary": "Delete a prayer",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Prayer ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/admin/proverbs": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Creates a new proverb. Requires ADMIN role.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Proverb"
+                ],
+                "summary": "Create a proverb",
+                "parameters": [
+                    {
+                        "description": "Proverb data",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_proverb_dto.CreateProverbReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_proverb_dto.ProverbResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/admin/proverbs/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Updates an existing proverb. Requires ADMIN role.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Proverb"
+                ],
+                "summary": "Update a proverb",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Proverb ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Proverb data",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_proverb_dto.UpdateProverbReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_proverb_dto.ProverbResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Deletes a proverb by ID and removes its assets from Cloudinary. Requires ADMIN role.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Proverb"
+                ],
+                "summary": "Delete a proverb",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Proverb ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/admin/subcategories": {
+            "get": {
+                "description": "Returns a list of subcategories belonging to a specific category.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Prayer"
+                ],
+                "summary": "Get subcategories by category ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Category ID",
+                        "name": "categoryId",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.SubCategoryResponse"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Creates a new prayer subcategory. Requires ADMIN role.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Prayer"
+                ],
+                "summary": "Create a subcategory",
+                "parameters": [
+                    {
+                        "description": "SubCategory data",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.CreateSubCategoryRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.SubCategoryResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/admin/subcategories/{id}": {
+            "get": {
+                "description": "Returns a single subcategory by its ID.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Prayer"
+                ],
+                "summary": "Get subcategory by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "SubCategory ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.SubCategoryResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Updates an existing prayer subcategory. Requires ADMIN role.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Prayer"
+                ],
+                "summary": "Update a subcategory",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "SubCategory ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "SubCategory data",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.UpdateSubCategoryRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.SubCategoryResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Deletes a prayer subcategory. Requires ADMIN role.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Prayer"
+                ],
+                "summary": "Delete a subcategory",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "SubCategory ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/admin/worships": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Creates a new worship track. Requires ADMIN role.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Worship"
+                ],
+                "summary": "Create a worship track",
+                "parameters": [
+                    {
+                        "description": "Worship data",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_worship_dto.CreateWorshipReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_worship_dto.WorshipResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/admin/worships/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Updates an existing worship track. Requires ADMIN role.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Worship"
+                ],
+                "summary": "Update a worship track",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Worship ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Worship data",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_worship_dto.UpdateWorshipReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_worship_dto.WorshipResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Deletes a worship track by ID and removes its assets from Cloudinary. Requires ADMIN role.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Worship"
+                ],
+                "summary": "Delete a worship track",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Worship ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/auth/admin/login": {
             "post": {
                 "description": "Authenticates an admin using hardcoded credentials. Returns access + refresh JWT pair.",
@@ -461,7 +1525,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "1. Auth - Onboarding"
+                    "Auth"
                 ],
                 "summary": "Admin Login",
                 "parameters": [
@@ -507,7 +1571,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "2. Auth - Password Recovery"
+                    "Auth"
                 ],
                 "summary": "Request password reset OTP",
                 "parameters": [
@@ -547,7 +1611,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "1. Auth - Onboarding"
+                    "Auth"
                 ],
                 "summary": "Login",
                 "parameters": [
@@ -598,7 +1662,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "3. Auth - Session Management"
+                    "Auth"
                 ],
                 "summary": "Logout",
                 "parameters": [
@@ -637,7 +1701,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "3. Auth - Session Management"
+                    "Auth"
                 ],
                 "summary": "Refresh access token",
                 "parameters": [
@@ -676,7 +1740,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "1. Auth - Onboarding"
+                    "Auth"
                 ],
                 "summary": "Register a new user",
                 "parameters": [
@@ -728,7 +1792,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "2. Auth - Password Recovery"
+                    "Auth"
                 ],
                 "summary": "Resend password reset OTP",
                 "parameters": [
@@ -774,7 +1838,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "2. Auth - Password Recovery"
+                    "Auth"
                 ],
                 "summary": "Reset password with reset token",
                 "parameters": [
@@ -820,7 +1884,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "1. Auth - Onboarding"
+                    "Auth"
                 ],
                 "summary": "Social Login",
                 "parameters": [
@@ -866,7 +1930,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "2. Auth - Password Recovery"
+                    "Auth"
                 ],
                 "summary": "Verify OTP for password reset",
                 "parameters": [
@@ -908,6 +1972,82 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/categories": {
+            "get": {
+                "description": "Returns a list of all prayer categories.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Prayer"
+                ],
+                "summary": "Get all categories",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.CategoryResponse"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/categories/{id}": {
+            "get": {
+                "description": "Returns a single category by its ID.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Prayer"
+                ],
+                "summary": "Get category by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Category ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.CategoryResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/devices": {
             "post": {
                 "security": [
@@ -923,7 +2063,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Devices"
+                    "User"
                 ],
                 "summary": "Register device token",
                 "parameters": [
@@ -1027,7 +2167,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Library Categories"
+                    "Library"
                 ],
                 "summary": "Get all library categories",
                 "responses": {
@@ -1180,6 +2320,239 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/prayers": {
+            "get": {
+                "description": "Returns a paginated list of prayers with optional filtering.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Prayer"
+                ],
+                "summary": "Get all prayers",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Page number (default 1)",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Items per page (default 10)",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by target audience",
+                        "name": "targetAudience",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by category ID",
+                        "name": "categoryId",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by age group",
+                        "name": "ageGroup",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by media type",
+                        "name": "mediaType",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.PaginatedPrayerResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/prayers/mobile/metadata": {
+            "get": {
+                "description": "Returns categories, subcategories, and age groups grouped by target audience for mobile screens.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Prayers"
+                ],
+                "summary": "Get mobile metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Target audience (e.g., Kids, Teens, General)",
+                        "name": "targetAudience",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.MobileMetadataResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/prayers/{id}": {
+            "get": {
+                "description": "Returns a single prayer by its ID.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Prayer"
+                ],
+                "summary": "Get prayer by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Prayer ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.PrayerResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/proverbs": {
+            "get": {
+                "description": "Returns a paginated list of proverbs, ordered by publish_date DESC.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Proverb"
+                ],
+                "summary": "Get all proverbs",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Page number (default 1)",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Items per page (default 10, max 100)",
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_proverb_dto.PaginatedProverbResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/proverbs/{id}": {
+            "get": {
+                "description": "Returns a single proverb by its ID.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Proverb"
+                ],
+                "summary": "Get proverb by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Proverb ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_proverb_dto.ProverbResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/schedules/me": {
             "get": {
                 "security": [
@@ -1272,6 +2645,97 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/subcategories": {
+            "get": {
+                "description": "Returns a list of subcategories belonging to a specific category.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Prayer"
+                ],
+                "summary": "Get subcategories by category ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Category ID",
+                        "name": "categoryId",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.SubCategoryResponse"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/subcategories/{id}": {
+            "get": {
+                "description": "Returns a single subcategory by its ID.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Prayer"
+                ],
+                "summary": "Get subcategory by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "SubCategory ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.SubCategoryResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/subscriptions/plans": {
             "get": {
                 "security": [
@@ -1284,7 +2748,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Subscriptions"
+                    "Subscription"
                 ],
                 "summary": "List subscription plans",
                 "responses": {
@@ -1327,7 +2791,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Subscriptions"
+                    "Subscription"
                 ],
                 "summary": "Verify purchase receipt",
                 "parameters": [
@@ -1379,7 +2843,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Subscriptions"
+                    "Subscription"
                 ],
                 "summary": "Handle store webhook",
                 "parameters": [
@@ -1543,7 +3007,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Users"
+                    "User"
                 ],
                 "summary": "Get current user profile",
                 "responses": {
@@ -1581,7 +3045,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Users"
+                    "User"
                 ],
                 "summary": "Update profile",
                 "parameters": [
@@ -1633,7 +3097,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Users"
+                    "User"
                 ],
                 "summary": "Delete account",
                 "responses": {
@@ -1673,7 +3137,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Users"
+                    "User"
                 ],
                 "summary": "Upload avatar",
                 "parameters": [
@@ -1728,7 +3192,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Users"
+                    "User"
                 ],
                 "summary": "Change password",
                 "parameters": [
@@ -1763,6 +3227,98 @@ const docTemplate = `{
                     },
                     "500": {
                         "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/worships": {
+            "get": {
+                "description": "Returns a paginated list of worship tracks. Optionally filter by time_of_day.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Worship"
+                ],
+                "summary": "Get all worship tracks",
+                "parameters": [
+                    {
+                        "enum": [
+                            "Day",
+                            "Night"
+                        ],
+                        "type": "string",
+                        "default": "Day",
+                        "description": "Filter by Day or Night",
+                        "name": "time_of_day",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Page number (default 1)",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Items per page (default 10, max 100)",
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_worship_dto.PaginatedWorshipResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/worships/{id}": {
+            "get": {
+                "description": "Returns a single worship track by its ID.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Worship"
+                ],
+                "summary": "Get worship track by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Worship ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_worship_dto.WorshipResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
                         "schema": {
                             "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
                         }
@@ -2075,6 +3631,445 @@ const docTemplate = `{
                     "maxLength": 255
                 },
                 "video_url": {
+                    "type": "string"
+                }
+            }
+        },
+        "gotickets_internal_domain_prayer_dto.CategoryResponse": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "targetAudience": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "gotickets_internal_domain_prayer_dto.CreateCategoryRequest": {
+            "type": "object",
+            "required": [
+                "name",
+                "targetAudience"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "targetAudience": {
+                    "type": "string"
+                }
+            }
+        },
+        "gotickets_internal_domain_prayer_dto.CreatePrayerRequest": {
+            "type": "object",
+            "required": [
+                "categoryId",
+                "mediaType",
+                "title"
+            ],
+            "properties": {
+                "ageGroup": {
+                    "type": "string"
+                },
+                "categoryId": {
+                    "type": "string"
+                },
+                "contentText": {
+                    "type": "string"
+                },
+                "duration": {
+                    "type": "string"
+                },
+                "mediaType": {
+                    "type": "string"
+                },
+                "mediaUrl": {
+                    "type": "string"
+                },
+                "subCategoryId": {
+                    "type": "string"
+                },
+                "thumbnailUrl": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "gotickets_internal_domain_prayer_dto.CreateSubCategoryRequest": {
+            "type": "object",
+            "required": [
+                "categoryId",
+                "name"
+            ],
+            "properties": {
+                "categoryId": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "gotickets_internal_domain_prayer_dto.MobileCategoryResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "subCategories": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.SubCategoryResponse"
+                    }
+                },
+                "targetAudience": {
+                    "type": "string"
+                }
+            }
+        },
+        "gotickets_internal_domain_prayer_dto.MobileMetadataResponse": {
+            "type": "object",
+            "properties": {
+                "ageGroups": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "categories": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.MobileCategoryResponse"
+                    }
+                },
+                "targetAudience": {
+                    "type": "string"
+                }
+            }
+        },
+        "gotickets_internal_domain_prayer_dto.PaginatedPrayerResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.PrayerResponse"
+                    }
+                },
+                "limit": {
+                    "type": "integer"
+                },
+                "page": {
+                    "type": "integer"
+                },
+                "totalItems": {
+                    "type": "integer"
+                },
+                "totalPages": {
+                    "type": "integer"
+                }
+            }
+        },
+        "gotickets_internal_domain_prayer_dto.PrayerResponse": {
+            "type": "object",
+            "properties": {
+                "ageGroup": {
+                    "type": "string"
+                },
+                "category": {
+                    "description": "Preloaded relations",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.CategoryResponse"
+                        }
+                    ]
+                },
+                "categoryId": {
+                    "type": "string"
+                },
+                "contentText": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "duration": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "mediaType": {
+                    "type": "string"
+                },
+                "mediaUrl": {
+                    "type": "string"
+                },
+                "subCategory": {
+                    "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.SubCategoryResponse"
+                },
+                "subCategoryId": {
+                    "type": "string"
+                },
+                "thumbnailUrl": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "gotickets_internal_domain_prayer_dto.SubCategoryResponse": {
+            "type": "object",
+            "properties": {
+                "categoryId": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "gotickets_internal_domain_prayer_dto.UpdateCategoryRequest": {
+            "type": "object",
+            "required": [
+                "name",
+                "targetAudience"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "targetAudience": {
+                    "type": "string"
+                }
+            }
+        },
+        "gotickets_internal_domain_prayer_dto.UpdatePrayerRequest": {
+            "type": "object",
+            "required": [
+                "categoryId",
+                "mediaType",
+                "title"
+            ],
+            "properties": {
+                "ageGroup": {
+                    "type": "string"
+                },
+                "categoryId": {
+                    "type": "string"
+                },
+                "contentText": {
+                    "type": "string"
+                },
+                "duration": {
+                    "type": "string"
+                },
+                "mediaType": {
+                    "type": "string"
+                },
+                "mediaUrl": {
+                    "type": "string"
+                },
+                "subCategoryId": {
+                    "type": "string"
+                },
+                "thumbnailUrl": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "gotickets_internal_domain_prayer_dto.UpdateSubCategoryRequest": {
+            "type": "object",
+            "required": [
+                "categoryId",
+                "name"
+            ],
+            "properties": {
+                "categoryId": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "gotickets_internal_domain_proverb_dto.CreateProverbReq": {
+            "type": "object",
+            "required": [
+                "audio_url",
+                "category",
+                "duration",
+                "explanation",
+                "main_text",
+                "publish_date",
+                "scripture_reference",
+                "thumbnail_url",
+                "title"
+            ],
+            "properties": {
+                "audio_url": {
+                    "type": "string"
+                },
+                "category": {
+                    "type": "string"
+                },
+                "duration": {
+                    "type": "string"
+                },
+                "explanation": {
+                    "type": "string"
+                },
+                "main_text": {
+                    "type": "string"
+                },
+                "publish_date": {
+                    "type": "string"
+                },
+                "scripture_reference": {
+                    "type": "string"
+                },
+                "thumbnail_url": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "gotickets_internal_domain_proverb_dto.PaginatedProverbResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/gotickets_internal_domain_proverb_dto.ProverbResponse"
+                    }
+                },
+                "limit": {
+                    "type": "integer"
+                },
+                "page": {
+                    "type": "integer"
+                },
+                "total_items": {
+                    "type": "integer"
+                },
+                "total_pages": {
+                    "type": "integer"
+                }
+            }
+        },
+        "gotickets_internal_domain_proverb_dto.ProverbResponse": {
+            "type": "object",
+            "properties": {
+                "audio_url": {
+                    "type": "string"
+                },
+                "category": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "duration": {
+                    "type": "string"
+                },
+                "explanation": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "main_text": {
+                    "type": "string"
+                },
+                "publish_date": {
+                    "type": "string"
+                },
+                "scripture_reference": {
+                    "type": "string"
+                },
+                "thumbnail_url": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "gotickets_internal_domain_proverb_dto.UpdateProverbReq": {
+            "type": "object",
+            "required": [
+                "audio_url",
+                "category",
+                "duration",
+                "explanation",
+                "main_text",
+                "publish_date",
+                "scripture_reference",
+                "thumbnail_url",
+                "title"
+            ],
+            "properties": {
+                "audio_url": {
+                    "type": "string"
+                },
+                "category": {
+                    "type": "string"
+                },
+                "duration": {
+                    "type": "string"
+                },
+                "explanation": {
+                    "type": "string"
+                },
+                "main_text": {
+                    "type": "string"
+                },
+                "publish_date": {
+                    "type": "string"
+                },
+                "scripture_reference": {
+                    "type": "string"
+                },
+                "thumbnail_url": {
+                    "type": "string"
+                },
+                "title": {
                     "type": "string"
                 }
             }
@@ -2711,6 +4706,144 @@ const docTemplate = `{
                 "reset_token": {
                     "type": "string",
                     "example": "eyJhbGciOiJIUzI1NiIsIn..."
+                }
+            }
+        },
+        "gotickets_internal_domain_worship_dto.CreateWorshipReq": {
+            "type": "object",
+            "required": [
+                "artist",
+                "audio_url",
+                "duration",
+                "thumbnail_url",
+                "time_of_day",
+                "title"
+            ],
+            "properties": {
+                "artist": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "audio_url": {
+                    "type": "string"
+                },
+                "duration": {
+                    "type": "string"
+                },
+                "prayer_text": {
+                    "type": "string"
+                },
+                "thumbnail_url": {
+                    "type": "string"
+                },
+                "time_of_day": {
+                    "type": "string",
+                    "enum": [
+                        "Day",
+                        "Night"
+                    ]
+                },
+                "title": {
+                    "type": "string",
+                    "maxLength": 255
+                }
+            }
+        },
+        "gotickets_internal_domain_worship_dto.PaginatedWorshipResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/gotickets_internal_domain_worship_dto.WorshipResponse"
+                    }
+                },
+                "limit": {
+                    "type": "integer"
+                },
+                "page": {
+                    "type": "integer"
+                },
+                "total_items": {
+                    "type": "integer"
+                },
+                "total_pages": {
+                    "type": "integer"
+                }
+            }
+        },
+        "gotickets_internal_domain_worship_dto.UpdateWorshipReq": {
+            "type": "object",
+            "required": [
+                "artist",
+                "audio_url",
+                "duration",
+                "thumbnail_url",
+                "time_of_day",
+                "title"
+            ],
+            "properties": {
+                "artist": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "audio_url": {
+                    "type": "string"
+                },
+                "duration": {
+                    "type": "string"
+                },
+                "prayer_text": {
+                    "type": "string"
+                },
+                "thumbnail_url": {
+                    "type": "string"
+                },
+                "time_of_day": {
+                    "type": "string",
+                    "enum": [
+                        "Day",
+                        "Night"
+                    ]
+                },
+                "title": {
+                    "type": "string",
+                    "maxLength": 255
+                }
+            }
+        },
+        "gotickets_internal_domain_worship_dto.WorshipResponse": {
+            "type": "object",
+            "properties": {
+                "artist": {
+                    "type": "string"
+                },
+                "audio_url": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "duration": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "prayer_text": {
+                    "type": "string"
+                },
+                "thumbnail_url": {
+                    "type": "string"
+                },
+                "time_of_day": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
                 }
             }
         },

@@ -26,7 +26,7 @@ func NewHandler(svc Service, userSvc user.Service) *Handler {
 // ListPlans godoc
 // @Summary      List subscription plans
 // @Description  Returns all active subscription plans (Biannual, Annual, Friends & Family).
-// @Tags         Subscriptions
+// @Tags         Subscription
 // @Produce      json
 // @Security     BearerAuth
 // @Success      200  {array}   dto.PlanResponse
@@ -44,7 +44,7 @@ func (h *Handler) ListPlans(c *echo.Context) error {
 // VerifyReceipt godoc
 // @Summary      Verify purchase receipt
 // @Description  Verifies an Apple or Google Play receipt, upserts a subscription record, and marks the user as premium. Receipt validation is currently stubbed — real integration pending.
-// @Tags         Subscriptions
+// @Tags         Subscription
 // @Accept       json
 // @Produce      json
 // @Security     BearerAuth
@@ -78,7 +78,7 @@ func (h *Handler) VerifyReceipt(c *echo.Context) error {
 // HandleWebhook godoc
 // @Summary      Handle store webhook
 // @Description  Receives renewal, cancellation, and refund events from Apple and Google. No auth middleware — store signature verification is applied instead (currently stubbed with a TODO).
-// @Tags         Subscriptions
+// @Tags         Subscription
 // @Accept       json
 // @Produce      json
 // @Param        request  body      dto.WebhookRequest  true  "Webhook payload from Apple or Google"

@@ -33,7 +33,7 @@ func NewHandler(svc Service, uploader upload.Uploader) *Handler {
 // Register godoc
 // @Summary      Register a new user
 // @Description  Creates a new EMAIL-provider account. Returns user profile + access/refresh JWT pair. Duplicate email returns 409. Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole). Available auth providers: EMAIL, GOOGLE, APPLE.
-// @Tags         1. Auth - Onboarding
+// @Tags         Auth
 // @Accept       json
 // @Produce      json
 // @Param        request  body      dto.RegisterRequest        true  "Registration payload"
@@ -66,7 +66,7 @@ func (h *Handler) Register(c *echo.Context) error {
 // Login godoc
 // @Summary      Login
 // @Description  Authenticates an EMAIL user. Returns user profile + access/refresh JWT pair. Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole).
-// @Tags         1. Auth - Onboarding
+// @Tags         Auth
 // @Accept       json
 // @Produce      json
 // @Param        request  body      dto.LoginRequest          true  "Login payload"
@@ -101,7 +101,7 @@ func (h *Handler) Login(c *echo.Context) error {
 // AdminLogin godoc
 // @Summary      Admin Login
 // @Description  Authenticates an admin using hardcoded credentials. Returns access + refresh JWT pair.
-// @Tags         1. Auth - Onboarding
+// @Tags         Auth
 // @Accept       json
 // @Produce      json
 // @Param        request  body      dto.AdminLoginRequest  true  "Admin Login payload"
@@ -130,7 +130,7 @@ func (h *Handler) AdminLogin(c *echo.Context) error {
 // SocialLogin godoc
 // @Summary      Social Login
 // @Description  Authenticates a user using Firebase ID token (Google or Apple). Returns access + refresh JWT pair.
-// @Tags         1. Auth - Onboarding
+// @Tags         Auth
 // @Accept       json
 // @Produce      json
 // @Param        request  body      dto.SocialLoginRequest  true  "Social Login payload"
@@ -159,7 +159,7 @@ func (h *Handler) SocialLogin(c *echo.Context) error {
 // Refresh godoc
 // @Summary      Refresh access token
 // @Description  Rotates the refresh token: revokes the old one and issues a new access + refresh pair. Token may be sent in body or "refresh_token" cookie.
-// @Tags         3. Auth - Session Management
+// @Tags         Auth
 // @Accept       json
 // @Produce      json
 // @Param        request  body      dto.RefreshRequest  false  "Refresh token (omit if using cookie)"
@@ -184,7 +184,7 @@ func (h *Handler) Refresh(c *echo.Context) error {
 // Logout godoc
 // @Summary      Logout
 // @Description  Revokes the current refresh token, ending the session.
-// @Tags         3. Auth - Session Management
+// @Tags         Auth
 // @Accept       json
 // @Produce      json
 // @Security     BearerAuth
@@ -204,7 +204,7 @@ func (h *Handler) Logout(c *echo.Context) error {
 // ForgotPassword godoc
 // @Summary      Request password reset OTP
 // @Description  Sends a 5-digit OTP to the email (10-min expiry). Always returns 200 to prevent user enumeration.
-// @Tags         2. Auth - Password Recovery
+// @Tags         Auth
 // @Accept       json
 // @Produce      json
 // @Param        request  body      dto.ForgotPasswordRequest  true  "Email address"
@@ -231,7 +231,7 @@ func (h *Handler) ForgotPassword(c *echo.Context) error {
 // ResendOTP godoc
 // @Summary      Resend password reset OTP
 // @Description  Enforces a 1-minute cooldown, invalidates old OTPs, and sends a new 5-digit OTP to the email.
-// @Tags         2. Auth - Password Recovery
+// @Tags         Auth
 // @Accept       json
 // @Produce      json
 // @Param        request  body      dto.ResendOTPRequest  true  "Email address"
@@ -258,7 +258,7 @@ func (h *Handler) ResendOTP(c *echo.Context) error {
 // VerifyOTP godoc
 // @Summary      Verify OTP for password reset
 // @Description  Verifies the 5-digit OTP and returns a temporary reset token.
-// @Tags         2. Auth - Password Recovery
+// @Tags         Auth
 // @Accept       json
 // @Produce      json
 // @Param        request  body      dto.VerifyOTPRequest  true  "Email + OTP"
@@ -292,7 +292,7 @@ func (h *Handler) VerifyOTP(c *echo.Context) error {
 // ResetPassword godoc
 // @Summary      Reset password with reset token
 // @Description  Verifies the temporary reset token and updates the user password, revoking all existing sessions.
-// @Tags         2. Auth - Password Recovery
+// @Tags         Auth
 // @Accept       json
 // @Produce      json
 // @Param        request  body      dto.ResetPasswordRequest  true  "Reset token + new password"
@@ -322,7 +322,7 @@ func (h *Handler) ResetPassword(c *echo.Context) error {
 // GetMe godoc
 // @Summary      Get current user profile
 // @Description  Returns the full profile and settings for the authenticated user.
-// @Tags         Users
+// @Tags         User
 // @Produce      json
 // @Security     BearerAuth
 // @Success      200  {object}  dto.ProfileResponse
@@ -345,7 +345,7 @@ func (h *Handler) GetMe(c *echo.Context) error {
 // UpdateMe godoc
 // @Summary      Update profile
 // @Description  Updates name, location, theme preference (Available: LIGHT, DARK), or language preference. Duplicate email returns 409. Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole).
-// @Tags         Users
+// @Tags         User
 // @Accept       json
 // @Produce      json
 // @Security     BearerAuth
@@ -379,7 +379,7 @@ func (h *Handler) UpdateMe(c *echo.Context) error {
 // ChangePassword godoc
 // @Summary      Change password
 // @Description  Verifies the current password and updates it to the new one.
-// @Tags         Users
+// @Tags         User
 // @Accept       json
 // @Produce      json
 // @Security     BearerAuth
@@ -412,7 +412,7 @@ func (h *Handler) ChangePassword(c *echo.Context) error {
 // DeleteMe godoc
 // @Summary      Delete account
 // @Description  Soft-deletes the authenticated user's account (sets deleted_at). No hard purge occurs synchronously.
-// @Tags         Users
+// @Tags         User
 // @Produce      json
 // @Security     BearerAuth
 // @Success      200  {object}  dto.MessageResponse
@@ -435,7 +435,7 @@ func (h *Handler) DeleteMe(c *echo.Context) error {
 // UploadAvatar godoc
 // @Summary      Upload avatar
 // @Description  Uploads a new profile picture (JPEG/PNG/WebP, max 5 MB) to Cloudinary and updates avatar_url.
-// @Tags         Users
+// @Tags         User
 // @Accept       multipart/form-data
 // @Produce      json
 // @Security     BearerAuth
@@ -492,7 +492,7 @@ func (h *Handler) UploadAvatar(c *echo.Context) error {
 // RegisterDevice godoc
 // @Summary      Register device token
 // @Description  Registers or refreshes an FCM (Android) or APNs (iOS) push notification token. Upserts on (user_id, token). Available platforms: IOS, ANDROID.
-// @Tags         Devices
+// @Tags         User
 // @Accept       json
 // @Produce      json
 // @Security     BearerAuth

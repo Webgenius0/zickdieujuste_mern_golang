@@ -197,6 +197,300 @@ definitions:
     - title
     - video_url
     type: object
+  gotickets_internal_domain_prayer_dto.CategoryResponse:
+    properties:
+      createdAt:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      targetAudience:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  gotickets_internal_domain_prayer_dto.CreateCategoryRequest:
+    properties:
+      name:
+        type: string
+      targetAudience:
+        type: string
+    required:
+    - name
+    - targetAudience
+    type: object
+  gotickets_internal_domain_prayer_dto.CreatePrayerRequest:
+    properties:
+      ageGroup:
+        type: string
+      categoryId:
+        type: string
+      contentText:
+        type: string
+      duration:
+        type: string
+      mediaType:
+        type: string
+      mediaUrl:
+        type: string
+      subCategoryId:
+        type: string
+      thumbnailUrl:
+        type: string
+      title:
+        type: string
+    required:
+    - categoryId
+    - mediaType
+    - title
+    type: object
+  gotickets_internal_domain_prayer_dto.CreateSubCategoryRequest:
+    properties:
+      categoryId:
+        type: string
+      name:
+        type: string
+    required:
+    - categoryId
+    - name
+    type: object
+  gotickets_internal_domain_prayer_dto.MobileCategoryResponse:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      subCategories:
+        items:
+          $ref: '#/definitions/gotickets_internal_domain_prayer_dto.SubCategoryResponse'
+        type: array
+      targetAudience:
+        type: string
+    type: object
+  gotickets_internal_domain_prayer_dto.MobileMetadataResponse:
+    properties:
+      ageGroups:
+        items:
+          type: string
+        type: array
+      categories:
+        items:
+          $ref: '#/definitions/gotickets_internal_domain_prayer_dto.MobileCategoryResponse'
+        type: array
+      targetAudience:
+        type: string
+    type: object
+  gotickets_internal_domain_prayer_dto.PaginatedPrayerResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/gotickets_internal_domain_prayer_dto.PrayerResponse'
+        type: array
+      limit:
+        type: integer
+      page:
+        type: integer
+      totalItems:
+        type: integer
+      totalPages:
+        type: integer
+    type: object
+  gotickets_internal_domain_prayer_dto.PrayerResponse:
+    properties:
+      ageGroup:
+        type: string
+      category:
+        allOf:
+        - $ref: '#/definitions/gotickets_internal_domain_prayer_dto.CategoryResponse'
+        description: Preloaded relations
+      categoryId:
+        type: string
+      contentText:
+        type: string
+      createdAt:
+        type: string
+      duration:
+        type: string
+      id:
+        type: string
+      mediaType:
+        type: string
+      mediaUrl:
+        type: string
+      subCategory:
+        $ref: '#/definitions/gotickets_internal_domain_prayer_dto.SubCategoryResponse'
+      subCategoryId:
+        type: string
+      thumbnailUrl:
+        type: string
+      title:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  gotickets_internal_domain_prayer_dto.SubCategoryResponse:
+    properties:
+      categoryId:
+        type: string
+      createdAt:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  gotickets_internal_domain_prayer_dto.UpdateCategoryRequest:
+    properties:
+      name:
+        type: string
+      targetAudience:
+        type: string
+    required:
+    - name
+    - targetAudience
+    type: object
+  gotickets_internal_domain_prayer_dto.UpdatePrayerRequest:
+    properties:
+      ageGroup:
+        type: string
+      categoryId:
+        type: string
+      contentText:
+        type: string
+      duration:
+        type: string
+      mediaType:
+        type: string
+      mediaUrl:
+        type: string
+      subCategoryId:
+        type: string
+      thumbnailUrl:
+        type: string
+      title:
+        type: string
+    required:
+    - categoryId
+    - mediaType
+    - title
+    type: object
+  gotickets_internal_domain_prayer_dto.UpdateSubCategoryRequest:
+    properties:
+      categoryId:
+        type: string
+      name:
+        type: string
+    required:
+    - categoryId
+    - name
+    type: object
+  gotickets_internal_domain_proverb_dto.CreateProverbReq:
+    properties:
+      audio_url:
+        type: string
+      category:
+        type: string
+      duration:
+        type: string
+      explanation:
+        type: string
+      main_text:
+        type: string
+      publish_date:
+        type: string
+      scripture_reference:
+        type: string
+      thumbnail_url:
+        type: string
+      title:
+        type: string
+    required:
+    - audio_url
+    - category
+    - duration
+    - explanation
+    - main_text
+    - publish_date
+    - scripture_reference
+    - thumbnail_url
+    - title
+    type: object
+  gotickets_internal_domain_proverb_dto.PaginatedProverbResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/gotickets_internal_domain_proverb_dto.ProverbResponse'
+        type: array
+      limit:
+        type: integer
+      page:
+        type: integer
+      total_items:
+        type: integer
+      total_pages:
+        type: integer
+    type: object
+  gotickets_internal_domain_proverb_dto.ProverbResponse:
+    properties:
+      audio_url:
+        type: string
+      category:
+        type: string
+      created_at:
+        type: string
+      duration:
+        type: string
+      explanation:
+        type: string
+      id:
+        type: string
+      main_text:
+        type: string
+      publish_date:
+        type: string
+      scripture_reference:
+        type: string
+      thumbnail_url:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  gotickets_internal_domain_proverb_dto.UpdateProverbReq:
+    properties:
+      audio_url:
+        type: string
+      category:
+        type: string
+      duration:
+        type: string
+      explanation:
+        type: string
+      main_text:
+        type: string
+      publish_date:
+        type: string
+      scripture_reference:
+        type: string
+      thumbnail_url:
+        type: string
+      title:
+        type: string
+    required:
+    - audio_url
+    - category
+    - duration
+    - explanation
+    - main_text
+    - publish_date
+    - scripture_reference
+    - thumbnail_url
+    - title
+    type: object
   gotickets_internal_domain_schedule_dto.ScheduleResponse:
     properties:
       id:
@@ -664,6 +958,102 @@ definitions:
         example: eyJhbGciOiJIUzI1NiIsIn...
         type: string
     type: object
+  gotickets_internal_domain_worship_dto.CreateWorshipReq:
+    properties:
+      artist:
+        maxLength: 255
+        type: string
+      audio_url:
+        type: string
+      duration:
+        type: string
+      prayer_text:
+        type: string
+      thumbnail_url:
+        type: string
+      time_of_day:
+        enum:
+        - Day
+        - Night
+        type: string
+      title:
+        maxLength: 255
+        type: string
+    required:
+    - artist
+    - audio_url
+    - duration
+    - thumbnail_url
+    - time_of_day
+    - title
+    type: object
+  gotickets_internal_domain_worship_dto.PaginatedWorshipResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/gotickets_internal_domain_worship_dto.WorshipResponse'
+        type: array
+      limit:
+        type: integer
+      page:
+        type: integer
+      total_items:
+        type: integer
+      total_pages:
+        type: integer
+    type: object
+  gotickets_internal_domain_worship_dto.UpdateWorshipReq:
+    properties:
+      artist:
+        maxLength: 255
+        type: string
+      audio_url:
+        type: string
+      duration:
+        type: string
+      prayer_text:
+        type: string
+      thumbnail_url:
+        type: string
+      time_of_day:
+        enum:
+        - Day
+        - Night
+        type: string
+      title:
+        maxLength: 255
+        type: string
+    required:
+    - artist
+    - audio_url
+    - duration
+    - thumbnail_url
+    - time_of_day
+    - title
+    type: object
+  gotickets_internal_domain_worship_dto.WorshipResponse:
+    properties:
+      artist:
+        type: string
+      audio_url:
+        type: string
+      created_at:
+        type: string
+      duration:
+        type: string
+      id:
+        type: string
+      prayer_text:
+        type: string
+      thumbnail_url:
+        type: string
+      time_of_day:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+    type: object
   gotickets_internal_httpresponse.Error:
     properties:
       code:
@@ -767,6 +1157,154 @@ paths:
       summary: Welcome
       tags:
       - System
+  /api/v1/admin/categories:
+    get:
+      description: Returns a list of all prayer categories.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/gotickets_internal_domain_prayer_dto.CategoryResponse'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      summary: Get all categories
+      tags:
+      - Prayer
+    post:
+      consumes:
+      - application/json
+      description: Creates a new prayer category. Requires ADMIN role.
+      parameters:
+      - description: Category data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/gotickets_internal_domain_prayer_dto.CreateCategoryRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_prayer_dto.CategoryResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Create a category
+      tags:
+      - Prayer
+  /api/v1/admin/categories/{id}:
+    delete:
+      description: Deletes a prayer category and its subcategories. Requires ADMIN
+        role.
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Delete a category
+      tags:
+      - Prayer
+    get:
+      description: Returns a single category by its ID.
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_prayer_dto.CategoryResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      summary: Get category by ID
+      tags:
+      - Prayer
+    put:
+      consumes:
+      - application/json
+      description: Updates an existing prayer category. Requires ADMIN role.
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Category data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/gotickets_internal_domain_prayer_dto.UpdateCategoryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_prayer_dto.CategoryResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Update a category
+      tags:
+      - Prayer
   /api/v1/admin/library:
     post:
       consumes:
@@ -822,7 +1360,7 @@ paths:
       - BearerAuth: []
       summary: Create a library category
       tags:
-      - Library Categories
+      - Library
   /api/v1/admin/library-categories/{id}:
     delete:
       description: Admin endpoint to delete a category.
@@ -841,7 +1379,7 @@ paths:
       - BearerAuth: []
       summary: Delete a library category
       tags:
-      - Library Categories
+      - Library
     put:
       consumes:
       - application/json
@@ -873,7 +1411,7 @@ paths:
       - BearerAuth: []
       summary: Update a library category
       tags:
-      - Library Categories
+      - Library
   /api/v1/admin/library/{id}:
     delete:
       consumes:
@@ -1024,6 +1562,546 @@ paths:
       summary: Update a motivation
       tags:
       - Motivation
+  /api/v1/admin/prayers:
+    get:
+      description: Returns a paginated list of prayers with optional filtering.
+      parameters:
+      - description: Page number (default 1)
+        in: query
+        name: page
+        type: integer
+      - description: Items per page (default 10)
+        in: query
+        name: limit
+        type: integer
+      - description: Filter by target audience
+        in: query
+        name: targetAudience
+        type: string
+      - description: Filter by category ID
+        in: query
+        name: categoryId
+        type: string
+      - description: Filter by age group
+        in: query
+        name: ageGroup
+        type: string
+      - description: Filter by media type
+        in: query
+        name: mediaType
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_prayer_dto.PaginatedPrayerResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      summary: Get all prayers
+      tags:
+      - Prayer
+    post:
+      consumes:
+      - application/json
+      description: Creates a new prayer. Requires ADMIN role.
+      parameters:
+      - description: Prayer data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/gotickets_internal_domain_prayer_dto.CreatePrayerRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_prayer_dto.PrayerResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Create a prayer
+      tags:
+      - Prayer
+  /api/v1/admin/prayers/{id}:
+    delete:
+      description: Deletes a prayer by ID and removes its assets from Cloudinary.
+        Requires ADMIN role.
+      parameters:
+      - description: Prayer ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Delete a prayer
+      tags:
+      - Prayer
+    get:
+      description: Returns a single prayer by its ID.
+      parameters:
+      - description: Prayer ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_prayer_dto.PrayerResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      summary: Get prayer by ID
+      tags:
+      - Prayer
+    put:
+      consumes:
+      - application/json
+      description: Updates an existing prayer. Requires ADMIN role.
+      parameters:
+      - description: Prayer ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Prayer data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/gotickets_internal_domain_prayer_dto.UpdatePrayerRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_prayer_dto.PrayerResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Update a prayer
+      tags:
+      - Prayer
+  /api/v1/admin/proverbs:
+    post:
+      consumes:
+      - application/json
+      description: Creates a new proverb. Requires ADMIN role.
+      parameters:
+      - description: Proverb data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/gotickets_internal_domain_proverb_dto.CreateProverbReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_proverb_dto.ProverbResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Create a proverb
+      tags:
+      - Proverb
+  /api/v1/admin/proverbs/{id}:
+    delete:
+      description: Deletes a proverb by ID and removes its assets from Cloudinary.
+        Requires ADMIN role.
+      parameters:
+      - description: Proverb ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Delete a proverb
+      tags:
+      - Proverb
+    put:
+      consumes:
+      - application/json
+      description: Updates an existing proverb. Requires ADMIN role.
+      parameters:
+      - description: Proverb ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Proverb data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/gotickets_internal_domain_proverb_dto.UpdateProverbReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_proverb_dto.ProverbResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Update a proverb
+      tags:
+      - Proverb
+  /api/v1/admin/subcategories:
+    get:
+      description: Returns a list of subcategories belonging to a specific category.
+      parameters:
+      - description: Category ID
+        in: query
+        name: categoryId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/gotickets_internal_domain_prayer_dto.SubCategoryResponse'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      summary: Get subcategories by category ID
+      tags:
+      - Prayer
+    post:
+      consumes:
+      - application/json
+      description: Creates a new prayer subcategory. Requires ADMIN role.
+      parameters:
+      - description: SubCategory data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/gotickets_internal_domain_prayer_dto.CreateSubCategoryRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_prayer_dto.SubCategoryResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Create a subcategory
+      tags:
+      - Prayer
+  /api/v1/admin/subcategories/{id}:
+    delete:
+      description: Deletes a prayer subcategory. Requires ADMIN role.
+      parameters:
+      - description: SubCategory ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Delete a subcategory
+      tags:
+      - Prayer
+    get:
+      description: Returns a single subcategory by its ID.
+      parameters:
+      - description: SubCategory ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_prayer_dto.SubCategoryResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      summary: Get subcategory by ID
+      tags:
+      - Prayer
+    put:
+      consumes:
+      - application/json
+      description: Updates an existing prayer subcategory. Requires ADMIN role.
+      parameters:
+      - description: SubCategory ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: SubCategory data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/gotickets_internal_domain_prayer_dto.UpdateSubCategoryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_prayer_dto.SubCategoryResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Update a subcategory
+      tags:
+      - Prayer
+  /api/v1/admin/worships:
+    post:
+      consumes:
+      - application/json
+      description: Creates a new worship track. Requires ADMIN role.
+      parameters:
+      - description: Worship data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/gotickets_internal_domain_worship_dto.CreateWorshipReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_worship_dto.WorshipResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Create a worship track
+      tags:
+      - Worship
+  /api/v1/admin/worships/{id}:
+    delete:
+      description: Deletes a worship track by ID and removes its assets from Cloudinary.
+        Requires ADMIN role.
+      parameters:
+      - description: Worship ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Delete a worship track
+      tags:
+      - Worship
+    put:
+      consumes:
+      - application/json
+      description: Updates an existing worship track. Requires ADMIN role.
+      parameters:
+      - description: Worship ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Worship data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/gotickets_internal_domain_worship_dto.UpdateWorshipReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_worship_dto.WorshipResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Update a worship track
+      tags:
+      - Worship
   /api/v1/auth/admin/login:
     post:
       consumes:
@@ -1054,7 +2132,7 @@ paths:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Admin Login
       tags:
-      - 1. Auth - Onboarding
+      - Auth
   /api/v1/auth/forgot-password:
     post:
       consumes:
@@ -1081,7 +2159,7 @@ paths:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Request password reset OTP
       tags:
-      - 2. Auth - Password Recovery
+      - Auth
   /api/v1/auth/login:
     post:
       consumes:
@@ -1113,7 +2191,7 @@ paths:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Login
       tags:
-      - 1. Auth - Onboarding
+      - Auth
   /api/v1/auth/logout:
     post:
       consumes:
@@ -1140,7 +2218,7 @@ paths:
       - BearerAuth: []
       summary: Logout
       tags:
-      - 3. Auth - Session Management
+      - Auth
   /api/v1/auth/refresh:
     post:
       consumes:
@@ -1166,7 +2244,7 @@ paths:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Refresh access token
       tags:
-      - 3. Auth - Session Management
+      - Auth
   /api/v1/auth/register:
     post:
       consumes:
@@ -1203,7 +2281,7 @@ paths:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Register a new user
       tags:
-      - 1. Auth - Onboarding
+      - Auth
   /api/v1/auth/resend-otp:
     post:
       consumes:
@@ -1234,7 +2312,7 @@ paths:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Resend password reset OTP
       tags:
-      - 2. Auth - Password Recovery
+      - Auth
   /api/v1/auth/reset-password:
     post:
       consumes:
@@ -1265,7 +2343,7 @@ paths:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Reset password with reset token
       tags:
-      - 2. Auth - Password Recovery
+      - Auth
   /api/v1/auth/social-login:
     post:
       consumes:
@@ -1296,7 +2374,7 @@ paths:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Social Login
       tags:
-      - 1. Auth - Onboarding
+      - Auth
   /api/v1/auth/verify-otp:
     post:
       consumes:
@@ -1327,7 +2405,57 @@ paths:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Verify OTP for password reset
       tags:
-      - 2. Auth - Password Recovery
+      - Auth
+  /api/v1/categories:
+    get:
+      description: Returns a list of all prayer categories.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/gotickets_internal_domain_prayer_dto.CategoryResponse'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      summary: Get all categories
+      tags:
+      - Prayer
+  /api/v1/categories/{id}:
+    get:
+      description: Returns a single category by its ID.
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_prayer_dto.CategoryResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      summary: Get category by ID
+      tags:
+      - Prayer
   /api/v1/devices:
     post:
       consumes:
@@ -1364,7 +2492,7 @@ paths:
       - BearerAuth: []
       summary: Register device token
       tags:
-      - Devices
+      - User
   /api/v1/library:
     get:
       consumes:
@@ -1416,7 +2544,7 @@ paths:
             type: array
       summary: Get all library categories
       tags:
-      - Library Categories
+      - Library
   /api/v1/library/{id}:
     get:
       consumes:
@@ -1509,6 +2637,160 @@ paths:
       summary: Get motivation details
       tags:
       - Motivation
+  /api/v1/prayers:
+    get:
+      description: Returns a paginated list of prayers with optional filtering.
+      parameters:
+      - description: Page number (default 1)
+        in: query
+        name: page
+        type: integer
+      - description: Items per page (default 10)
+        in: query
+        name: limit
+        type: integer
+      - description: Filter by target audience
+        in: query
+        name: targetAudience
+        type: string
+      - description: Filter by category ID
+        in: query
+        name: categoryId
+        type: string
+      - description: Filter by age group
+        in: query
+        name: ageGroup
+        type: string
+      - description: Filter by media type
+        in: query
+        name: mediaType
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_prayer_dto.PaginatedPrayerResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      summary: Get all prayers
+      tags:
+      - Prayer
+  /api/v1/prayers/{id}:
+    get:
+      description: Returns a single prayer by its ID.
+      parameters:
+      - description: Prayer ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_prayer_dto.PrayerResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      summary: Get prayer by ID
+      tags:
+      - Prayer
+  /api/v1/prayers/mobile/metadata:
+    get:
+      description: Returns categories, subcategories, and age groups grouped by target
+        audience for mobile screens.
+      parameters:
+      - description: Target audience (e.g., Kids, Teens, General)
+        in: query
+        name: targetAudience
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_prayer_dto.MobileMetadataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      summary: Get mobile metadata
+      tags:
+      - Prayers
+  /api/v1/proverbs:
+    get:
+      description: Returns a paginated list of proverbs, ordered by publish_date DESC.
+      parameters:
+      - description: Page number (default 1)
+        in: query
+        name: page
+        type: integer
+      - description: Items per page (default 10, max 100)
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_proverb_dto.PaginatedProverbResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      summary: Get all proverbs
+      tags:
+      - Proverb
+  /api/v1/proverbs/{id}:
+    get:
+      description: Returns a single proverb by its ID.
+      parameters:
+      - description: Proverb ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_proverb_dto.ProverbResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      summary: Get proverb by ID
+      tags:
+      - Proverb
   /api/v1/schedules/me:
     get:
       description: Returns the authenticated user's prayer schedule. Creates a default
@@ -1570,6 +2852,66 @@ paths:
       summary: Update prayer schedule
       tags:
       - Schedule
+  /api/v1/subcategories:
+    get:
+      description: Returns a list of subcategories belonging to a specific category.
+      parameters:
+      - description: Category ID
+        in: query
+        name: categoryId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/gotickets_internal_domain_prayer_dto.SubCategoryResponse'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      summary: Get subcategories by category ID
+      tags:
+      - Prayer
+  /api/v1/subcategories/{id}:
+    get:
+      description: Returns a single subcategory by its ID.
+      parameters:
+      - description: SubCategory ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_prayer_dto.SubCategoryResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      summary: Get subcategory by ID
+      tags:
+      - Prayer
   /api/v1/subscriptions/plans:
     get:
       description: Returns all active subscription plans (Biannual, Annual, Friends
@@ -1595,7 +2937,7 @@ paths:
       - BearerAuth: []
       summary: List subscription plans
       tags:
-      - Subscriptions
+      - Subscription
   /api/v1/subscriptions/verify:
     post:
       consumes:
@@ -1633,7 +2975,7 @@ paths:
       - BearerAuth: []
       summary: Verify purchase receipt
       tags:
-      - Subscriptions
+      - Subscription
   /api/v1/subscriptions/webhook:
     post:
       consumes:
@@ -1665,7 +3007,7 @@ paths:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Handle store webhook
       tags:
-      - Subscriptions
+      - Subscription
   /api/v1/upload:
     delete:
       consumes:
@@ -1768,7 +3110,7 @@ paths:
       - BearerAuth: []
       summary: Delete account
       tags:
-      - Users
+      - User
     get:
       description: Returns the full profile and settings for the authenticated user.
       produces:
@@ -1790,7 +3132,7 @@ paths:
       - BearerAuth: []
       summary: Get current user profile
       tags:
-      - Users
+      - User
     put:
       consumes:
       - application/json
@@ -1827,7 +3169,7 @@ paths:
       - BearerAuth: []
       summary: Update profile
       tags:
-      - Users
+      - User
   /api/v1/users/me/avatar:
     post:
       consumes:
@@ -1863,7 +3205,7 @@ paths:
       - BearerAuth: []
       summary: Upload avatar
       tags:
-      - Users
+      - User
   /api/v1/users/me/password:
     put:
       consumes:
@@ -1899,7 +3241,69 @@ paths:
       - BearerAuth: []
       summary: Change password
       tags:
-      - Users
+      - User
+  /api/v1/worships:
+    get:
+      description: Returns a paginated list of worship tracks. Optionally filter by
+        time_of_day.
+      parameters:
+      - default: Day
+        description: Filter by Day or Night
+        enum:
+        - Day
+        - Night
+        in: query
+        name: time_of_day
+        type: string
+      - description: Page number (default 1)
+        in: query
+        name: page
+        type: integer
+      - description: Items per page (default 10, max 100)
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_worship_dto.PaginatedWorshipResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      summary: Get all worship tracks
+      tags:
+      - Worship
+  /api/v1/worships/{id}:
+    get:
+      description: Returns a single worship track by its ID.
+      parameters:
+      - description: Worship ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_worship_dto.WorshipResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      summary: Get worship track by ID
+      tags:
+      - Worship
   /health:
     get:
       description: Returns API metadata and database connectivity status.
