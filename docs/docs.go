@@ -733,6 +733,12 @@ const docTemplate = `{
                         "description": "Filter by media type",
                         "name": "mediaType",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by prayer type (Morning Prayer, Night Prayer)",
+                        "name": "prayerType",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -2381,6 +2387,12 @@ const docTemplate = `{
                         "type": "string",
                         "description": "Filter by media type",
                         "name": "mediaType",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by prayer type (Morning Prayer, Night Prayer)",
+                        "name": "prayerType",
                         "in": "query"
                     }
                 ],

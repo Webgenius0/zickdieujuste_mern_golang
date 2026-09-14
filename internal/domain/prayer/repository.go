@@ -133,6 +133,9 @@ func (r *repository) FindAllPrayers(page, limit int, filters map[string]interfac
 	if mediaType, ok := filters["mediaType"]; ok && mediaType != "" {
 		query = query.Where("prayers.media_type = ?", mediaType)
 	}
+	if prayerType, ok := filters["prayerType"]; ok && prayerType != "" {
+		query = query.Where("prayers.prayer_type = ?", prayerType)
+	}
 
 	if err := query.Count(&total).Error; err != nil {
 		return nil, 0, err

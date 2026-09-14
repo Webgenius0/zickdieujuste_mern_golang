@@ -1173,8 +1173,7 @@ paths:
       - System
   /api/v1/admin/categories:
     get:
-      description: Returns a list of all prayer categories. Optionally filter by
-        targetAudience.
+      description: Returns a list of all prayer categories. Optionally filter by targetAudience.
       parameters:
       - description: Filter by target audience (General, Kids, Teens)
         in: query
@@ -1609,6 +1608,10 @@ paths:
       - description: Filter by media type
         in: query
         name: mediaType
+        type: string
+      - description: Filter by prayer type (Morning Prayer, Night Prayer)
+        in: query
+        name: prayerType
         type: string
       produces:
       - application/json
@@ -2689,6 +2692,10 @@ paths:
       - description: Filter by media type
         in: query
         name: mediaType
+        type: string
+      - description: Filter by prayer type (Morning Prayer, Night Prayer)
+        in: query
+        name: prayerType
         type: string
       produces:
       - application/json

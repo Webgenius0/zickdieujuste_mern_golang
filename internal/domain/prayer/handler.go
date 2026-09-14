@@ -328,6 +328,7 @@ func (h *Handler) CreatePrayer(c *echo.Context) error {
 // @Param        categoryId      query     string  false  "Filter by category ID"
 // @Param        ageGroup        query     string  false  "Filter by age group"
 // @Param        mediaType       query     string  false  "Filter by media type"
+// @Param        prayerType      query     string  false  "Filter by prayer type (Morning Prayer, Night Prayer)"
 // @Success      200             {object}  dto.PaginatedPrayerResponse
 // @Failure      500             {object}  httpresponse.Error
 // @Router       /api/v1/admin/prayers [get]
@@ -351,6 +352,9 @@ func (h *Handler) GetAllPrayers(c *echo.Context) error {
 	}
 	if m := c.QueryParam("mediaType"); m != "" {
 		filters["mediaType"] = m
+	}
+	if pt := c.QueryParam("prayerType"); pt != "" {
+		filters["prayerType"] = pt
 	}
 
 	resp, err := h.svc.GetAllPrayers(page, limit, filters)
