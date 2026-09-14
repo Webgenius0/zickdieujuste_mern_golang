@@ -49,15 +49,17 @@ func (h *Handler) CreateCategory(c *echo.Context) error {
 
 // GetAllCategories godoc
 // @Summary      Get all categories
-// @Description  Returns a list of all prayer categories.
+// @Description  Returns a list of all prayer categories. Optionally filter by targetAudience.
 // @Tags         Prayer
 // @Produce      json
+// @Param        targetAudience  query     string  false  "Filter by target audience (General, Kids, Teens)"
 // @Success      200  {array}   dto.CategoryResponse
 // @Failure      500  {object}  httpresponse.Error
 // @Router       /api/v1/admin/categories [get]
 // @Router       /api/v1/categories [get]
 func (h *Handler) GetAllCategories(c *echo.Context) error {
-	resp, err := h.svc.GetAllCategories()
+	targetAudience := c.QueryParam("targetAudience")
+	resp, err := h.svc.GetAllCategories(targetAudience)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, httpresponse.NewError(http.StatusInternalServerError, "Failed to fetch categories", err.Error()))
 	}

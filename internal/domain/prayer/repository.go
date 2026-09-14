@@ -8,7 +8,7 @@ import (
 type Repository interface {
 	// Categories
 	CreateCategory(category *Category) error
-	FindAllCategories() ([]Category, error)
+	FindAllCategories(targetAudience string) ([]Category, error)
 	FindCategoryByID(id uuid.UUID) (*Category, error)
 	UpdateCategory(category *Category) error
 	DeleteCategory(id uuid.UUID) error
@@ -41,9 +41,13 @@ func (r *repository) CreateCategory(category *Category) error {
 	return r.db.Create(category).Error
 }
 
-func (r *repository) FindAllCategories() ([]Category, error) {
+func (r *repository) FindAllCategories(targetAudience string) ([]Category, error) {
 	var categories []Category
-	if err := r.db.Order("name ASC").Find(&categories).Error; err != nil {
+	query := r.db.Order("name ASC")
+	if targetAudience != "" {
+		query = query.Where("target_audience = ?", targetAudience)
+	}
+	if err := query.Find(&categories).Error; err != nil {
 		return nil, err
 	}
 	return categories, nil

@@ -13,7 +13,7 @@ import (
 type Service interface {
 	// Categories
 	CreateCategory(req dto.CreateCategoryRequest) (dto.CategoryResponse, error)
-	GetAllCategories() ([]dto.CategoryResponse, error)
+	GetAllCategories(targetAudience string) ([]dto.CategoryResponse, error)
 	GetCategoryByID(id uuid.UUID) (dto.CategoryResponse, error)
 	UpdateCategory(id uuid.UUID, req dto.UpdateCategoryRequest) (dto.CategoryResponse, error)
 	DeleteCategory(ctx context.Context, id uuid.UUID) error
@@ -106,8 +106,8 @@ func (s *service) CreateCategory(req dto.CreateCategoryRequest) (dto.CategoryRes
 	return mapCategoryToResponse(cat), nil
 }
 
-func (s *service) GetAllCategories() ([]dto.CategoryResponse, error) {
-	cats, err := s.repo.FindAllCategories()
+func (s *service) GetAllCategories(targetAudience string) ([]dto.CategoryResponse, error) {
+	cats, err := s.repo.FindAllCategories(targetAudience)
 	if err != nil {
 		return nil, err
 	}

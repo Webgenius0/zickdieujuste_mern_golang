@@ -45,7 +45,7 @@ const docTemplate = `{
         },
         "/api/v1/admin/categories": {
             "get": {
-                "description": "Returns a list of all prayer categories.",
+                "description": "Returns a list of all prayer categories. Optionally filter by targetAudience.",
                 "produces": [
                     "application/json"
                 ],
@@ -53,6 +53,14 @@ const docTemplate = `{
                     "Prayer"
                 ],
                 "summary": "Get all categories",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Filter by target audience (General, Kids, Teens)",
+                        "name": "targetAudience",
+                        "in": "query"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1974,7 +1982,7 @@ const docTemplate = `{
         },
         "/api/v1/categories": {
             "get": {
-                "description": "Returns a list of all prayer categories.",
+                "description": "Returns a list of all prayer categories. Optionally filter by targetAudience.",
                 "produces": [
                     "application/json"
                 ],
@@ -1982,6 +1990,14 @@ const docTemplate = `{
                     "Prayer"
                 ],
                 "summary": "Get all categories",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Filter by target audience (General, Kids, Teens)",
+                        "name": "targetAudience",
+                        "in": "query"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
