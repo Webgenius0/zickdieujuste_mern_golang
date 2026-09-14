@@ -3668,6 +3668,7 @@
             "required": [
                 "categoryId",
                 "mediaType",
+                "prayerType",
                 "title"
             ],
             "properties": {
@@ -3688,6 +3689,13 @@
                 },
                 "mediaUrl": {
                     "type": "string"
+                },
+                "prayerType": {
+                    "type": "string",
+                    "enum": [
+                        "Morning Prayer",
+                        "Night Prayer"
+                    ]
                 },
                 "subCategoryId": {
                     "type": "string"
@@ -3813,6 +3821,9 @@
                 "mediaUrl": {
                     "type": "string"
                 },
+                "prayerType": {
+                    "type": "string"
+                },
                 "subCategory": {
                     "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.SubCategoryResponse"
                 },
@@ -3870,6 +3881,7 @@
             "required": [
                 "categoryId",
                 "mediaType",
+                "prayerType",
                 "title"
             ],
             "properties": {
@@ -3890,6 +3902,13 @@
                 },
                 "mediaUrl": {
                     "type": "string"
+                },
+                "prayerType": {
+                    "type": "string",
+                    "enum": [
+                        "Morning Prayer",
+                        "Night Prayer"
+                    ]
                 },
                 "subCategoryId": {
                     "type": "string"

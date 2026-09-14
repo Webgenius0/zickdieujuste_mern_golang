@@ -74,6 +74,7 @@ func mapPrayerToResponse(p *Prayer) dto.PrayerResponse {
 		SubCategoryID: p.SubCategoryID,
 		AgeGroup:      p.AgeGroup,
 		MediaType:     string(p.MediaType),
+		PrayerType:    string(p.PrayerType),
 		Duration:      p.Duration,
 		ThumbnailURL:  p.ThumbnailURL,
 		MediaURL:      p.MediaURL,
@@ -81,7 +82,6 @@ func mapPrayerToResponse(p *Prayer) dto.PrayerResponse {
 		CreatedAt:     p.CreatedAt,
 		UpdatedAt:     p.UpdatedAt,
 	}
-	
 	if p.Category != nil {
 		catResp := mapCategoryToResponse(p.Category)
 		resp.Category = &catResp
@@ -222,6 +222,7 @@ func (s *service) CreatePrayer(req dto.CreatePrayerRequest) (dto.PrayerResponse,
 		SubCategoryID: req.SubCategoryID,
 		AgeGroup:      req.AgeGroup,
 		MediaType:     MediaType(req.MediaType),
+		PrayerType:    PrayerType(req.PrayerType),
 		Duration:      req.Duration,
 		ThumbnailURL:  req.ThumbnailURL,
 		MediaURL:      req.MediaURL,
@@ -311,6 +312,7 @@ func (s *service) UpdatePrayer(ctx context.Context, id uuid.UUID, req dto.Update
 	p.SubCategoryID = req.SubCategoryID
 	p.AgeGroup = req.AgeGroup
 	p.MediaType = MediaType(req.MediaType)
+	p.PrayerType = PrayerType(req.PrayerType)
 	p.Duration = req.Duration
 	p.ThumbnailURL = req.ThumbnailURL
 	p.MediaURL = req.MediaURL

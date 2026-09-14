@@ -234,6 +234,11 @@ definitions:
         type: string
       mediaUrl:
         type: string
+      prayerType:
+        enum:
+        - Morning Prayer
+        - Night Prayer
+        type: string
       subCategoryId:
         type: string
       thumbnailUrl:
@@ -243,6 +248,7 @@ definitions:
     required:
     - categoryId
     - mediaType
+    - prayerType
     - title
     type: object
   gotickets_internal_domain_prayer_dto.CreateSubCategoryRequest:
@@ -318,6 +324,8 @@ definitions:
         type: string
       mediaUrl:
         type: string
+      prayerType:
+        type: string
       subCategory:
         $ref: '#/definitions/gotickets_internal_domain_prayer_dto.SubCategoryResponse'
       subCategoryId:
@@ -366,6 +374,11 @@ definitions:
         type: string
       mediaUrl:
         type: string
+      prayerType:
+        enum:
+        - Morning Prayer
+        - Night Prayer
+        type: string
       subCategoryId:
         type: string
       thumbnailUrl:
@@ -375,6 +388,7 @@ definitions:
     required:
     - categoryId
     - mediaType
+    - prayerType
     - title
     type: object
   gotickets_internal_domain_prayer_dto.UpdateSubCategoryRequest:

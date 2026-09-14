@@ -12,6 +12,7 @@ type CreatePrayerRequest struct {
 	SubCategoryID *uuid.UUID `json:"subCategoryId"`
 	AgeGroup      *string    `json:"ageGroup"`
 	MediaType     string     `json:"mediaType" validate:"required"`
+	PrayerType    string     `json:"prayerType" validate:"required,oneof='Morning Prayer' 'Night Prayer'"`
 	Duration      string     `json:"duration"`
 	ThumbnailURL  string     `json:"thumbnailUrl"`
 	MediaURL      string     `json:"mediaUrl"`
@@ -24,6 +25,7 @@ type UpdatePrayerRequest struct {
 	SubCategoryID *uuid.UUID `json:"subCategoryId"`
 	AgeGroup      *string    `json:"ageGroup"`
 	MediaType     string     `json:"mediaType" validate:"required"`
+	PrayerType    string     `json:"prayerType" validate:"required,oneof='Morning Prayer' 'Night Prayer'"`
 	Duration      string     `json:"duration"`
 	ThumbnailURL  string     `json:"thumbnailUrl"`
 	MediaURL      string     `json:"mediaUrl"`
@@ -37,6 +39,7 @@ type PrayerResponse struct {
 	SubCategoryID *uuid.UUID           `json:"subCategoryId"`
 	AgeGroup      *string              `json:"ageGroup"`
 	MediaType     string               `json:"mediaType"`
+	PrayerType    string               `json:"prayerType"`
 	Duration      string               `json:"duration"`
 	ThumbnailURL  string               `json:"thumbnailUrl"`
 	MediaURL      string               `json:"mediaUrl"`
