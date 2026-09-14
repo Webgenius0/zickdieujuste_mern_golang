@@ -712,7 +712,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Filter by target audience",
+                        "description": "Filter by target audience (General, Kids, Teens)",
                         "name": "targetAudience",
                         "in": "query"
                     },
@@ -724,13 +724,13 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Filter by age group",
+                        "description": "Filter by age group (Age 0-5, Age 6-13, Age 13-15, Age 15-18)",
                         "name": "ageGroup",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "Filter by media type",
+                        "description": "Filter by media type (Audio, Video)",
                         "name": "mediaType",
                         "in": "query"
                     },
@@ -2367,7 +2367,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Filter by target audience",
+                        "description": "Filter by target audience (General, Kids, Teens)",
                         "name": "targetAudience",
                         "in": "query"
                     },
@@ -2379,13 +2379,13 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Filter by age group",
+                        "description": "Filter by age group (Age 0-5, Age 6-13, Age 13-15, Age 15-18)",
                         "name": "ageGroup",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "Filter by media type",
+                        "description": "Filter by media type (Audio, Video)",
                         "name": "mediaType",
                         "in": "query"
                     },
