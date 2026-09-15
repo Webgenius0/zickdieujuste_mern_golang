@@ -45,7 +45,7 @@ const docTemplate = `{
         },
         "/api/v1/admin/categories": {
             "get": {
-                "description": "Returns a list of all prayer categories.",
+                "description": "Returns a list of all prayer categories. Optionally filter by targetAudience.",
                 "produces": [
                     "application/json"
                 ],
@@ -53,6 +53,14 @@ const docTemplate = `{
                     "Prayer"
                 ],
                 "summary": "Get all categories",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Filter by target audience (General, Kids, Teens)",
+                        "name": "targetAudience",
+                        "in": "query"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -704,7 +712,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Filter by target audience",
+                        "description": "Filter by target audience (General, Kids, Teens)",
                         "name": "targetAudience",
                         "in": "query"
                     },
@@ -716,14 +724,20 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Filter by age group",
+                        "description": "Filter by age group (Age 0-5, Age 6-13, Age 13-15, Age 15-18)",
                         "name": "ageGroup",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "Filter by media type",
+                        "description": "Filter by media type (Audio, Video)",
                         "name": "mediaType",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by prayer type (Morning Prayer, Night Prayer)",
+                        "name": "prayerType",
                         "in": "query"
                     }
                 ],
@@ -1974,7 +1988,7 @@ const docTemplate = `{
         },
         "/api/v1/categories": {
             "get": {
-                "description": "Returns a list of all prayer categories.",
+                "description": "Returns a list of all prayer categories. Optionally filter by targetAudience.",
                 "produces": [
                     "application/json"
                 ],
@@ -1982,6 +1996,14 @@ const docTemplate = `{
                     "Prayer"
                 ],
                 "summary": "Get all categories",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Filter by target audience (General, Kids, Teens)",
+                        "name": "targetAudience",
+                        "in": "query"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -2345,7 +2367,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Filter by target audience",
+                        "description": "Filter by target audience (General, Kids, Teens)",
                         "name": "targetAudience",
                         "in": "query"
                     },
@@ -2357,14 +2379,20 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Filter by age group",
+                        "description": "Filter by age group (Age 0-5, Age 6-13, Age 13-15, Age 15-18)",
                         "name": "ageGroup",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "Filter by media type",
+                        "description": "Filter by media type (Audio, Video)",
                         "name": "mediaType",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by prayer type (Morning Prayer, Night Prayer)",
+                        "name": "prayerType",
                         "in": "query"
                     }
                 ],
@@ -3675,6 +3703,7 @@ const docTemplate = `{
             "required": [
                 "categoryId",
                 "mediaType",
+                "prayerType",
                 "title"
             ],
             "properties": {
@@ -3695,6 +3724,13 @@ const docTemplate = `{
                 },
                 "mediaUrl": {
                     "type": "string"
+                },
+                "prayerType": {
+                    "type": "string",
+                    "enum": [
+                        "Morning Prayer",
+                        "Night Prayer"
+                    ]
                 },
                 "subCategoryId": {
                     "type": "string"
@@ -3820,6 +3856,9 @@ const docTemplate = `{
                 "mediaUrl": {
                     "type": "string"
                 },
+                "prayerType": {
+                    "type": "string"
+                },
                 "subCategory": {
                     "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.SubCategoryResponse"
                 },
@@ -3877,6 +3916,7 @@ const docTemplate = `{
             "required": [
                 "categoryId",
                 "mediaType",
+                "prayerType",
                 "title"
             ],
             "properties": {
@@ -3897,6 +3937,13 @@ const docTemplate = `{
                 },
                 "mediaUrl": {
                     "type": "string"
+                },
+                "prayerType": {
+                    "type": "string",
+                    "enum": [
+                        "Morning Prayer",
+                        "Night Prayer"
+                    ]
                 },
                 "subCategoryId": {
                     "type": "string"

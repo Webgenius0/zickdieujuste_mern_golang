@@ -49,15 +49,17 @@ func (h *Handler) CreateCategory(c *echo.Context) error {
 
 // GetAllCategories godoc
 // @Summary      Get all categories
-// @Description  Returns a list of all prayer categories.
+// @Description  Returns a list of all prayer categories. Optionally filter by targetAudience.
 // @Tags         Prayer
 // @Produce      json
+// @Param        targetAudience  query     string  false  "Filter by target audience (General, Kids, Teens)"
 // @Success      200  {array}   dto.CategoryResponse
 // @Failure      500  {object}  httpresponse.Error
 // @Router       /api/v1/admin/categories [get]
 // @Router       /api/v1/categories [get]
 func (h *Handler) GetAllCategories(c *echo.Context) error {
-	resp, err := h.svc.GetAllCategories()
+	targetAudience := c.QueryParam("targetAudience")
+	resp, err := h.svc.GetAllCategories(targetAudience)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, httpresponse.NewError(http.StatusInternalServerError, "Failed to fetch categories", err.Error()))
 	}
@@ -322,10 +324,11 @@ func (h *Handler) CreatePrayer(c *echo.Context) error {
 // @Produce      json
 // @Param        page            query     int     false  "Page number (default 1)"
 // @Param        limit           query     int     false  "Items per page (default 10)"
-// @Param        targetAudience  query     string  false  "Filter by target audience"
+// @Param        targetAudience  query     string  false  "Filter by target audience (General, Kids, Teens)"
 // @Param        categoryId      query     string  false  "Filter by category ID"
-// @Param        ageGroup        query     string  false  "Filter by age group"
-// @Param        mediaType       query     string  false  "Filter by media type"
+// @Param        ageGroup        query     string  false  "Filter by age group (Age 0-5, Age 6-13, Age 13-15, Age 15-18)"
+// @Param        mediaType       query     string  false  "Filter by media type (Audio, Video)"
+// @Param        prayerType      query     string  false  "Filter by prayer type (Morning Prayer, Night Prayer)"
 // @Success      200             {object}  dto.PaginatedPrayerResponse
 // @Failure      500             {object}  httpresponse.Error
 // @Router       /api/v1/admin/prayers [get]
@@ -349,6 +352,9 @@ func (h *Handler) GetAllPrayers(c *echo.Context) error {
 	}
 	if m := c.QueryParam("mediaType"); m != "" {
 		filters["mediaType"] = m
+	}
+	if pt := c.QueryParam("prayerType"); pt != "" {
+		filters["prayerType"] = pt
 	}
 
 	resp, err := h.svc.GetAllPrayers(page, limit, filters)

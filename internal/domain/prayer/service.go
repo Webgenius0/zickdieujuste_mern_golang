@@ -13,7 +13,7 @@ import (
 type Service interface {
 	// Categories
 	CreateCategory(req dto.CreateCategoryRequest) (dto.CategoryResponse, error)
-	GetAllCategories() ([]dto.CategoryResponse, error)
+	GetAllCategories(targetAudience string) ([]dto.CategoryResponse, error)
 	GetCategoryByID(id uuid.UUID) (dto.CategoryResponse, error)
 	UpdateCategory(id uuid.UUID, req dto.UpdateCategoryRequest) (dto.CategoryResponse, error)
 	DeleteCategory(ctx context.Context, id uuid.UUID) error
@@ -74,6 +74,7 @@ func mapPrayerToResponse(p *Prayer) dto.PrayerResponse {
 		SubCategoryID: p.SubCategoryID,
 		AgeGroup:      p.AgeGroup,
 		MediaType:     string(p.MediaType),
+		PrayerType:    string(p.PrayerType),
 		Duration:      p.Duration,
 		ThumbnailURL:  p.ThumbnailURL,
 		MediaURL:      p.MediaURL,
@@ -81,7 +82,6 @@ func mapPrayerToResponse(p *Prayer) dto.PrayerResponse {
 		CreatedAt:     p.CreatedAt,
 		UpdatedAt:     p.UpdatedAt,
 	}
-	
 	if p.Category != nil {
 		catResp := mapCategoryToResponse(p.Category)
 		resp.Category = &catResp
@@ -106,8 +106,8 @@ func (s *service) CreateCategory(req dto.CreateCategoryRequest) (dto.CategoryRes
 	return mapCategoryToResponse(cat), nil
 }
 
-func (s *service) GetAllCategories() ([]dto.CategoryResponse, error) {
-	cats, err := s.repo.FindAllCategories()
+func (s *service) GetAllCategories(targetAudience string) ([]dto.CategoryResponse, error) {
+	cats, err := s.repo.FindAllCategories(targetAudience)
 	if err != nil {
 		return nil, err
 	}
@@ -222,6 +222,7 @@ func (s *service) CreatePrayer(req dto.CreatePrayerRequest) (dto.PrayerResponse,
 		SubCategoryID: req.SubCategoryID,
 		AgeGroup:      req.AgeGroup,
 		MediaType:     MediaType(req.MediaType),
+		PrayerType:    PrayerType(req.PrayerType),
 		Duration:      req.Duration,
 		ThumbnailURL:  req.ThumbnailURL,
 		MediaURL:      req.MediaURL,
@@ -311,6 +312,7 @@ func (s *service) UpdatePrayer(ctx context.Context, id uuid.UUID, req dto.Update
 	p.SubCategoryID = req.SubCategoryID
 	p.AgeGroup = req.AgeGroup
 	p.MediaType = MediaType(req.MediaType)
+	p.PrayerType = PrayerType(req.PrayerType)
 	p.Duration = req.Duration
 	p.ThumbnailURL = req.ThumbnailURL
 	p.MediaURL = req.MediaURL

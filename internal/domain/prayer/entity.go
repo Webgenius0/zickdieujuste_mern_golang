@@ -22,6 +22,13 @@ const (
 	MediaTypeVideo MediaType = "Video"
 )
 
+type PrayerType string
+
+const (
+	PrayerTypeMorning PrayerType = "Morning Prayer"
+	PrayerTypeNight   PrayerType = "Night Prayer"
+)
+
 type Category struct {
 	ID             uuid.UUID      `gorm:"type:uuid;primaryKey"`
 	Name           string         `gorm:"type:varchar(100);not null"`
@@ -65,6 +72,7 @@ type Prayer struct {
 	SubCategoryID *uuid.UUID     `gorm:"type:uuid;index"`
 	AgeGroup      *string        `gorm:"type:varchar(50)"`
 	MediaType     MediaType      `gorm:"type:varchar(20);not null"`
+	PrayerType    PrayerType     `gorm:"type:varchar(20);not null;index"`
 	Duration      string         `gorm:"type:varchar(50)"`
 	ThumbnailURL  string         `gorm:"type:text"`
 	MediaURL      string         `gorm:"type:text"`
