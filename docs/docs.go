@@ -9,15 +9,7 @@ const docTemplate = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "termsOfService": "http://swagger.io/terms/",
-        "contact": {
-            "name": "ZICK API Support",
-            "email": "support@zick.app"
-        },
-        "license": {
-            "name": "MIT",
-            "url": "https://opensource.org/licenses/MIT"
-        },
+        "contact": {},
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
@@ -2502,7 +2494,7 @@ const docTemplate = `{
         },
         "/api/v1/proverbs": {
             "get": {
-                "description": "Returns a paginated list of proverbs, ordered by publish_date DESC.",
+                "description": "Returns a paginated list of proverbs, ordered by publish_date DESC. Optionally filter by target_audience.",
                 "produces": [
                     "application/json"
                 ],
@@ -2522,6 +2514,18 @@ const docTemplate = `{
                         "description": "Items per page (default 10, max 100)",
                         "name": "limit",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by audience: General, Kids, Teens",
+                        "name": "target_audience",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "If true, excludes the most recent (Today's) proverb from the results",
+                        "name": "exclude_today",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -2529,6 +2533,46 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/gotickets_internal_domain_proverb_dto.PaginatedProverbResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/proverbs/today": {
+            "get": {
+                "description": "Returns the most recent proverb by publish_date. Optionally filter by target_audience.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Proverb"
+                ],
+                "summary": "Get today's proverb",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Filter by audience: General, Kids, Teens",
+                        "name": "target_audience",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_proverb_dto.MobileTodayResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
                         }
                     },
                     "500": {
@@ -3981,6 +4025,7 @@ const docTemplate = `{
                 "main_text",
                 "publish_date",
                 "scripture_reference",
+                "target_audience",
                 "thumbnail_url",
                 "title"
             ],
@@ -4006,11 +4051,33 @@ const docTemplate = `{
                 "scripture_reference": {
                     "type": "string"
                 },
+                "target_audience": {
+                    "type": "string",
+                    "enum": [
+                        "General",
+                        "Kids",
+                        "Teens"
+                    ]
+                },
                 "thumbnail_url": {
                     "type": "string"
                 },
                 "title": {
                     "type": "string"
+                }
+            }
+        },
+        "gotickets_internal_domain_proverb_dto.MobileTodayResponse": {
+            "type": "object",
+            "properties": {
+                "previous": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/gotickets_internal_domain_proverb_dto.ProverbResponse"
+                    }
+                },
+                "today": {
+                    "$ref": "#/definitions/gotickets_internal_domain_proverb_dto.ProverbResponse"
                 }
             }
         },
@@ -4067,6 +4134,9 @@ const docTemplate = `{
                 "scripture_reference": {
                     "type": "string"
                 },
+                "target_audience": {
+                    "type": "string"
+                },
                 "thumbnail_url": {
                     "type": "string"
                 },
@@ -4088,6 +4158,7 @@ const docTemplate = `{
                 "main_text",
                 "publish_date",
                 "scripture_reference",
+                "target_audience",
                 "thumbnail_url",
                 "title"
             ],
@@ -4112,6 +4183,14 @@ const docTemplate = `{
                 },
                 "scripture_reference": {
                     "type": "string"
+                },
+                "target_audience": {
+                    "type": "string",
+                    "enum": [
+                        "General",
+                        "Kids",
+                        "Teens"
+                    ]
                 },
                 "thumbnail_url": {
                     "type": "string"
@@ -5009,25 +5088,17 @@ const docTemplate = `{
                 }
             }
         }
-    },
-    "securityDefinitions": {
-        "BearerAuth": {
-            "description": "Type \"Bearer\" followed by a space and the JWT access token.",
-            "type": "apiKey",
-            "name": "Authorization",
-            "in": "header"
-        }
     }
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "2.0",
+	Version:          "",
 	Host:             "",
-	BasePath:         "/",
+	BasePath:         "",
 	Schemes:          []string{},
-	Title:            "ZICK API",
-	Description:      "ZICK — A spiritual-wellness app backend providing auth, content, schedules, and subscriptions.",
+	Title:            "",
+	Description:      "",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

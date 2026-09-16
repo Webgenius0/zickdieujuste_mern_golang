@@ -13,7 +13,8 @@ import (
 
 type Service interface {
 	Create(req dto.CreateProverbReq) (dto.ProverbResponse, error)
-	GetAll(page, limit int) (dto.PaginatedProverbResponse, error)
+	GetAll(page, limit int, targetAudience string, excludeToday bool) (dto.PaginatedProverbResponse, error)
+	GetToday(targetAudience string) (dto.MobileTodayResponse, error)
 	GetByID(id uuid.UUID) (dto.ProverbResponse, error)
 	Update(id uuid.UUID, req dto.UpdateProverbReq) (dto.ProverbResponse, error)
 	Delete(ctx context.Context, id uuid.UUID) error
@@ -38,6 +39,7 @@ func (s *service) Create(req dto.CreateProverbReq) (dto.ProverbResponse, error) 
 		ScriptureReference: req.ScriptureReference,
 		MainText:           req.MainText,
 		Explanation:        req.Explanation,
+		TargetAudience:     TargetAudience(req.TargetAudience),
 		PublishDate:        req.PublishDate,
 	}
 
@@ -48,7 +50,7 @@ func (s *service) Create(req dto.CreateProverbReq) (dto.ProverbResponse, error) 
 	return s.mapToResponse(proverb), nil
 }
 
-func (s *service) GetAll(page, limit int) (dto.PaginatedProverbResponse, error) {
+func (s *service) GetAll(page, limit int, targetAudience string, excludeToday bool) (dto.PaginatedProverbResponse, error) {
 	if page < 1 {
 		page = 1
 	}
@@ -59,7 +61,7 @@ func (s *service) GetAll(page, limit int) (dto.PaginatedProverbResponse, error) 
 		limit = 100
 	}
 
-	proverbs, total, err := s.repo.FindAll(page, limit)
+	proverbs, total, err := s.repo.FindAll(page, limit, targetAudience, excludeToday)
 	if err != nil {
 		return dto.PaginatedProverbResponse{}, err
 	}
@@ -80,6 +82,37 @@ func (s *service) GetAll(page, limit int) (dto.PaginatedProverbResponse, error) 
 		TotalPages: totalPages,
 		Page:       page,
 		Limit:      limit,
+	}, nil
+}
+
+func (s *service) GetToday(targetAudience string) (dto.MobileTodayResponse, error) {
+	proverb, err := s.repo.FindToday(targetAudience)
+	if err != nil {
+		return dto.MobileTodayResponse{}, err
+	}
+	if proverb == nil {
+		return dto.MobileTodayResponse{}, errors.New("proverb not found")
+	}
+
+	todayResp := s.mapToResponse(proverb)
+
+	// Fetch previous proverbs (page 1, limit 10, excluding today's proverb)
+	prevProverbs, _, err := s.repo.FindAll(1, 10, targetAudience, true)
+	if err != nil {
+		return dto.MobileTodayResponse{}, err
+	}
+
+	var previous []dto.ProverbResponse
+	for _, p := range prevProverbs {
+		previous = append(previous, s.mapToResponse(&p))
+	}
+	if previous == nil {
+		previous = make([]dto.ProverbResponse, 0)
+	}
+
+	return dto.MobileTodayResponse{
+		Today:    todayResp,
+		Previous: previous,
 	}, nil
 }
 
@@ -112,6 +145,7 @@ func (s *service) Update(id uuid.UUID, req dto.UpdateProverbReq) (dto.ProverbRes
 	proverb.ScriptureReference = req.ScriptureReference
 	proverb.MainText = req.MainText
 	proverb.Explanation = req.Explanation
+	proverb.TargetAudience = TargetAudience(req.TargetAudience)
 	proverb.PublishDate = req.PublishDate
 
 	if err := s.repo.Update(proverb); err != nil {
@@ -158,6 +192,7 @@ func (s *service) mapToResponse(p *Proverb) dto.ProverbResponse {
 		ScriptureReference: p.ScriptureReference,
 		MainText:           p.MainText,
 		Explanation:        p.Explanation,
+		TargetAudience:     string(p.TargetAudience),
 		PublishDate:        p.PublishDate,
 		CreatedAt:          p.CreatedAt,
 		UpdatedAt:          p.UpdatedAt,

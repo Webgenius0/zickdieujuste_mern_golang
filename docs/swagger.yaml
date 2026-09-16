@@ -1,4 +1,3 @@
-basePath: /
 definitions:
   gotickets_internal_domain_library_dto.CategoryResponse:
     properties:
@@ -417,6 +416,12 @@ definitions:
         type: string
       scripture_reference:
         type: string
+      target_audience:
+        enum:
+        - General
+        - Kids
+        - Teens
+        type: string
       thumbnail_url:
         type: string
       title:
@@ -429,8 +434,18 @@ definitions:
     - main_text
     - publish_date
     - scripture_reference
+    - target_audience
     - thumbnail_url
     - title
+    type: object
+  gotickets_internal_domain_proverb_dto.MobileTodayResponse:
+    properties:
+      previous:
+        items:
+          $ref: '#/definitions/gotickets_internal_domain_proverb_dto.ProverbResponse'
+        type: array
+      today:
+        $ref: '#/definitions/gotickets_internal_domain_proverb_dto.ProverbResponse'
     type: object
   gotickets_internal_domain_proverb_dto.PaginatedProverbResponse:
     properties:
@@ -467,6 +482,8 @@ definitions:
         type: string
       scripture_reference:
         type: string
+      target_audience:
+        type: string
       thumbnail_url:
         type: string
       title:
@@ -490,6 +507,12 @@ definitions:
         type: string
       scripture_reference:
         type: string
+      target_audience:
+        enum:
+        - General
+        - Kids
+        - Teens
+        type: string
       thumbnail_url:
         type: string
       title:
@@ -502,6 +525,7 @@ definitions:
     - main_text
     - publish_date
     - scripture_reference
+    - target_audience
     - thumbnail_url
     - title
     type: object
@@ -1146,17 +1170,7 @@ definitions:
         type: string
     type: object
 info:
-  contact:
-    email: support@zick.app
-    name: ZICK API Support
-  description: ZICK — A spiritual-wellness app backend providing auth, content, schedules,
-    and subscriptions.
-  license:
-    name: MIT
-    url: https://opensource.org/licenses/MIT
-  termsOfService: http://swagger.io/terms/
-  title: ZICK API
-  version: "2.0"
+  contact: {}
 paths:
   /:
     get:
@@ -2773,6 +2787,7 @@ paths:
   /api/v1/proverbs:
     get:
       description: Returns a paginated list of proverbs, ordered by publish_date DESC.
+        Optionally filter by target_audience.
       parameters:
       - description: Page number (default 1)
         in: query
@@ -2782,6 +2797,15 @@ paths:
         in: query
         name: limit
         type: integer
+      - description: 'Filter by audience: General, Kids, Teens'
+        in: query
+        name: target_audience
+        type: string
+      - description: If true, excludes the most recent (Today's) proverb from the
+          results
+        in: query
+        name: exclude_today
+        type: boolean
       produces:
       - application/json
       responses:
@@ -2821,6 +2845,33 @@ paths:
           schema:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
       summary: Get proverb by ID
+      tags:
+      - Proverb
+  /api/v1/proverbs/today:
+    get:
+      description: Returns the most recent proverb by publish_date. Optionally filter
+        by target_audience.
+      parameters:
+      - description: 'Filter by audience: General, Kids, Teens'
+        in: query
+        name: target_audience
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_proverb_dto.MobileTodayResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      summary: Get today's proverb
       tags:
       - Proverb
   /api/v1/schedules/me:
@@ -3349,10 +3400,4 @@ paths:
       summary: Health Check
       tags:
       - System
-securityDefinitions:
-  BearerAuth:
-    description: Type "Bearer" followed by a space and the JWT access token.
-    in: header
-    name: Authorization
-    type: apiKey
 swagger: "2.0"

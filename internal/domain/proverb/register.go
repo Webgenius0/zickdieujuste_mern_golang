@@ -18,6 +18,7 @@ func RegisterRoutes(e *echo.Echo, db *gorm.DB, jwtService auth.JWTService, uploa
 	// Public routes
 	public := e.Group("/api/v1")
 	public.GET("/proverbs", h.GetAll)
+	public.GET("/proverbs/today", h.GetToday)
 	public.GET("/proverbs/:id", h.GetByID)
 
 	// Admin routes
