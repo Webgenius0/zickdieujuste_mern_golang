@@ -21,21 +21,47 @@ func NewHandler(svc Service) *Handler {
 
 // GetAll godoc
 // @Summary      Get all proverbs
-// @Description  Returns a paginated list of proverbs, ordered by publish_date DESC.
+// @Description  Returns a paginated list of proverbs, ordered by publish_date DESC. Optionally filter by target_audience.
 // @Tags         Proverb
 // @Produce      json
-// @Param        page         query     int     false  "Page number (default 1)"
-// @Param        limit        query     int     false  "Items per page (default 10, max 100)"
+// @Param        page             query     int     false  "Page number (default 1)"
+// @Param        limit            query     int     false  "Items per page (default 10, max 100)"
+// @Param        target_audience  query     string  false  "Filter by audience: General, Kids, Teens"
+// @Param        exclude_today    query     bool    false  "If true, excludes the most recent (Today's) proverb from the results"
 // @Success      200  {object}  dto.PaginatedProverbResponse
 // @Failure      500  {object}  httpresponse.Error
 // @Router       /api/v1/proverbs [get]
 func (h *Handler) GetAll(c *echo.Context) error {
 	page, _ := strconv.Atoi(c.QueryParam("page"))
 	limit, _ := strconv.Atoi(c.QueryParam("limit"))
+	targetAudience := c.QueryParam("target_audience")
+	excludeToday := c.QueryParam("exclude_today") == "true"
 
-	resp, err := h.svc.GetAll(page, limit)
+	resp, err := h.svc.GetAll(page, limit, targetAudience, excludeToday)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, httpresponse.NewError(http.StatusInternalServerError, "Failed to fetch proverbs", err.Error()))
+	}
+	return c.JSON(http.StatusOK, resp)
+}
+
+// GetToday godoc
+// @Summary      Get today's proverb
+// @Description  Returns the most recent proverb by publish_date. Optionally filter by target_audience.
+// @Tags         Proverb
+// @Produce      json
+// @Param        target_audience  query     string  false  "Filter by audience: General, Kids, Teens"
+// @Success      200  {object}  dto.MobileTodayResponse
+// @Failure      404  {object}  httpresponse.Error
+// @Failure      500  {object}  httpresponse.Error
+// @Router       /api/v1/proverbs/today [get]
+func (h *Handler) GetToday(c *echo.Context) error {
+	targetAudience := c.QueryParam("target_audience")
+	resp, err := h.svc.GetToday(targetAudience)
+	if err != nil {
+		if err.Error() == "proverb not found" {
+			return c.JSON(http.StatusNotFound, httpresponse.NewError(http.StatusNotFound, "No proverb available", ""))
+		}
+		return c.JSON(http.StatusInternalServerError, httpresponse.NewError(http.StatusInternalServerError, "Failed to fetch today's proverb", err.Error()))
 	}
 	return c.JSON(http.StatusOK, resp)
 }

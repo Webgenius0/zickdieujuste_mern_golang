@@ -11,6 +11,7 @@ type TargetAudience string
 
 const (
 	AudienceGeneral TargetAudience = "General"
+	AudienceAdults  TargetAudience = "Adults"
 	AudienceKids    TargetAudience = "Kids"
 	AudienceTeens   TargetAudience = "Teens"
 )
@@ -33,6 +34,7 @@ type Category struct {
 	ID             uuid.UUID      `gorm:"type:uuid;primaryKey"`
 	Name           string         `gorm:"type:varchar(100);not null"`
 	TargetAudience TargetAudience `gorm:"type:varchar(50);not null"`
+	Module         string         `gorm:"type:varchar(20);default:'Prayer';index"`
 	CreatedAt      time.Time      `gorm:"autoCreateTime"`
 	UpdatedAt      time.Time      `gorm:"autoUpdateTime"`
 	DeletedAt      gorm.DeletedAt `gorm:"index"`
@@ -73,10 +75,12 @@ type Prayer struct {
 	AgeGroup      *string        `gorm:"type:varchar(50)"`
 	MediaType     MediaType      `gorm:"type:varchar(20);not null"`
 	PrayerType    PrayerType     `gorm:"type:varchar(20);not null;index"`
+	Module        string         `gorm:"type:varchar(20);default:'Prayer';index"`
 	Duration      string         `gorm:"type:varchar(50)"`
 	ThumbnailURL  string         `gorm:"type:text"`
 	MediaURL      string         `gorm:"type:text"`
 	ContentText   string         `gorm:"type:text"`
+	PublishDate   *time.Time     `gorm:"index"`
 	CreatedAt     time.Time      `gorm:"autoCreateTime"`
 	UpdatedAt     time.Time      `gorm:"autoUpdateTime"`
 	DeletedAt     gorm.DeletedAt `gorm:"index"`

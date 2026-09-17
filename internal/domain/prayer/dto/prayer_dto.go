@@ -13,10 +13,12 @@ type CreatePrayerRequest struct {
 	AgeGroup      *string    `json:"ageGroup"`
 	MediaType     string     `json:"mediaType" validate:"required"`
 	PrayerType    string     `json:"prayerType" validate:"required,oneof='Morning Prayer' 'Night Prayer'"`
+	Module        string     `json:"module" validate:"omitempty,oneof='Prayer' 'Faith'"`
 	Duration      string     `json:"duration"`
 	ThumbnailURL  string     `json:"thumbnailUrl"`
 	MediaURL      string     `json:"mediaUrl"`
 	ContentText   string     `json:"contentText"`
+	PublishDate   *time.Time `json:"publishDate"`
 }
 
 type UpdatePrayerRequest struct {
@@ -26,10 +28,12 @@ type UpdatePrayerRequest struct {
 	AgeGroup      *string    `json:"ageGroup"`
 	MediaType     string     `json:"mediaType" validate:"required"`
 	PrayerType    string     `json:"prayerType" validate:"required,oneof='Morning Prayer' 'Night Prayer'"`
+	Module        string     `json:"module" validate:"omitempty,oneof='Prayer' 'Faith'"`
 	Duration      string     `json:"duration"`
 	ThumbnailURL  string     `json:"thumbnailUrl"`
 	MediaURL      string     `json:"mediaUrl"`
 	ContentText   string     `json:"contentText"`
+	PublishDate   *time.Time `json:"publishDate"`
 }
 
 type PrayerResponse struct {
@@ -40,10 +44,12 @@ type PrayerResponse struct {
 	AgeGroup      *string              `json:"ageGroup"`
 	MediaType     string               `json:"mediaType"`
 	PrayerType    string               `json:"prayerType"`
+	Module        string               `json:"module"`
 	Duration      string               `json:"duration"`
 	ThumbnailURL  string               `json:"thumbnailUrl"`
 	MediaURL      string               `json:"mediaUrl"`
 	ContentText   string               `json:"contentText"`
+	PublishDate   *time.Time           `json:"publishDate"`
 	CreatedAt     time.Time            `json:"createdAt"`
 	UpdatedAt     time.Time            `json:"updatedAt"`
 	

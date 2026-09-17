@@ -2502,7 +2502,7 @@ const docTemplate = `{
         },
         "/api/v1/proverbs": {
             "get": {
-                "description": "Returns a paginated list of proverbs, ordered by publish_date DESC.",
+                "description": "Returns a paginated list of proverbs, ordered by publish_date DESC. Optionally filter by target_audience.",
                 "produces": [
                     "application/json"
                 ],
@@ -2522,6 +2522,18 @@ const docTemplate = `{
                         "description": "Items per page (default 10, max 100)",
                         "name": "limit",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by audience: General, Kids, Teens",
+                        "name": "target_audience",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "If true, excludes the most recent (Today's) proverb from the results",
+                        "name": "exclude_today",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -2529,6 +2541,46 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/gotickets_internal_domain_proverb_dto.PaginatedProverbResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/proverbs/today": {
+            "get": {
+                "description": "Returns the most recent proverb by publish_date. Optionally filter by target_audience.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Proverb"
+                ],
+                "summary": "Get today's proverb",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Filter by audience: General, Kids, Teens",
+                        "name": "target_audience",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_proverb_dto.MobileTodayResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
                         }
                     },
                     "500": {
@@ -3672,6 +3724,9 @@ const docTemplate = `{
                 "id": {
                     "type": "string"
                 },
+                "module": {
+                    "type": "string"
+                },
                 "name": {
                     "type": "string"
                 },
@@ -3690,6 +3745,13 @@ const docTemplate = `{
                 "targetAudience"
             ],
             "properties": {
+                "module": {
+                    "type": "string",
+                    "enum": [
+                        "Prayer",
+                        "Faith"
+                    ]
+                },
                 "name": {
                     "type": "string"
                 },
@@ -3725,12 +3787,22 @@ const docTemplate = `{
                 "mediaUrl": {
                     "type": "string"
                 },
+                "module": {
+                    "type": "string",
+                    "enum": [
+                        "Prayer",
+                        "Faith"
+                    ]
+                },
                 "prayerType": {
                     "type": "string",
                     "enum": [
                         "Morning Prayer",
                         "Night Prayer"
                     ]
+                },
+                "publishDate": {
+                    "type": "string"
                 },
                 "subCategoryId": {
                     "type": "string"
@@ -3856,7 +3928,13 @@ const docTemplate = `{
                 "mediaUrl": {
                     "type": "string"
                 },
+                "module": {
+                    "type": "string"
+                },
                 "prayerType": {
+                    "type": "string"
+                },
+                "publishDate": {
                     "type": "string"
                 },
                 "subCategory": {
@@ -3903,6 +3981,13 @@ const docTemplate = `{
                 "targetAudience"
             ],
             "properties": {
+                "module": {
+                    "type": "string",
+                    "enum": [
+                        "Prayer",
+                        "Faith"
+                    ]
+                },
                 "name": {
                     "type": "string"
                 },
@@ -3938,12 +4023,22 @@ const docTemplate = `{
                 "mediaUrl": {
                     "type": "string"
                 },
+                "module": {
+                    "type": "string",
+                    "enum": [
+                        "Prayer",
+                        "Faith"
+                    ]
+                },
                 "prayerType": {
                     "type": "string",
                     "enum": [
                         "Morning Prayer",
                         "Night Prayer"
                     ]
+                },
+                "publishDate": {
+                    "type": "string"
                 },
                 "subCategoryId": {
                     "type": "string"
@@ -3981,6 +4076,7 @@ const docTemplate = `{
                 "main_text",
                 "publish_date",
                 "scripture_reference",
+                "target_audience",
                 "thumbnail_url",
                 "title"
             ],
@@ -4006,11 +4102,33 @@ const docTemplate = `{
                 "scripture_reference": {
                     "type": "string"
                 },
+                "target_audience": {
+                    "type": "string",
+                    "enum": [
+                        "General",
+                        "Kids",
+                        "Teens"
+                    ]
+                },
                 "thumbnail_url": {
                     "type": "string"
                 },
                 "title": {
                     "type": "string"
+                }
+            }
+        },
+        "gotickets_internal_domain_proverb_dto.MobileTodayResponse": {
+            "type": "object",
+            "properties": {
+                "previous": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/gotickets_internal_domain_proverb_dto.ProverbResponse"
+                    }
+                },
+                "today": {
+                    "$ref": "#/definitions/gotickets_internal_domain_proverb_dto.ProverbResponse"
                 }
             }
         },
@@ -4067,6 +4185,9 @@ const docTemplate = `{
                 "scripture_reference": {
                     "type": "string"
                 },
+                "target_audience": {
+                    "type": "string"
+                },
                 "thumbnail_url": {
                     "type": "string"
                 },
@@ -4088,6 +4209,7 @@ const docTemplate = `{
                 "main_text",
                 "publish_date",
                 "scripture_reference",
+                "target_audience",
                 "thumbnail_url",
                 "title"
             ],
@@ -4112,6 +4234,14 @@ const docTemplate = `{
                 },
                 "scripture_reference": {
                     "type": "string"
+                },
+                "target_audience": {
+                    "type": "string",
+                    "enum": [
+                        "General",
+                        "Kids",
+                        "Teens"
+                    ]
                 },
                 "thumbnail_url": {
                     "type": "string"

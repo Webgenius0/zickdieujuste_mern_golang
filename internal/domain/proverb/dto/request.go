@@ -11,6 +11,7 @@ type CreateProverbReq struct {
 	ScriptureReference string    `json:"scripture_reference" validate:"required"`
 	MainText           string    `json:"main_text" validate:"required"`
 	Explanation        string    `json:"explanation" validate:"required"`
+	TargetAudience     string    `json:"target_audience" validate:"required,oneof=General Kids Teens"`
 	PublishDate        time.Time `json:"publish_date" validate:"required"`
 }
 
@@ -23,5 +24,6 @@ type UpdateProverbReq struct {
 	ScriptureReference string    `json:"scripture_reference" validate:"required"`
 	MainText           string    `json:"main_text" validate:"required"`
 	Explanation        string    `json:"explanation" validate:"required"`
+	TargetAudience     string    `json:"target_audience" validate:"required,oneof=General Kids Teens"`
 	PublishDate        time.Time `json:"publish_date" validate:"required"`
 }

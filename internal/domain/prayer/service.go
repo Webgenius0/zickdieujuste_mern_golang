@@ -13,7 +13,7 @@ import (
 type Service interface {
 	// Categories
 	CreateCategory(req dto.CreateCategoryRequest) (dto.CategoryResponse, error)
-	GetAllCategories(targetAudience string) ([]dto.CategoryResponse, error)
+	GetAllCategories(targetAudience string, module string) ([]dto.CategoryResponse, error)
 	GetCategoryByID(id uuid.UUID) (dto.CategoryResponse, error)
 	UpdateCategory(id uuid.UUID, req dto.UpdateCategoryRequest) (dto.CategoryResponse, error)
 	DeleteCategory(ctx context.Context, id uuid.UUID) error
@@ -51,6 +51,7 @@ func mapCategoryToResponse(c *Category) dto.CategoryResponse {
 		ID:             c.ID,
 		Name:           c.Name,
 		TargetAudience: string(c.TargetAudience),
+		Module:         c.Module,
 		CreatedAt:      c.CreatedAt,
 		UpdatedAt:      c.UpdatedAt,
 	}
@@ -75,10 +76,12 @@ func mapPrayerToResponse(p *Prayer) dto.PrayerResponse {
 		AgeGroup:      p.AgeGroup,
 		MediaType:     string(p.MediaType),
 		PrayerType:    string(p.PrayerType),
+		Module:        p.Module,
 		Duration:      p.Duration,
 		ThumbnailURL:  p.ThumbnailURL,
 		MediaURL:      p.MediaURL,
 		ContentText:   p.ContentText,
+		PublishDate:   p.PublishDate,
 		CreatedAt:     p.CreatedAt,
 		UpdatedAt:     p.UpdatedAt,
 	}
@@ -99,6 +102,7 @@ func (s *service) CreateCategory(req dto.CreateCategoryRequest) (dto.CategoryRes
 	cat := &Category{
 		Name:           req.Name,
 		TargetAudience: TargetAudience(req.TargetAudience),
+		Module:         req.Module,
 	}
 	if err := s.repo.CreateCategory(cat); err != nil {
 		return dto.CategoryResponse{}, err
@@ -106,8 +110,8 @@ func (s *service) CreateCategory(req dto.CreateCategoryRequest) (dto.CategoryRes
 	return mapCategoryToResponse(cat), nil
 }
 
-func (s *service) GetAllCategories(targetAudience string) ([]dto.CategoryResponse, error) {
-	cats, err := s.repo.FindAllCategories(targetAudience)
+func (s *service) GetAllCategories(targetAudience string, module string) ([]dto.CategoryResponse, error) {
+	cats, err := s.repo.FindAllCategories(targetAudience, module)
 	if err != nil {
 		return nil, err
 	}
@@ -143,6 +147,9 @@ func (s *service) UpdateCategory(id uuid.UUID, req dto.UpdateCategoryRequest) (d
 
 	cat.Name = req.Name
 	cat.TargetAudience = TargetAudience(req.TargetAudience)
+	if req.Module != "" {
+		cat.Module = req.Module
+	}
 
 	if err := s.repo.UpdateCategory(cat); err != nil {
 		return dto.CategoryResponse{}, err
@@ -223,10 +230,12 @@ func (s *service) CreatePrayer(req dto.CreatePrayerRequest) (dto.PrayerResponse,
 		AgeGroup:      req.AgeGroup,
 		MediaType:     MediaType(req.MediaType),
 		PrayerType:    PrayerType(req.PrayerType),
+		Module:        req.Module,
 		Duration:      req.Duration,
 		ThumbnailURL:  req.ThumbnailURL,
 		MediaURL:      req.MediaURL,
 		ContentText:   req.ContentText,
+		PublishDate:   req.PublishDate,
 	}
 	if err := s.repo.CreatePrayer(p); err != nil {
 		return dto.PrayerResponse{}, err
@@ -313,10 +322,12 @@ func (s *service) UpdatePrayer(ctx context.Context, id uuid.UUID, req dto.Update
 	p.AgeGroup = req.AgeGroup
 	p.MediaType = MediaType(req.MediaType)
 	p.PrayerType = PrayerType(req.PrayerType)
+	p.Module = req.Module
 	p.Duration = req.Duration
 	p.ThumbnailURL = req.ThumbnailURL
 	p.MediaURL = req.MediaURL
 	p.ContentText = req.ContentText
+	p.PublishDate = req.PublishDate
 
 	if err := s.repo.UpdatePrayer(p); err != nil {
 		return dto.PrayerResponse{}, err
@@ -388,7 +399,7 @@ func (s *service) GetMobileMetadata(targetAudience string) (dto.MobileMetadataRe
 	}
 
 	// Predefine age groups for the mobile UI
-	ageGroups := []string{"Age 0-5", "Age 6-13", "Age 13-15", "Age 15-18"}
+	ageGroups := []string{"Age 0-5", "Age 6-13", "Age 13-15", "Age 15-18", "Adults 18+"}
 
 	return dto.MobileMetadataResponse{
 		TargetAudience: targetAudience,

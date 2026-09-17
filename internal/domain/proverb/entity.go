@@ -7,6 +7,14 @@ import (
 	"gorm.io/gorm"
 )
 
+type TargetAudience string
+
+const (
+	AudienceGeneral TargetAudience = "General"
+	AudienceKids    TargetAudience = "Kids"
+	AudienceTeens   TargetAudience = "Teens"
+)
+
 // Proverb represents a proverb entry in the system.
 type Proverb struct {
 	ID                 uuid.UUID      `gorm:"type:uuid;primaryKey"`
@@ -18,6 +26,7 @@ type Proverb struct {
 	ScriptureReference string         `gorm:"type:varchar(255);not null"`
 	MainText           string         `gorm:"type:text;not null"`
 	Explanation        string         `gorm:"type:text;not null"`
+	TargetAudience     TargetAudience `gorm:"type:varchar(50);not null;default:'General'"`
 	PublishDate        time.Time      `gorm:"type:date;not null;index"`
 	CreatedAt          time.Time      `gorm:"autoCreateTime"`
 	UpdatedAt          time.Time      `gorm:"autoUpdateTime"`

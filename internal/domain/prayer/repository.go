@@ -8,7 +8,7 @@ import (
 type Repository interface {
 	// Categories
 	CreateCategory(category *Category) error
-	FindAllCategories(targetAudience string) ([]Category, error)
+	FindAllCategories(targetAudience string, module string) ([]Category, error)
 	FindCategoryByID(id uuid.UUID) (*Category, error)
 	UpdateCategory(category *Category) error
 	DeleteCategory(id uuid.UUID) error
@@ -41,11 +41,14 @@ func (r *repository) CreateCategory(category *Category) error {
 	return r.db.Create(category).Error
 }
 
-func (r *repository) FindAllCategories(targetAudience string) ([]Category, error) {
+func (r *repository) FindAllCategories(targetAudience string, module string) ([]Category, error) {
 	var categories []Category
 	query := r.db.Order("name ASC")
 	if targetAudience != "" {
 		query = query.Where("target_audience = ?", targetAudience)
+	}
+	if module != "" {
+		query = query.Where("module = ?", module)
 	}
 	if err := query.Find(&categories).Error; err != nil {
 		return nil, err
@@ -124,6 +127,9 @@ func (r *repository) FindAllPrayers(page, limit int, filters map[string]interfac
 	if categoryID, ok := filters["categoryId"]; ok && categoryID != "" {
 		query = query.Where("prayers.category_id = ?", categoryID)
 	}
+	if module, ok := filters["module"]; ok && module != "" {
+		query = query.Where("prayers.module = ?", module)
+	}
 	if subCategoryID, ok := filters["subCategoryId"]; ok && subCategoryID != "" {
 		query = query.Where("prayers.sub_category_id = ?", subCategoryID)
 	}
@@ -135,6 +141,11 @@ func (r *repository) FindAllPrayers(page, limit int, filters map[string]interfac
 	}
 	if prayerType, ok := filters["prayerType"]; ok && prayerType != "" {
 		query = query.Where("prayers.prayer_type = ?", prayerType)
+	}
+
+	if isAdmin, ok := filters["isAdmin"].(bool); !ok || !isAdmin {
+		// For mobile: only show prayers where publish_date is in the past or null
+		query = query.Where("prayers.publish_date <= NOW() OR prayers.publish_date IS NULL")
 	}
 
 	if err := query.Count(&total).Error; err != nil {
