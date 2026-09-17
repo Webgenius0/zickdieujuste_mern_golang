@@ -3,6 +3,7 @@ package prayer
 import (
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v5"
@@ -59,7 +60,8 @@ func (h *Handler) CreateCategory(c *echo.Context) error {
 // @Router       /api/v1/categories [get]
 func (h *Handler) GetAllCategories(c *echo.Context) error {
 	targetAudience := c.QueryParam("targetAudience")
-	resp, err := h.svc.GetAllCategories(targetAudience)
+	module := c.QueryParam("module")
+	resp, err := h.svc.GetAllCategories(targetAudience, module)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, httpresponse.NewError(http.StatusInternalServerError, "Failed to fetch categories", err.Error()))
 	}
@@ -338,8 +340,13 @@ func (h *Handler) GetAllPrayers(c *echo.Context) error {
 	limit, _ := strconv.Atoi(c.QueryParam("limit"))
 
 	filters := map[string]interface{}{}
+	filters["isAdmin"] = strings.Contains(c.Path(), "/admin/")
+	
 	if t := c.QueryParam("targetAudience"); t != "" {
 		filters["targetAudience"] = t
+	}
+	if module := c.QueryParam("module"); module != "" {
+		filters["module"] = module
 	}
 	if cat := c.QueryParam("categoryId"); cat != "" {
 		filters["categoryId"] = cat
