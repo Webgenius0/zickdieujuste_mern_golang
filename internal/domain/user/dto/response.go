@@ -81,3 +81,20 @@ type MessageResponse struct {
 type VerifyOTPResponse struct {
 	ResetToken string `json:"reset_token" example:"eyJhbGciOiJIUzI1NiIsIn..."`
 }
+
+type AdminUserResponse struct {
+	ID        uuid.UUID `json:"id" example:"a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"`
+	Name      string    `json:"name" example:"John Doe"`
+	Email     string    `json:"email" example:"user@example.com"`
+	AvatarURL *string   `json:"avatar_url" example:"https://example.com/avatar.jpg"`
+	Role      string    `json:"role" example:"USER"`
+	IsActive  bool      `json:"is_active" example:"true"`
+	CreatedAt time.Time `json:"created_at" example:"2026-08-17T15:00:00Z"`
+}
+
+type PaginatedAdminUsersResponse struct {
+	Users      []AdminUserResponse `json:"users"`
+	TotalCount int64               `json:"total_count" example:"100"`
+	Page       int                 `json:"page" example:"1"`
+	Limit      int                 `json:"limit" example:"10"`
+}

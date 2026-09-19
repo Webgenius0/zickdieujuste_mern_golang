@@ -62,4 +62,9 @@ func RegisterRoutes(e *echo.Echo, db *gorm.DB, cfg *config.Config, uploader uplo
 
 	deviceGroup := e.Group("/api/v1/devices", authMW)
 	deviceGroup.POST("", h.RegisterDevice)
+
+	adminGroup := e.Group("/api/v1/admin/users", authMW, middlewares.RequireAdmin)
+	adminGroup.GET("", h.GetAdminUsers)
+	adminGroup.PUT("/:id", h.UpdateAdminUser)
+	adminGroup.DELETE("/:id", h.DeleteAdminUser)
 }

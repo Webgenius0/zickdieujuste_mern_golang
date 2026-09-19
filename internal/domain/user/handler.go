@@ -3,6 +3,7 @@ package user
 import (
 	"errors"
 	"net/http"
+	"strconv"
 	"time"
 
 	"gotickets/internal/auth"
@@ -527,6 +528,92 @@ func (h *Handler) RegisterDevice(c *echo.Context) error {
 	return c.JSON(http.StatusOK, dto.MessageResponse{Message: "Device registered successfully"})
 }
 
+
+// GetAdminUsers godoc
+// @Summary      Get all users (Admin)
+// @Description  Retrieves a paginated list of users for the admin dashboard.
+// @Tags         Admin Users
+// @Produce      json
+// @Security     BearerAuth
+// @Param        page    query     int     false  "Page number (default 1)"
+// @Param        limit   query     int     false  "Items per page (default 10)"
+// @Param        search  query     string  false  "Search by name or email"
+// @Success      200     {object}  dto.StandardResponse{data=dto.PaginatedAdminUsersResponse}
+// @Router       /api/v1/admin/users [get]
+func (h *Handler) GetAdminUsers(c *echo.Context) error {
+	page, _ := strconv.Atoi(c.QueryParam("page"))
+	if page < 1 {
+		page = 1
+	}
+	limit, _ := strconv.Atoi(c.QueryParam("limit"))
+	if limit < 1 {
+		limit = 10
+	}
+	search := c.QueryParam("search")
+
+	resp, err := h.svc.GetAdminUsers(page, limit, search)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, httpresponse.NewError(http.StatusInternalServerError, "Failed to retrieve users", err.Error()))
+	}
+	return c.JSON(http.StatusOK, dto.StandardResponse{
+		Success: true,
+		Data:    resp,
+	})
+}
+
+// UpdateAdminUser godoc
+// @Summary      Update user role/status (Admin)
+// @Description  Updates a user's role (promote/demote) and active status.
+// @Tags         Admin Users
+// @Accept       json
+// @Produce      json
+// @Security     BearerAuth
+// @Param        id       path      string  true  "User UUID"
+// @Param        request  body      dto.AdminUpdateUserRequest  true  "Update payload"
+// @Success      200      {object}  dto.MessageResponse
+// @Router       /api/v1/admin/users/{id} [put]
+func (h *Handler) UpdateAdminUser(c *echo.Context) error {
+	idParam := c.Param("id")
+	id, err := uuid.Parse(idParam)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, httpresponse.NewError(http.StatusBadRequest, "Invalid user ID", err.Error()))
+	}
+
+	var req dto.AdminUpdateUserRequest
+	if err := c.Bind(&req); err != nil {
+		return c.JSON(http.StatusBadRequest, httpresponse.NewError(http.StatusBadRequest, "Invalid request body", err.Error()))
+	}
+	if err := c.Validate(req); err != nil {
+		return c.JSON(http.StatusBadRequest, httpresponse.NewError(http.StatusBadRequest, "Validation failed", err.Error()))
+	}
+
+	if err := h.svc.UpdateAdminUser(id, req); err != nil {
+		return c.JSON(http.StatusInternalServerError, httpresponse.NewError(http.StatusInternalServerError, "Failed to update user", err.Error()))
+	}
+	return c.JSON(http.StatusOK, dto.MessageResponse{Message: "User updated successfully"})
+}
+
+// DeleteAdminUser godoc
+// @Summary      Delete user permanently (Admin)
+// @Description  Permanently deletes a user from the system.
+// @Tags         Admin Users
+// @Produce      json
+// @Security     BearerAuth
+// @Param        id       path      string  true  "User UUID"
+// @Success      200      {object}  dto.MessageResponse
+// @Router       /api/v1/admin/users/{id} [delete]
+func (h *Handler) DeleteAdminUser(c *echo.Context) error {
+	idParam := c.Param("id")
+	id, err := uuid.Parse(idParam)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, httpresponse.NewError(http.StatusBadRequest, "Invalid user ID", err.Error()))
+	}
+
+	if err := h.svc.DeleteAdminUser(id); err != nil {
+		return c.JSON(http.StatusInternalServerError, httpresponse.NewError(http.StatusInternalServerError, "Failed to delete user", err.Error()))
+	}
+	return c.JSON(http.StatusOK, dto.MessageResponse{Message: "User deleted permanently"})
+}
 
 // claimsEmail extracts the email from JWT claims stored in Echo context.
 // NOTE: The current jwt.go stores email in JwtCustomClaims.Email; UUID is resolved by email.

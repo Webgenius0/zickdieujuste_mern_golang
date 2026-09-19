@@ -52,6 +52,10 @@ type Service interface {
 	RegisterDevice(userID uuid.UUID, req dto.RegisterDeviceRequest) error
 
 	AdminLogin(email, password string) (*dto.AuthResponse, error)
+
+	GetAdminUsers(page, limit int, search string) (*dto.PaginatedAdminUsersResponse, error)
+	UpdateAdminUser(id uuid.UUID, req dto.AdminUpdateUserRequest) error
+	DeleteAdminUser(id uuid.UUID) error
 }
 
 type service struct {
@@ -183,6 +187,46 @@ func (s *service) AdminLogin(email, password string) (*dto.AuthResponse, error) 
 
 	return s.issueTokenPair(u)
 }
+
+func (s *service) GetAdminUsers(page, limit int, search string) (*dto.PaginatedAdminUsersResponse, error) {
+	users, total, err := s.repo.FindAllAdmin(page, limit, search)
+	if err != nil {
+		return nil, err
+	}
+
+	userResponses := make([]dto.AdminUserResponse, len(users))
+	for i, u := range users {
+		userResponses[i] = dto.AdminUserResponse{
+			ID:        u.ID,
+			Name:      u.Name,
+			Email:     u.Email,
+			AvatarURL: u.AvatarURL,
+			Role:      string(u.Role),
+			IsActive:  u.IsActive,
+			CreatedAt: u.CreatedAt,
+		}
+	}
+
+	return &dto.PaginatedAdminUsersResponse{
+		Users:      userResponses,
+		TotalCount: total,
+		Page:       page,
+		Limit:      limit,
+	}, nil
+}
+
+func (s *service) UpdateAdminUser(id uuid.UUID, req dto.AdminUpdateUserRequest) error {
+	isActive := true
+	if req.IsActive != nil {
+		isActive = *req.IsActive
+	}
+	return s.repo.UpdateRoleAndStatus(id, req.Role, isActive)
+}
+
+func (s *service) DeleteAdminUser(id uuid.UUID) error {
+	return s.repo.DeletePermanently(id)
+}
+
 
 func (s *service) RefreshToken(rawToken string) (*dto.AuthResponse, error) {
 
