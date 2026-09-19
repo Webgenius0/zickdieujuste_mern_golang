@@ -73,3 +73,8 @@ type SocialLoginRequest struct {
 	Name     string `json:"name" example:"John Doe"`
 	Email    string `json:"email" example:"user@example.com" validate:"required,email"`
 }
+
+type AdminUpdateUserRequest struct {
+	Role     string `json:"role" example:"ADMIN" validate:"required,oneof=ADMIN USER"`
+	IsActive *bool  `json:"is_active" example:"true" validate:"required"`
+}

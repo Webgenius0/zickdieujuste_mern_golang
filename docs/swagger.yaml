@@ -708,6 +708,45 @@ definitions:
     - email
     - password
     type: object
+  gotickets_internal_domain_user_dto.AdminUpdateUserRequest:
+    properties:
+      is_active:
+        example: true
+        type: boolean
+      role:
+        enum:
+        - ADMIN
+        - USER
+        example: ADMIN
+        type: string
+    required:
+    - is_active
+    - role
+    type: object
+  gotickets_internal_domain_user_dto.AdminUserResponse:
+    properties:
+      avatar_url:
+        example: https://example.com/avatar.jpg
+        type: string
+      created_at:
+        example: "2026-08-17T15:00:00Z"
+        type: string
+      email:
+        example: user@example.com
+        type: string
+      id:
+        example: a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d
+        type: string
+      is_active:
+        example: true
+        type: boolean
+      name:
+        example: John Doe
+        type: string
+      role:
+        example: USER
+        type: string
+    type: object
   gotickets_internal_domain_user_dto.AuthDataResponse:
     properties:
       tokens:
@@ -783,6 +822,22 @@ definitions:
       message:
         example: Operation successful
         type: string
+    type: object
+  gotickets_internal_domain_user_dto.PaginatedAdminUsersResponse:
+    properties:
+      limit:
+        example: 10
+        type: integer
+      page:
+        example: 1
+        type: integer
+      total_count:
+        example: 100
+        type: integer
+      users:
+        items:
+          $ref: '#/definitions/gotickets_internal_domain_user_dto.AdminUserResponse'
+        type: array
     type: object
   gotickets_internal_domain_user_dto.ProfileResponse:
     properties:
@@ -2076,6 +2131,88 @@ paths:
       summary: Update a subcategory
       tags:
       - Prayer
+  /api/v1/admin/users:
+    get:
+      description: Retrieves a paginated list of users for the admin dashboard.
+      parameters:
+      - description: Page number (default 1)
+        in: query
+        name: page
+        type: integer
+      - description: Items per page (default 10)
+        in: query
+        name: limit
+        type: integer
+      - description: Search by name or email
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/gotickets_internal_domain_user_dto.StandardResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/gotickets_internal_domain_user_dto.PaginatedAdminUsersResponse'
+              type: object
+      security:
+      - BearerAuth: []
+      summary: Get all users (Admin)
+      tags:
+      - Admin Users
+  /api/v1/admin/users/{id}:
+    delete:
+      description: Permanently deletes a user from the system.
+      parameters:
+      - description: User UUID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_user_dto.MessageResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete user permanently (Admin)
+      tags:
+      - Admin Users
+    put:
+      consumes:
+      - application/json
+      description: Updates a user's role (promote/demote) and active status.
+      parameters:
+      - description: User UUID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Update payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/gotickets_internal_domain_user_dto.AdminUpdateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_user_dto.MessageResponse'
+      security:
+      - BearerAuth: []
+      summary: Update user role/status (Admin)
+      tags:
+      - Admin Users
   /api/v1/admin/worships:
     post:
       consumes:

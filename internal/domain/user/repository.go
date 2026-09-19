@@ -16,6 +16,11 @@ type Repository interface {
 	UpdateUser(u *User) error
 	SoftDeleteUser(id uuid.UUID) error
 
+	// Admin
+	FindAllAdmin(page, limit int, search string) ([]User, int64, error)
+	UpdateRoleAndStatus(id uuid.UUID, role string, isActive bool) error
+	DeletePermanently(id uuid.UUID) error
+
 	// Refresh tokens
 	CreateRefreshToken(rt *RefreshToken) error
 	GetRefreshToken(tokenHash string) (*RefreshToken, error)
@@ -71,6 +76,41 @@ func (r *repository) UpdateUser(u *User) error {
 func (r *repository) SoftDeleteUser(id uuid.UUID) error {
 	return r.db.Delete(&User{}, "id = ?", id).Error
 }
+
+func (r *repository) FindAllAdmin(page, limit int, search string) ([]User, int64, error) {
+	var users []User
+	var total int64
+	query := r.db.Model(&User{})
+
+	if search != "" {
+		query = query.Where("name ILIKE ? OR email ILIKE ?", "%"+search+"%", "%"+search+"%")
+	}
+
+	err := query.Count(&total).Error
+	if err != nil {
+		return nil, 0, err
+	}
+
+	offset := (page - 1) * limit
+	err = query.Order("created_at DESC").Offset(offset).Limit(limit).Find(&users).Error
+	if err != nil {
+		return nil, 0, err
+	}
+
+	return users, total, nil
+}
+
+func (r *repository) UpdateRoleAndStatus(id uuid.UUID, role string, isActive bool) error {
+	return r.db.Model(&User{}).Where("id = ?", id).Updates(map[string]interface{}{
+		"role":      role,
+		"is_active": isActive,
+	}).Error
+}
+
+func (r *repository) DeletePermanently(id uuid.UUID) error {
+	return r.db.Unscoped().Delete(&User{}, "id = ?", id).Error
+}
+
 
 
 func (r *repository) CreateRefreshToken(rt *RefreshToken) error {

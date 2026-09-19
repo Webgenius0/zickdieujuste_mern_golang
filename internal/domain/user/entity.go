@@ -49,6 +49,7 @@ type User struct {
 	LanguagePreference string          `gorm:"type:varchar(10);not null;default:'en'"`
 	Age                int             `gorm:"not null;default:0"`
 	IsPremium          bool            `gorm:"not null;default:false"`
+	IsActive           bool            `gorm:"not null;default:true"`
 	TermsAcceptedAt    *time.Time
 	CreatedAt          time.Time
 	UpdatedAt          time.Time
