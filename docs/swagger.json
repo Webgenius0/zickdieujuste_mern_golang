@@ -2687,25 +2687,16 @@
                 }
             }
         },
-        "/api/v1/cms/pages/{slug}": {
+        "/api/v1/cms/pages/privacy-policy": {
             "get": {
-                "description": "Retrieve a specific CMS page by its slug for public viewing",
+                "description": "Retrieve the Privacy Policy page",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "cms"
                 ],
-                "summary": "Get CMS Page by Slug",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "CMS Page Slug",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
+                "summary": "Get Privacy Policy",
                 "responses": {
                     "200": {
                         "description": "OK",

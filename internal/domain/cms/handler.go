@@ -125,20 +125,18 @@ func (h *Handler) UpdateAdminPage(c *echo.Context) error {
 
 // Public APIs
 
-// GetPublicPage godoc
-// @Summary      Get CMS Page by Slug
-// @Description  Retrieve a specific CMS page by its slug for public viewing
+// GetPrivacyPolicy godoc
+// @Summary      Get Privacy Policy
+// @Description  Retrieve the Privacy Policy page
 // @Tags         cms
 // @Produce      json
-// @Param        slug     path      string  true  "CMS Page Slug"
 // @Success      200      {object}  dto.CMSPageResponse
 // @Failure      404      {object}  httpresponse.Error
-// @Router       /api/v1/cms/pages/{slug} [get]
-func (h *Handler) GetPublicPage(c *echo.Context) error {
-	slug := c.Param("slug")
-	res, err := h.svc.GetPageBySlug(slug)
+// @Router       /api/v1/cms/pages/privacy-policy [get]
+func (h *Handler) GetPrivacyPolicy(c *echo.Context) error {
+	res, err := h.svc.GetPageBySlug("privacy-policy")
 	if err != nil {
-		return c.JSON(http.StatusNotFound, httpresponse.NewError(http.StatusNotFound, "Page not found", err.Error()))
+		return c.JSON(http.StatusNotFound, httpresponse.NewError(http.StatusNotFound, "Privacy Policy not found", err.Error()))
 	}
 	return c.JSON(http.StatusOK, res)
 }

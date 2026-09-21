@@ -25,7 +25,9 @@ func (r *repository) Create(page *CMSPage) error {
 
 func (r *repository) FindAll() ([]CMSPage, error) {
 	var pages []CMSPage
-	err := r.db.Order("slug ASC").Find(&pages).Error
+	err := r.db.Preload("Sections", func(db *gorm.DB) *gorm.DB {
+		return db.Order("sort_order ASC")
+	}).Order("slug ASC").Find(&pages).Error
 	return pages, err
 }
 

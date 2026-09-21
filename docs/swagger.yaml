@@ -3105,15 +3105,9 @@ paths:
       summary: Get category by ID
       tags:
       - Prayer
-  /api/v1/cms/pages/{slug}:
+  /api/v1/cms/pages/privacy-policy:
     get:
-      description: Retrieve a specific CMS page by its slug for public viewing
-      parameters:
-      - description: CMS Page Slug
-        in: path
-        name: slug
-        required: true
-        type: string
+      description: Retrieve the Privacy Policy page
       produces:
       - application/json
       responses:
@@ -3125,7 +3119,7 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/gotickets_internal_httpresponse.Error'
-      summary: Get CMS Page by Slug
+      summary: Get Privacy Policy
       tags:
       - cms
   /api/v1/devices:
