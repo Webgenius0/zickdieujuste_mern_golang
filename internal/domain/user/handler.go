@@ -476,7 +476,7 @@ func (h *Handler) UploadAvatar(c *echo.Context) error {
 	}
 	defer file.Close()
 
-	result, err := h.uploader.Upload(c.Request().Context(), file, "zick/avatars")
+	result, err := h.uploader.Upload(c.Request().Context(), file, "zick/avatars", fileHeader.Filename)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, httpresponse.NewError(http.StatusInternalServerError, "Upload failed", err.Error()))
 	}

@@ -54,10 +54,17 @@ func NewCloudinaryUploader(cloudName, apiKey, apiSecret string) (Uploader, error
 	return &cloudinaryUploader{cld: cld}, nil
 }
 
-func (cu *cloudinaryUploader) Upload(ctx context.Context, file multipart.File, folder string) (UploadResult, error) {
-	resp, err := cu.cld.Upload.Upload(ctx, file, uploader.UploadParams{
+func (cu *cloudinaryUploader) Upload(ctx context.Context, file multipart.File, folder string, filename string) (UploadResult, error) {
+	params := uploader.UploadParams{
 		Folder: folder,
-	})
+	}
+	
+	// If the file has a .svg extension, instruct Cloudinary to treat it as an image
+	if strings.ToLower(path.Ext(filename)) == ".svg" {
+		params.Format = "png"
+	}
+	
+	resp, err := cu.cld.Upload.Upload(ctx, file, params)
 	if err != nil {
 		return UploadResult{}, fmt.Errorf("cloudinary upload error: %w", err)
 	}
