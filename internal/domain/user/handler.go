@@ -679,7 +679,14 @@ func (h *Handler) UpdateNotificationSettings(c *echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, httpresponse.NewError(http.StatusInternalServerError, "Failed to update notification settings", err.Error()))
 	}
-	return c.JSON(http.StatusOK, settings)
+	
+	resp := dto.StandardResponse{
+		Success: true,
+		Message: "Notification settings updated successfully",
+		Data:    settings,
+	}
+	
+	return c.JSON(http.StatusOK, resp)
 }
 
 func claimsEmail(c *echo.Context) (string, error) {
