@@ -14,6 +14,7 @@ func RegisterRoutes(e *echo.Echo, db *gorm.DB, authMW echo.MiddlewareFunc) {
 
 	// Admin Routes (Requires Authentication and Admin Role)
 	adminGroup := e.Group("/api/v1/admin/cms/pages", authMW, middlewares.RequireAdmin)
+	adminGroup.POST("", h.CreateAdminPage)
 	adminGroup.GET("", h.GetAdminPages)
 	adminGroup.GET("/:slug", h.GetAdminPageBySlug)
 	adminGroup.PUT("/:slug", h.UpdateAdminPage)

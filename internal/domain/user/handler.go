@@ -374,7 +374,14 @@ func (h *Handler) UpdateMe(c *echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, httpresponse.NewError(http.StatusInternalServerError, "Failed to update profile", err.Error()))
 	}
-	return c.JSON(http.StatusOK, profile)
+	
+	resp := dto.StandardResponse{
+		Success: true,
+		Message: "Profile updated successfully",
+		Data:    profile,
+	}
+	
+	return c.JSON(http.StatusOK, resp)
 }
 
 // ChangePassword godoc

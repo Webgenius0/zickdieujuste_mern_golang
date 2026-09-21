@@ -5,6 +5,7 @@ import (
 )
 
 type Repository interface {
+	Create(page *CMSPage) error
 	FindAll() ([]CMSPage, error)
 	FindBySlug(slug string) (*CMSPage, error)
 	UpdatePageWithSections(page *CMSPage, sections []CMSPageSection) error
@@ -16,6 +17,10 @@ type repository struct {
 
 func NewRepository(db *gorm.DB) Repository {
 	return &repository{db: db}
+}
+
+func (r *repository) Create(page *CMSPage) error {
+	return r.db.Create(page).Error
 }
 
 func (r *repository) FindAll() ([]CMSPage, error) {

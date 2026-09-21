@@ -7,6 +7,7 @@ import (
 )
 
 type Service interface {
+	CreatePage(req dto.CreateCMSPageRequest) (*dto.CMSPageResponse, error)
 	GetAllPages() ([]dto.CMSPageResponse, error)
 	GetPageBySlug(slug string) (*dto.CMSPageResponse, error)
 	UpdatePage(slug string, req dto.UpdateCMSPageRequest) (*dto.CMSPageResponse, error)
@@ -18,6 +19,28 @@ type service struct {
 
 func NewService(repo Repository) Service {
 	return &service{repo: repo}
+}
+
+func (s *service) CreatePage(req dto.CreateCMSPageRequest) (*dto.CMSPageResponse, error) {
+	page := &CMSPage{
+		Slug:      req.Slug,
+		Title:     req.Title,
+		IntroText: req.IntroText,
+	}
+
+	for _, reqSec := range req.Sections {
+		page.Sections = append(page.Sections, CMSPageSection{
+			Heading:   reqSec.Heading,
+			Content:   reqSec.Content,
+			SortOrder: reqSec.SortOrder,
+		})
+	}
+
+	if err := s.repo.Create(page); err != nil {
+		return nil, err
+	}
+
+	return s.mapToResponse(page), nil
 }
 
 func (s *service) GetAllPages() ([]dto.CMSPageResponse, error) {

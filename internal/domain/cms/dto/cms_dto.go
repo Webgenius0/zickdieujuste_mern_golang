@@ -8,6 +8,13 @@ type CMSPageSectionRequest struct {
 	SortOrder int    `json:"sort_order"`
 }
 
+type CreateCMSPageRequest struct {
+	Slug      string                  `json:"slug" validate:"required"`
+	Title     string                  `json:"title" validate:"required"`
+	IntroText string                  `json:"intro_text"`
+	Sections  []CMSPageSectionRequest `json:"sections"`
+}
+
 type UpdateCMSPageRequest struct {
 	Title     string                  `json:"title" validate:"required"`
 	IntroText string                  `json:"intro_text"`

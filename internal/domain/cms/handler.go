@@ -19,6 +19,24 @@ func NewHandler(svc Service) *Handler {
 
 // Admin APIs
 
+func (h *Handler) CreateAdminPage(c *echo.Context) error {
+	var req dto.CreateCMSPageRequest
+	if err := c.Bind(&req); err != nil {
+		return c.JSON(http.StatusBadRequest, httpresponse.NewError(http.StatusBadRequest, "Invalid request body", err.Error()))
+	}
+
+	if err := c.Validate(&req); err != nil {
+		return c.JSON(http.StatusBadRequest, httpresponse.NewError(http.StatusBadRequest, "Validation failed", err.Error()))
+	}
+
+	res, err := h.svc.CreatePage(req)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, httpresponse.NewError(http.StatusInternalServerError, "Failed to create page", err.Error()))
+	}
+
+	return c.JSON(http.StatusCreated, res)
+}
+
 func (h *Handler) GetAdminPages(c *echo.Context) error {
 	res, err := h.svc.GetAllPages()
 	if err != nil {
