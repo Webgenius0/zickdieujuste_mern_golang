@@ -91,7 +91,7 @@ func (h *Handler) Upload(c *echo.Context) error {
 	}
 	defer file.Close()
 
-	result, err := h.uploader.Upload(c.Request().Context(), file, folder)
+	result, err := h.uploader.Upload(c.Request().Context(), file, folder, fileHeader.Filename)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, httpresponse.NewError(
 			http.StatusInternalServerError, "Upload failed", err.Error(),
