@@ -5,23 +5,23 @@ type RegisterRequest struct {
 	Email                   string `json:"email" example:"user@example.com"    validate:"required,email"`
 	Password                string `json:"password" example:"Secret123!" validate:"required,min=8"`
 	AgreeTermsAndConditions bool   `json:"agreeTermsAndConditions" example:"true" validate:"required"`
-	// Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole)
-	LanguagePreference      string `json:"language_preference" example:"en" enums:"en,fr,es,pt,ht" validate:"omitempty,oneof=en fr es pt ht"`
+	// Language chosen by the user
+	LanguagePreference      string `json:"language_preference" example:"en" validate:"omitempty"`
 	Age                     int    `json:"age" example:"25" validate:"required,min=0,max=120"`
 }
 
 type LoginRequest struct {
 	Email              string `json:"email" example:"user@example.com"    validate:"required,email"`
 	Password           string `json:"password" example:"Secret123!" validate:"required"`
-	// Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole)
-	LanguagePreference string `json:"language_preference" example:"en" enums:"en,fr,es,pt,ht" validate:"omitempty,oneof=en fr es pt ht"`
+	// Language chosen by the user
+	LanguagePreference string `json:"language_preference" example:"en" validate:"omitempty"`
 }
 
 type AdminLoginRequest struct {
 	Email              string `json:"email" example:"admin@altar.com"    validate:"required,email"`
 	Password           string `json:"password" example:"Admin1234" validate:"required"`
-	// Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole)
-	LanguagePreference string `json:"language_preference" example:"en" enums:"en,fr,es,pt,ht" validate:"omitempty,oneof=en fr es pt ht"`
+	// Language chosen by the user
+	LanguagePreference string `json:"language_preference" example:"en" validate:"omitempty"`
 }
 
 type RefreshRequest struct {

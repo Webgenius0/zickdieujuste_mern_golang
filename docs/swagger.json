@@ -272,6 +272,282 @@
                 }
             }
         },
+        "/api/v1/admin/languages": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieves a paginated list of all languages including inactive ones. Admin only.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin Languages"
+                ],
+                "summary": "Get all languages (Admin)",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 10,
+                        "description": "Items per page",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Search by name or code",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_language_dto.PaginatedLanguageResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Creates a new language for the application. Admin only.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin Languages"
+                ],
+                "summary": "Create a new language",
+                "parameters": [
+                    {
+                        "description": "Language data",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_language_dto.CreateLanguageReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_language_dto.LanguageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/admin/languages/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Updates a language by ID. Admin only.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin Languages"
+                ],
+                "summary": "Update a language",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Language ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Language data to update",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_language_dto.UpdateLanguageReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_language_dto.LanguageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Permanently deletes a language by ID. Admin only.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin Languages"
+                ],
+                "summary": "Delete a language",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Language ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_language_dto.MessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/admin/library": {
             "post": {
                 "security": [
@@ -2255,6 +2531,65 @@
                 }
             }
         },
+        "/api/v1/languages": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrieves a paginated list of all ACTIVE languages for the frontend/mobile app.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Languages"
+                ],
+                "summary": "Get active languages",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 50,
+                        "description": "Items per page",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Search by name or code",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_language_dto.PaginatedLanguageResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/library": {
             "get": {
                 "description": "Retrieves a paginated list of library items. Supports search, sort, category filtering, and pagination via query params.",
@@ -3648,6 +3983,114 @@
         }
     },
     "definitions": {
+        "gotickets_internal_domain_language_dto.CreateLanguageReq": {
+            "type": "object",
+            "required": [
+                "code",
+                "is_active",
+                "name"
+            ],
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "example": "en"
+                },
+                "flag_icon": {
+                    "type": "string",
+                    "example": "https://res.cloudinary.com/demo/image/upload/flag.png"
+                },
+                "is_active": {
+                    "type": "boolean",
+                    "example": true
+                },
+                "name": {
+                    "type": "string",
+                    "example": "English"
+                }
+            }
+        },
+        "gotickets_internal_domain_language_dto.LanguageResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "example": "en"
+                },
+                "created_at": {
+                    "type": "string",
+                    "example": "2026-08-17T15:00:00Z"
+                },
+                "flag_icon": {
+                    "type": "string",
+                    "example": "https://res.cloudinary.com/demo/image/upload/flag.png"
+                },
+                "id": {
+                    "type": "string",
+                    "example": "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"
+                },
+                "is_active": {
+                    "type": "boolean",
+                    "example": true
+                },
+                "name": {
+                    "type": "string",
+                    "example": "English"
+                }
+            }
+        },
+        "gotickets_internal_domain_language_dto.MessageResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Operation successful"
+                }
+            }
+        },
+        "gotickets_internal_domain_language_dto.PaginatedLanguageResponse": {
+            "type": "object",
+            "properties": {
+                "languages": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/gotickets_internal_domain_language_dto.LanguageResponse"
+                    }
+                },
+                "limit": {
+                    "type": "integer",
+                    "example": 10
+                },
+                "page": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "total_count": {
+                    "type": "integer",
+                    "example": 100
+                }
+            }
+        },
+        "gotickets_internal_domain_language_dto.UpdateLanguageReq": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "example": "en"
+                },
+                "flag_icon": {
+                    "type": "string",
+                    "example": "https://res.cloudinary.com/demo/image/upload/flag.png"
+                },
+                "is_active": {
+                    "type": "boolean",
+                    "example": true
+                },
+                "name": {
+                    "type": "string",
+                    "example": "English"
+                }
+            }
+        },
         "gotickets_internal_domain_library_dto.CategoryResponse": {
             "type": "object",
             "properties": {
@@ -4655,15 +5098,8 @@
                     "example": "admin@altar.com"
                 },
                 "language_preference": {
-                    "description": "Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole)",
+                    "description": "Language chosen by the user",
                     "type": "string",
-                    "enum": [
-                        "en",
-                        "fr",
-                        "es",
-                        "pt",
-                        "ht"
-                    ],
                     "example": "en"
                 },
                 "password": {
@@ -4806,15 +5242,8 @@
                     "example": "user@example.com"
                 },
                 "language_preference": {
-                    "description": "Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole)",
+                    "description": "Language chosen by the user",
                     "type": "string",
-                    "enum": [
-                        "en",
-                        "fr",
-                        "es",
-                        "pt",
-                        "ht"
-                    ],
                     "example": "en"
                 },
                 "password": {
@@ -4952,15 +5381,8 @@
                     "example": "user@example.com"
                 },
                 "language_preference": {
-                    "description": "Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole)",
+                    "description": "Language chosen by the user",
                     "type": "string",
-                    "enum": [
-                        "en",
-                        "fr",
-                        "es",
-                        "pt",
-                        "ht"
-                    ],
                     "example": "en"
                 },
                 "name": {

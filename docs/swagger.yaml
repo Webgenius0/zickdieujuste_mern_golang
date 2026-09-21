@@ -1,5 +1,82 @@
 basePath: /
 definitions:
+  gotickets_internal_domain_language_dto.CreateLanguageReq:
+    properties:
+      code:
+        example: en
+        type: string
+      flag_icon:
+        example: https://res.cloudinary.com/demo/image/upload/flag.png
+        type: string
+      is_active:
+        example: true
+        type: boolean
+      name:
+        example: English
+        type: string
+    required:
+    - code
+    - is_active
+    - name
+    type: object
+  gotickets_internal_domain_language_dto.LanguageResponse:
+    properties:
+      code:
+        example: en
+        type: string
+      created_at:
+        example: "2026-08-17T15:00:00Z"
+        type: string
+      flag_icon:
+        example: https://res.cloudinary.com/demo/image/upload/flag.png
+        type: string
+      id:
+        example: a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d
+        type: string
+      is_active:
+        example: true
+        type: boolean
+      name:
+        example: English
+        type: string
+    type: object
+  gotickets_internal_domain_language_dto.MessageResponse:
+    properties:
+      message:
+        example: Operation successful
+        type: string
+    type: object
+  gotickets_internal_domain_language_dto.PaginatedLanguageResponse:
+    properties:
+      languages:
+        items:
+          $ref: '#/definitions/gotickets_internal_domain_language_dto.LanguageResponse'
+        type: array
+      limit:
+        example: 10
+        type: integer
+      page:
+        example: 1
+        type: integer
+      total_count:
+        example: 100
+        type: integer
+    type: object
+  gotickets_internal_domain_language_dto.UpdateLanguageReq:
+    properties:
+      code:
+        example: en
+        type: string
+      flag_icon:
+        example: https://res.cloudinary.com/demo/image/upload/flag.png
+        type: string
+      is_active:
+        example: true
+        type: boolean
+      name:
+        example: English
+        type: string
+    type: object
   gotickets_internal_domain_library_dto.CategoryResponse:
     properties:
       id:
@@ -691,14 +768,7 @@ definitions:
         example: admin@altar.com
         type: string
       language_preference:
-        description: 'Available languages: en (English), fr (French), es (Spanish),
-          pt (Portuguese), ht (Haitian Creole)'
-        enum:
-        - en
-        - fr
-        - es
-        - pt
-        - ht
+        description: Language chosen by the user
         example: en
         type: string
       password:
@@ -800,14 +870,7 @@ definitions:
         example: user@example.com
         type: string
       language_preference:
-        description: 'Available languages: en (English), fr (French), es (Spanish),
-          pt (Portuguese), ht (Haitian Creole)'
-        enum:
-        - en
-        - fr
-        - es
-        - pt
-        - ht
+        description: Language chosen by the user
         example: en
         type: string
       password:
@@ -904,14 +967,7 @@ definitions:
         example: user@example.com
         type: string
       language_preference:
-        description: 'Available languages: en (English), fr (French), es (Spanish),
-          pt (Portuguese), ht (Haitian Creole)'
-        enum:
-        - en
-        - fr
-        - es
-        - pt
-        - ht
+        description: Language chosen by the user
         example: en
         type: string
       name:
@@ -1420,6 +1476,185 @@ paths:
       summary: Update a category
       tags:
       - Prayer
+  /api/v1/admin/languages:
+    get:
+      description: Retrieves a paginated list of all languages including inactive
+        ones. Admin only.
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Items per page
+        in: query
+        name: limit
+        type: integer
+      - description: Search by name or code
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_language_dto.PaginatedLanguageResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Get all languages (Admin)
+      tags:
+      - Admin Languages
+    post:
+      consumes:
+      - application/json
+      description: Creates a new language for the application. Admin only.
+      parameters:
+      - description: Language data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/gotickets_internal_domain_language_dto.CreateLanguageReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_language_dto.LanguageResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Create a new language
+      tags:
+      - Admin Languages
+  /api/v1/admin/languages/{id}:
+    delete:
+      description: Permanently deletes a language by ID. Admin only.
+      parameters:
+      - description: Language ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_language_dto.MessageResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Delete a language
+      tags:
+      - Admin Languages
+    put:
+      consumes:
+      - application/json
+      description: Updates a language by ID. Admin only.
+      parameters:
+      - description: Language ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Language data to update
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/gotickets_internal_domain_language_dto.UpdateLanguageReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_language_dto.LanguageResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Update a language
+      tags:
+      - Admin Languages
   /api/v1/admin/library:
     post:
       consumes:
@@ -2699,6 +2934,45 @@ paths:
       summary: Register device token
       tags:
       - User
+  /api/v1/languages:
+    get:
+      description: Retrieves a paginated list of all ACTIVE languages for the frontend/mobile
+        app.
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 50
+        description: Items per page
+        in: query
+        name: limit
+        type: integer
+      - description: Search by name or code
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_language_dto.PaginatedLanguageResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Get active languages
+      tags:
+      - Languages
   /api/v1/library:
     get:
       consumes:
