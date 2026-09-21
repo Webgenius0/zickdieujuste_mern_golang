@@ -71,6 +71,49 @@ definitions:
     required:
     - title
     type: object
+  gotickets_internal_domain_faq_dto.CreateFAQRequest:
+    properties:
+      answer:
+        type: string
+      is_active:
+        description: Pointer to allow false
+        type: boolean
+      question:
+        type: string
+      sort_order:
+        type: integer
+    required:
+    - answer
+    - question
+    type: object
+  gotickets_internal_domain_faq_dto.FAQResponse:
+    properties:
+      answer:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: string
+      is_active:
+        type: boolean
+      question:
+        type: string
+      sort_order:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  gotickets_internal_domain_faq_dto.UpdateFAQRequest:
+    properties:
+      answer:
+        type: string
+      is_active:
+        type: boolean
+      question:
+        type: string
+      sort_order:
+        type: integer
+    type: object
   gotickets_internal_domain_language_dto.CreateLanguageReq:
     properties:
       code:
@@ -1684,6 +1727,141 @@ paths:
       tags:
       - admin
       - cms
+  /api/v1/admin/faqs:
+    get:
+      description: Retrieve all FAQs (including inactive ones)
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/gotickets_internal_domain_faq_dto.FAQResponse'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Get Admin FAQs
+      tags:
+      - admin
+      - faqs
+    post:
+      consumes:
+      - application/json
+      description: Create a new FAQ entry
+      parameters:
+      - description: FAQ Data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/gotickets_internal_domain_faq_dto.CreateFAQRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_faq_dto.FAQResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Create FAQ
+      tags:
+      - admin
+      - faqs
+  /api/v1/admin/faqs/{id}:
+    delete:
+      description: Delete an FAQ entry by ID
+      parameters:
+      - description: FAQ ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Delete FAQ
+      tags:
+      - admin
+      - faqs
+    put:
+      consumes:
+      - application/json
+      description: Update an existing FAQ entry
+      parameters:
+      - description: FAQ ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: FAQ Data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/gotickets_internal_domain_faq_dto.UpdateFAQRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_faq_dto.FAQResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Update FAQ
+      tags:
+      - admin
+      - faqs
   /api/v1/admin/languages:
     get:
       description: Retrieves a paginated list of all languages including inactive
@@ -3176,6 +3354,30 @@ paths:
       summary: Register device token
       tags:
       - User
+  /api/v1/faqs:
+    get:
+      description: Retrieve active FAQs, optionally filtered by a search query
+      parameters:
+      - description: Search query for FAQs
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/gotickets_internal_domain_faq_dto.FAQResponse'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      summary: Get Public FAQs
+      tags:
+      - faqs
   /api/v1/languages:
     get:
       description: Retrieves a paginated list of all ACTIVE languages for the frontend/mobile
