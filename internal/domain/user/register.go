@@ -59,6 +59,8 @@ func RegisterRoutes(e *echo.Echo, db *gorm.DB, cfg *config.Config, uploader uplo
 	userGroup.PUT("/me/password", h.ChangePassword)
 	userGroup.DELETE("/me", h.DeleteMe)
 	userGroup.POST("/me/avatar", h.UploadAvatar)
+	userGroup.GET("/me/notifications", h.GetNotificationSettings)
+	userGroup.PUT("/me/notifications", h.UpdateNotificationSettings)
 
 	deviceGroup := e.Group("/api/v1/devices", authMW)
 	deviceGroup.POST("", h.RegisterDevice)

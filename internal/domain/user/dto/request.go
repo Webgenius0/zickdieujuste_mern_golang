@@ -5,23 +5,23 @@ type RegisterRequest struct {
 	Email                   string `json:"email" example:"user@example.com"    validate:"required,email"`
 	Password                string `json:"password" example:"Secret123!" validate:"required,min=8"`
 	AgreeTermsAndConditions bool   `json:"agreeTermsAndConditions" example:"true" validate:"required"`
-	// Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole)
-	LanguagePreference      string `json:"language_preference" example:"en" enums:"en,fr,es,pt,ht" validate:"omitempty,oneof=en fr es pt ht"`
+	// Language chosen by the user
+	LanguagePreference      string `json:"language_preference" example:"en" validate:"omitempty"`
 	Age                     int    `json:"age" example:"25" validate:"required,min=0,max=120"`
 }
 
 type LoginRequest struct {
 	Email              string `json:"email" example:"user@example.com"    validate:"required,email"`
 	Password           string `json:"password" example:"Secret123!" validate:"required"`
-	// Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole)
-	LanguagePreference string `json:"language_preference" example:"en" enums:"en,fr,es,pt,ht" validate:"omitempty,oneof=en fr es pt ht"`
+	// Language chosen by the user
+	LanguagePreference string `json:"language_preference" example:"en" validate:"omitempty"`
 }
 
 type AdminLoginRequest struct {
 	Email              string `json:"email" example:"admin@altar.com"    validate:"required,email"`
 	Password           string `json:"password" example:"Admin1234" validate:"required"`
-	// Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole)
-	LanguagePreference string `json:"language_preference" example:"en" enums:"en,fr,es,pt,ht" validate:"omitempty,oneof=en fr es pt ht"`
+	// Language chosen by the user
+	LanguagePreference string `json:"language_preference" example:"en" validate:"omitempty"`
 }
 
 type RefreshRequest struct {
@@ -47,13 +47,11 @@ type ResetPasswordRequest struct {
 }
 
 type UpdateProfileRequest struct {
-	Name               *string `json:"name" example:"John Doe"                omitempty:"true" validate:"omitempty,min=2,max=100"`
-	Location           *string `json:"location" example:"New York, USA"            omitempty:"true"`
-	// Available themes: LIGHT, DARK
-	ThemePreference    *string `json:"theme_preference" example:"DARK" enums:"LIGHT,DARK" omitempty:"true" validate:"omitempty,oneof=LIGHT DARK"`
-	// Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole)
-	LanguagePreference *string `json:"language_preference" example:"en" enums:"en,fr,es,pt,ht" omitempty:"true" validate:"omitempty,oneof=en fr es pt ht"`
-	Age                *int    `json:"age" example:"25" omitempty:"true" validate:"omitempty,min=0,max=120"`
+	Name     *string `json:"name" example:"John Doe"                omitempty:"true" validate:"omitempty,min=2,max=100"`
+	Email    *string `json:"email" example:"user@example.com"       omitempty:"true" validate:"omitempty,email"`
+	Age      *int    `json:"age" example:"25" omitempty:"true" validate:"omitempty,min=0,max=120"`
+	Location *string `json:"location" example:"New York, USA"            omitempty:"true"`
+	Country  *string `json:"country" example:"USA" omitempty:"true"`
 }
 
 type ChangePasswordRequest struct {
@@ -77,4 +75,8 @@ type SocialLoginRequest struct {
 type AdminUpdateUserRequest struct {
 	Role     string `json:"role" example:"ADMIN" validate:"required,oneof=ADMIN USER"`
 	IsActive *bool  `json:"is_active" example:"true" validate:"required"`
+}
+
+type UpdateNotificationSettingsReq struct {
+	PushNotificationEnabled *bool `json:"push_notification" validate:"required"`
 }

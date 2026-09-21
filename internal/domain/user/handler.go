@@ -345,7 +345,7 @@ func (h *Handler) GetMe(c *echo.Context) error {
 
 // UpdateMe godoc
 // @Summary      Update profile
-// @Description  Updates name, location, theme preference (Available: LIGHT, DARK), or language preference. Duplicate email returns 409. Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole).
+// @Description  Updates name, email, age, location, or country. Duplicate email returns 409.
 // @Tags         User
 // @Accept       json
 // @Produce      json
@@ -618,6 +618,63 @@ func (h *Handler) DeleteAdminUser(c *echo.Context) error {
 // claimsEmail extracts the email from JWT claims stored in Echo context.
 // NOTE: The current jwt.go stores email in JwtCustomClaims.Email; UUID is resolved by email.
 // A future enhancement should embed the UUID directly into the JWT claims.
+// GetNotificationSettings godoc
+// @Summary      Get notification settings
+// @Description  Returns the notification settings for the authenticated user.
+// @Tags         User
+// @Produce      json
+// @Security     BearerAuth
+// @Success      200  {object}  dto.NotificationSettingsResponse
+// @Failure      401  {object}  httpresponse.Error
+// @Failure      404  {object}  httpresponse.Error
+// @Router       /api/v1/users/me/notifications [get]
+func (h *Handler) GetNotificationSettings(c *echo.Context) error {
+	email, err := claimsEmail(c)
+	if err != nil {
+		return c.JSON(http.StatusUnauthorized, httpresponse.NewError(http.StatusUnauthorized, "Unauthorized", err.Error()))
+	}
+
+	settings, err := h.svc.GetNotificationSettingsByEmail(email)
+	if err != nil {
+		return c.JSON(http.StatusNotFound, httpresponse.NewError(http.StatusNotFound, "User not found", err.Error()))
+	}
+	return c.JSON(http.StatusOK, settings)
+}
+
+// UpdateNotificationSettings godoc
+// @Summary      Update notification settings
+// @Description  Updates the notification settings for the authenticated user.
+// @Tags         User
+// @Accept       json
+// @Produce      json
+// @Security     BearerAuth
+// @Param        request  body      dto.UpdateNotificationSettingsReq  true  "Notification settings to update"
+// @Success      200      {object}  dto.NotificationSettingsResponse
+// @Failure      400      {object}  httpresponse.Error
+// @Failure      401      {object}  httpresponse.Error
+// @Failure      500      {object}  httpresponse.Error
+// @Router       /api/v1/users/me/notifications [put]
+func (h *Handler) UpdateNotificationSettings(c *echo.Context) error {
+	email, err := claimsEmail(c)
+	if err != nil {
+		return c.JSON(http.StatusUnauthorized, httpresponse.NewError(http.StatusUnauthorized, "Unauthorized", err.Error()))
+	}
+
+	var req dto.UpdateNotificationSettingsReq
+	if err := c.Bind(&req); err != nil {
+		return c.JSON(http.StatusBadRequest, httpresponse.NewError(http.StatusBadRequest, "Invalid request body", err.Error()))
+	}
+	if err := c.Validate(req); err != nil {
+		return c.JSON(http.StatusBadRequest, httpresponse.NewError(http.StatusBadRequest, "Validation failed", err.Error()))
+	}
+
+	settings, err := h.svc.UpdateNotificationSettingsByEmail(email, req)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, httpresponse.NewError(http.StatusInternalServerError, "Failed to update notification settings", err.Error()))
+	}
+	return c.JSON(http.StatusOK, settings)
+}
+
 func claimsEmail(c *echo.Context) (string, error) {
 	claims, ok := c.Get("user").(*auth.JwtCustomClaims)
 	if !ok || claims == nil {

@@ -56,18 +56,13 @@ type AuthResponse struct {
 
 
 type ProfileResponse struct {
-	ID                 uuid.UUID  `json:"id"                  example:"a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"`
-	Name               string     `json:"name"                example:"John Doe"`
-	Email              string     `json:"email"               example:"user@example.com"`
-	AuthProvider       string     `json:"auth_provider"       example:"EMAIL"`
-	Location           *string    `json:"location"            example:"New York, USA"`
-	AvatarURL          *string    `json:"avatar_url"          example:"https://res.cloudinary.com/demo/image/upload/avatar.jpg"`
-	ThemePreference    string     `json:"theme_preference"    example:"NAVY"`
-	LanguagePreference string     `json:"language_preference" example:"en"`
-	Age                int        `json:"age"                 example:"25"`
-	IsPremium          bool       `json:"is_premium"          example:"true"`
-	TermsAcceptedAt    *time.Time `json:"terms_accepted_at"   example:"2026-08-17T15:00:00Z"`
-	CreatedAt          time.Time  `json:"created_at"          example:"2026-08-17T15:00:00Z"`
+	ID        uuid.UUID `json:"id"                  example:"a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"`
+	Name      string    `json:"name"                example:"John Doe"`
+	Email     string    `json:"email"               example:"user@example.com"`
+	Age       int       `json:"age"                 example:"25"`
+	Location  *string   `json:"location"            example:"New York, USA"`
+	Country   *string   `json:"country"             example:"USA"`
+	AvatarURL *string   `json:"avatar_url"          example:"https://res.cloudinary.com/demo/image/upload/avatar.jpg"`
 }
 
 type AvatarResponse struct {
@@ -97,4 +92,8 @@ type PaginatedAdminUsersResponse struct {
 	TotalCount int64               `json:"total_count" example:"100"`
 	Page       int                 `json:"page" example:"1"`
 	Limit      int                 `json:"limit" example:"10"`
+}
+
+type NotificationSettingsResponse struct {
+	PushNotificationEnabled bool `json:"push_notification" example:"true"`
 }

@@ -16,7 +16,9 @@ import (
 	"gotickets/internal/domain/worship"
 	"gotickets/internal/domain/proverb"
 	"gotickets/internal/domain/prayer"
+	"gotickets/internal/domain/language"
 	"gotickets/internal/upload"
+	"gotickets/internal/middlewares"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v5"
@@ -105,6 +107,7 @@ func Start(db *gorm.DB, cfg *config.Config, uploader upload.Uploader) {
 	worship.RegisterRoutes(e, db, jwtSvc, uploader)
 	proverb.RegisterRoutes(e, db, jwtSvc, uploader)
 	prayer.RegisterRoutes(e, db, jwtSvc, uploader)
+	language.RegisterRoutes(e, db, middlewares.AuthMiddleware(jwtSvc))
 
 	addr := fmt.Sprintf(":%s", cfg.Port)
 	fmt.Printf("\033[1;32m🚀 Server running on http://localhost:%s\033[0m\n", cfg.Port)
@@ -130,6 +133,7 @@ func migrate(db *gorm.DB) {
 		&prayer.Category{},
 		&prayer.SubCategory{},
 		&prayer.Prayer{},
+		&language.Language{},
 	); err != nil {
 		panic("AutoMigrate failed: " + err.Error())
 	}
