@@ -1,5 +1,76 @@
 basePath: /
 definitions:
+  gotickets_internal_domain_cms_dto.CMSPageResponse:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: string
+      intro_text:
+        type: string
+      sections:
+        items:
+          $ref: '#/definitions/gotickets_internal_domain_cms_dto.CMSPageSectionResponse'
+        type: array
+      slug:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  gotickets_internal_domain_cms_dto.CMSPageSectionRequest:
+    properties:
+      content:
+        type: string
+      heading:
+        type: string
+      sort_order:
+        type: integer
+    required:
+    - content
+    - heading
+    type: object
+  gotickets_internal_domain_cms_dto.CMSPageSectionResponse:
+    properties:
+      content:
+        type: string
+      heading:
+        type: string
+      id:
+        type: string
+      sort_order:
+        type: integer
+    type: object
+  gotickets_internal_domain_cms_dto.CreateCMSPageRequest:
+    properties:
+      intro_text:
+        type: string
+      sections:
+        items:
+          $ref: '#/definitions/gotickets_internal_domain_cms_dto.CMSPageSectionRequest'
+        type: array
+      slug:
+        type: string
+      title:
+        type: string
+    required:
+    - slug
+    - title
+    type: object
+  gotickets_internal_domain_cms_dto.UpdateCMSPageRequest:
+    properties:
+      intro_text:
+        type: string
+      sections:
+        items:
+          $ref: '#/definitions/gotickets_internal_domain_cms_dto.CMSPageSectionRequest'
+        type: array
+      title:
+        type: string
+    required:
+    - title
+    type: object
   gotickets_internal_domain_language_dto.CreateLanguageReq:
     properties:
       code:
@@ -1476,6 +1547,143 @@ paths:
       summary: Update a category
       tags:
       - Prayer
+  /api/v1/admin/cms/pages:
+    get:
+      description: Retrieve all CMS pages (Admin)
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/gotickets_internal_domain_cms_dto.CMSPageResponse'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Get all CMS Pages
+      tags:
+      - admin
+      - cms
+    post:
+      consumes:
+      - application/json
+      description: Create a new CMS page (e.g. Privacy Policy, Terms of Service)
+      parameters:
+      - description: CMS Page Data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/gotickets_internal_domain_cms_dto.CreateCMSPageRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_cms_dto.CMSPageResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Create CMS Page
+      tags:
+      - admin
+      - cms
+  /api/v1/admin/cms/pages/{slug}:
+    get:
+      description: Retrieve a specific CMS page by its slug
+      parameters:
+      - description: CMS Page Slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_cms_dto.CMSPageResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Get CMS Page by Slug (Admin)
+      tags:
+      - admin
+      - cms
+    put:
+      consumes:
+      - application/json
+      description: Update an existing CMS page and its sections
+      parameters:
+      - description: CMS Page Slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      - description: CMS Page Data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/gotickets_internal_domain_cms_dto.UpdateCMSPageRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_cms_dto.CMSPageResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Update CMS Page
+      tags:
+      - admin
+      - cms
   /api/v1/admin/languages:
     get:
       description: Retrieves a paginated list of all languages including inactive
@@ -2897,6 +3105,29 @@ paths:
       summary: Get category by ID
       tags:
       - Prayer
+  /api/v1/cms/pages/{slug}:
+    get:
+      description: Retrieve a specific CMS page by its slug for public viewing
+      parameters:
+      - description: CMS Page Slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_cms_dto.CMSPageResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      summary: Get CMS Page by Slug
+      tags:
+      - cms
   /api/v1/devices:
     post:
       consumes:
