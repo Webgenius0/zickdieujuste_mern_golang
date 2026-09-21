@@ -49,6 +49,9 @@ type Service interface {
 	DeleteAccountByEmail(email string) error
 	GetUserIDByEmail(email string) (uuid.UUID, error)
 
+	GetNotificationSettingsByEmail(email string) (*dto.NotificationSettingsResponse, error)
+	UpdateNotificationSettingsByEmail(email string, req dto.UpdateNotificationSettingsReq) (*dto.NotificationSettingsResponse, error)
+
 	RegisterDevice(userID uuid.UUID, req dto.RegisterDeviceRequest) error
 
 	AdminLogin(email, password string) (*dto.AuthResponse, error)
@@ -610,4 +613,33 @@ func toProfileResponse(u *User) *dto.ProfileResponse {
 		Country:   u.Country,
 		AvatarURL: u.AvatarURL,
 	}
+}
+
+func (s *service) GetNotificationSettingsByEmail(email string) (*dto.NotificationSettingsResponse, error) {
+	u, err := s.repo.GetUserByEmail(email)
+	if err != nil {
+		return nil, err
+	}
+	return &dto.NotificationSettingsResponse{
+		PushNotificationEnabled: u.PushNotificationEnabled,
+	}, nil
+}
+
+func (s *service) UpdateNotificationSettingsByEmail(email string, req dto.UpdateNotificationSettingsReq) (*dto.NotificationSettingsResponse, error) {
+	u, err := s.repo.GetUserByEmail(email)
+	if err != nil {
+		return nil, err
+	}
+	
+	if req.PushNotificationEnabled != nil {
+		u.PushNotificationEnabled = *req.PushNotificationEnabled
+	}
+
+	if err := s.repo.UpdateUser(u); err != nil {
+		return nil, fmt.Errorf("failed to update notification settings: %w", err)
+	}
+
+	return &dto.NotificationSettingsResponse{
+		PushNotificationEnabled: u.PushNotificationEnabled,
+	}, nil
 }

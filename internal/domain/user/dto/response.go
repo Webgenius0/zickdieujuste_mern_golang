@@ -93,3 +93,7 @@ type PaginatedAdminUsersResponse struct {
 	Page       int                 `json:"page" example:"1"`
 	Limit      int                 `json:"limit" example:"10"`
 }
+
+type NotificationSettingsResponse struct {
+	PushNotificationEnabled bool `json:"push_notification" example:"true"`
+}

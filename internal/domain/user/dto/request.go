@@ -76,3 +76,7 @@ type AdminUpdateUserRequest struct {
 	Role     string `json:"role" example:"ADMIN" validate:"required,oneof=ADMIN USER"`
 	IsActive *bool  `json:"is_active" example:"true" validate:"required"`
 }
+
+type UpdateNotificationSettingsReq struct {
+	PushNotificationEnabled *bool `json:"push_notification" validate:"required"`
+}

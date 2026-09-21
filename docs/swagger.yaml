@@ -823,6 +823,12 @@ definitions:
         example: Operation successful
         type: string
     type: object
+  gotickets_internal_domain_user_dto.NotificationSettingsResponse:
+    properties:
+      push_notification:
+        example: true
+        type: boolean
+    type: object
   gotickets_internal_domain_user_dto.PaginatedAdminUsersResponse:
     properties:
       limit:
@@ -996,6 +1002,13 @@ definitions:
       refresh_token:
         example: eyJhbGciOiJIUzI1NiIsIn...
         type: string
+    type: object
+  gotickets_internal_domain_user_dto.UpdateNotificationSettingsReq:
+    properties:
+      push_notification:
+        type: boolean
+    required:
+    - push_notification
     type: object
   gotickets_internal_domain_user_dto.UpdateProfileRequest:
     properties:
@@ -3437,6 +3450,64 @@ paths:
       security:
       - BearerAuth: []
       summary: Upload avatar
+      tags:
+      - User
+  /api/v1/users/me/notifications:
+    get:
+      description: Returns the notification settings for the authenticated user.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_user_dto.NotificationSettingsResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Get notification settings
+      tags:
+      - User
+    put:
+      consumes:
+      - application/json
+      description: Updates the notification settings for the authenticated user.
+      parameters:
+      - description: Notification settings to update
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/gotickets_internal_domain_user_dto.UpdateNotificationSettingsReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_domain_user_dto.NotificationSettingsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Update notification settings
       tags:
       - User
   /api/v1/users/me/password:

@@ -3385,6 +3385,98 @@
                 }
             }
         },
+        "/api/v1/users/me/notifications": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Returns the notification settings for the authenticated user.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get notification settings",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.NotificationSettingsResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Updates the notification settings for the authenticated user.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Update notification settings",
+                "parameters": [
+                    {
+                        "description": "Notification settings to update",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.UpdateNotificationSettingsReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.NotificationSettingsResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/users/me/password": {
             "put": {
                 "security": [
@@ -4740,6 +4832,15 @@
                 }
             }
         },
+        "gotickets_internal_domain_user_dto.NotificationSettingsResponse": {
+            "type": "object",
+            "properties": {
+                "push_notification": {
+                    "type": "boolean",
+                    "example": true
+                }
+            }
+        },
         "gotickets_internal_domain_user_dto.PaginatedAdminUsersResponse": {
             "type": "object",
             "properties": {
@@ -4975,6 +5076,17 @@
                 "refresh_token": {
                     "type": "string",
                     "example": "eyJhbGciOiJIUzI1NiIsIn..."
+                }
+            }
+        },
+        "gotickets_internal_domain_user_dto.UpdateNotificationSettingsReq": {
+            "type": "object",
+            "required": [
+                "push_notification"
+            ],
+            "properties": {
+                "push_notification": {
+                    "type": "boolean"
                 }
             }
         },
