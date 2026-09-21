@@ -2720,6 +2720,32 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/cms/pages/terms-and-conditions": {
+            "get": {
+                "description": "Retrieve the Terms and Conditions page",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cms"
+                ],
+                "summary": "Get Terms and Conditions",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_domain_cms_dto.CMSPageResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/devices": {
             "post": {
                 "security": [

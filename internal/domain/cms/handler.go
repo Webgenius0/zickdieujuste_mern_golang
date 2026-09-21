@@ -140,3 +140,19 @@ func (h *Handler) GetPrivacyPolicy(c *echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, res)
 }
+
+// GetTermsAndConditions godoc
+// @Summary      Get Terms and Conditions
+// @Description  Retrieve the Terms and Conditions page
+// @Tags         cms
+// @Produce      json
+// @Success      200      {object}  dto.CMSPageResponse
+// @Failure      404      {object}  httpresponse.Error
+// @Router       /api/v1/cms/pages/terms-and-conditions [get]
+func (h *Handler) GetTermsAndConditions(c *echo.Context) error {
+	res, err := h.svc.GetPageBySlug("terms-and-conditions")
+	if err != nil {
+		return c.JSON(http.StatusNotFound, httpresponse.NewError(http.StatusNotFound, "Terms and Conditions not found", err.Error()))
+	}
+	return c.JSON(http.StatusOK, res)
+}

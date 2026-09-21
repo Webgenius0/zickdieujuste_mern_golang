@@ -23,4 +23,5 @@ func RegisterRoutes(e *echo.Echo, db *gorm.DB, authMW echo.MiddlewareFunc) {
 	// For CMS pages like Privacy Policy, they are typically public
 	publicGroup := e.Group("/api/v1/cms/pages")
 	publicGroup.GET("/privacy-policy", h.GetPrivacyPolicy)
+	publicGroup.GET("/terms-and-conditions", h.GetTermsAndConditions)
 }
