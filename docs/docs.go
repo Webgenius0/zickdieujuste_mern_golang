@@ -3252,7 +3252,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Updates name, location, theme preference (Available: LIGHT, DARK), or language preference. Duplicate email returns 409. Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole).",
+                "description": "Updates name, email, age, location, or country. Duplicate email returns 409.",
                 "consumes": [
                     "application/json"
                 ],
@@ -4777,17 +4777,13 @@ const docTemplate = `{
                     "type": "integer",
                     "example": 25
                 },
-                "auth_provider": {
-                    "type": "string",
-                    "example": "EMAIL"
-                },
                 "avatar_url": {
                     "type": "string",
                     "example": "https://res.cloudinary.com/demo/image/upload/avatar.jpg"
                 },
-                "created_at": {
+                "country": {
                     "type": "string",
-                    "example": "2026-08-17T15:00:00Z"
+                    "example": "USA"
                 },
                 "email": {
                     "type": "string",
@@ -4797,14 +4793,6 @@ const docTemplate = `{
                     "type": "string",
                     "example": "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"
                 },
-                "is_premium": {
-                    "type": "boolean",
-                    "example": true
-                },
-                "language_preference": {
-                    "type": "string",
-                    "example": "en"
-                },
                 "location": {
                     "type": "string",
                     "example": "New York, USA"
@@ -4812,14 +4800,6 @@ const docTemplate = `{
                 "name": {
                     "type": "string",
                     "example": "John Doe"
-                },
-                "terms_accepted_at": {
-                    "type": "string",
-                    "example": "2026-08-17T15:00:00Z"
-                },
-                "theme_preference": {
-                    "type": "string",
-                    "example": "NAVY"
                 }
             }
         },
@@ -5014,17 +4994,13 @@ const docTemplate = `{
                     "minimum": 0,
                     "example": 25
                 },
-                "language_preference": {
-                    "description": "Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole)",
+                "country": {
                     "type": "string",
-                    "enum": [
-                        "en",
-                        "fr",
-                        "es",
-                        "pt",
-                        "ht"
-                    ],
-                    "example": "en"
+                    "example": "USA"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "user@example.com"
                 },
                 "location": {
                     "type": "string",
@@ -5035,15 +5011,6 @@ const docTemplate = `{
                     "maxLength": 100,
                     "minLength": 2,
                     "example": "John Doe"
-                },
-                "theme_preference": {
-                    "description": "Available themes: LIGHT, DARK",
-                    "type": "string",
-                    "enum": [
-                        "LIGHT",
-                        "DARK"
-                    ],
-                    "example": "DARK"
                 }
             }
         },

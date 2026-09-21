@@ -426,14 +426,14 @@ func (s *service) UpdateProfileByEmail(email string, req dto.UpdateProfileReques
 	if req.Name != nil {
 		u.Name = *req.Name
 	}
+	if req.Email != nil {
+		u.Email = *req.Email
+	}
 	if req.Location != nil {
 		u.Location = req.Location
 	}
-	if req.ThemePreference != nil {
-		u.ThemePreference = ThemePreference(*req.ThemePreference)
-	}
-	if req.LanguagePreference != nil {
-		u.LanguagePreference = *req.LanguagePreference
+	if req.Country != nil {
+		u.Country = req.Country
 	}
 	if req.Age != nil {
 		u.Age = *req.Age
@@ -602,17 +602,12 @@ func generateOTPCode() (string, error) {
 // toProfileResponse maps a User entity to a ProfileResponse DTO.
 func toProfileResponse(u *User) *dto.ProfileResponse {
 	return &dto.ProfileResponse{
-		ID:                 u.ID,
-		Name:               u.Name,
-		Email:              u.Email,
-		AuthProvider:       string(u.AuthProvider),
-		Location:           u.Location,
-		AvatarURL:          u.AvatarURL,
-		ThemePreference:    string(u.ThemePreference),
-		LanguagePreference: u.LanguagePreference,
-		Age:                u.Age,
-		IsPremium:          u.IsPremium,
-		TermsAcceptedAt:    u.TermsAcceptedAt,
-		CreatedAt:          u.CreatedAt,
+		ID:        u.ID,
+		Name:      u.Name,
+		Email:     u.Email,
+		Age:       u.Age,
+		Location:  u.Location,
+		Country:   u.Country,
+		AvatarURL: u.AvatarURL,
 	}
 }

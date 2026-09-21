@@ -345,7 +345,7 @@ func (h *Handler) GetMe(c *echo.Context) error {
 
 // UpdateMe godoc
 // @Summary      Update profile
-// @Description  Updates name, location, theme preference (Available: LIGHT, DARK), or language preference. Duplicate email returns 409. Available languages: en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole).
+// @Description  Updates name, email, age, location, or country. Duplicate email returns 409.
 // @Tags         User
 // @Accept       json
 // @Produce      json

@@ -44,6 +44,7 @@ type User struct {
 	AuthProvider       AuthProvider    `gorm:"type:varchar(20);not null;default:'EMAIL'"`
 	Role               Role            `gorm:"type:varchar(20);not null;default:'USER'"`
 	Location           *string         `gorm:"type:varchar(255)"`
+	Country            *string         `gorm:"type:varchar(100)"`
 	AvatarURL          *string         `gorm:"type:text"`
 	ThemePreference    ThemePreference `gorm:"type:varchar(20);not null;default:'LIGHT'"`
 	LanguagePreference string          `gorm:"type:varchar(10);not null;default:'en'"`

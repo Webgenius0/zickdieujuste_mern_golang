@@ -844,14 +844,11 @@ definitions:
       age:
         example: 25
         type: integer
-      auth_provider:
-        example: EMAIL
-        type: string
       avatar_url:
         example: https://res.cloudinary.com/demo/image/upload/avatar.jpg
         type: string
-      created_at:
-        example: "2026-08-17T15:00:00Z"
+      country:
+        example: USA
         type: string
       email:
         example: user@example.com
@@ -859,23 +856,11 @@ definitions:
       id:
         example: a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d
         type: string
-      is_premium:
-        example: true
-        type: boolean
-      language_preference:
-        example: en
-        type: string
       location:
         example: New York, USA
         type: string
       name:
         example: John Doe
-        type: string
-      terms_accepted_at:
-        example: "2026-08-17T15:00:00Z"
-        type: string
-      theme_preference:
-        example: NAVY
         type: string
     type: object
   gotickets_internal_domain_user_dto.RefreshRequest:
@@ -1019,16 +1004,11 @@ definitions:
         maximum: 120
         minimum: 0
         type: integer
-      language_preference:
-        description: 'Available languages: en (English), fr (French), es (Spanish),
-          pt (Portuguese), ht (Haitian Creole)'
-        enum:
-        - en
-        - fr
-        - es
-        - pt
-        - ht
-        example: en
+      country:
+        example: USA
+        type: string
+      email:
+        example: user@example.com
         type: string
       location:
         example: New York, USA
@@ -1037,13 +1017,6 @@ definitions:
         example: John Doe
         maxLength: 100
         minLength: 2
-        type: string
-      theme_preference:
-        description: 'Available themes: LIGHT, DARK'
-        enum:
-        - LIGHT
-        - DARK
-        example: DARK
         type: string
     type: object
   gotickets_internal_domain_user_dto.UserDTO:
@@ -3397,9 +3370,8 @@ paths:
     put:
       consumes:
       - application/json
-      description: 'Updates name, location, theme preference (Available: LIGHT, DARK),
-        or language preference. Duplicate email returns 409. Available languages:
-        en (English), fr (French), es (Spanish), pt (Portuguese), ht (Haitian Creole).'
+      description: Updates name, email, age, location, or country. Duplicate email
+        returns 409.
       parameters:
       - description: Fields to update (all optional)
         in: body
