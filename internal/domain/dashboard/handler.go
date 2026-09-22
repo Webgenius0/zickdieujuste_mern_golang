@@ -19,6 +19,32 @@ type Handler struct {
 	db *gorm.DB
 }
 
+func formatTimeAgo(d time.Duration) string {
+	if d < time.Minute {
+		return "Just now"
+	}
+	if d < time.Hour {
+		return fmt.Sprintf("%dm ago", int(d.Minutes()))
+	}
+	if d < 24*time.Hour {
+		return fmt.Sprintf("%dh ago", int(d.Hours()))
+	}
+	days := int(d.Hours() / 24)
+	if days < 7 {
+		return fmt.Sprintf("%dd ago", days)
+	}
+	weeks := days / 7
+	if weeks < 4 {
+		return fmt.Sprintf("%dw ago", weeks)
+	}
+	months := days / 30
+	if months < 12 {
+		return fmt.Sprintf("%dmo ago", months)
+	}
+	years := days / 365
+	return fmt.Sprintf("%dy ago", years)
+}
+
 func NewHandler(db *gorm.DB) *Handler {
 	return &Handler{db: db}
 }
@@ -78,11 +104,7 @@ func (h *Handler) GetOverview(c *echo.Context) error {
 			name = "New User"
 		}
 		
-		timeDiff := time.Since(u.CreatedAt).Round(time.Minute)
-		timeStr := "Just now"
-		if timeDiff > 0 {
-			timeStr = timeDiff.String() + " ago"
-		}
+		timeStr := formatTimeAgo(time.Since(u.CreatedAt))
 
 		recentActivity = append(recentActivity, RecentActivity{
 			ID:     fmt.Sprintf("user-%v", u.ID),
