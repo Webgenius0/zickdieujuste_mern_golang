@@ -20,6 +20,7 @@ func RegisterRoutes(e *echo.Echo, db *gorm.DB, authMW echo.MiddlewareFunc) {
 	adminGroup.DELETE("/:id", h.DeleteQuote)
 
 	// Public Routes
-	publicGroup := e.Group("/api/v1/quotes", authMW)
+	publicGroup := e.Group("/api/v1/quotes")
 	publicGroup.GET("", h.GetPublicQuotes)
+	publicGroup.GET("/:id", h.GetPublicQuoteDetails)
 }

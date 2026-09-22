@@ -4,12 +4,14 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/labstack/echo/v5"
 )
 
 type Service interface {
 	CreateQuote(req CreateQuoteRequest) (*QuoteResponse, error)
 	GetAllQuotes() ([]QuoteResponse, error)
 	GetPublishedQuotes() ([]QuoteResponse, error)
+	GetPublishedQuoteByID(id uuid.UUID) (*QuoteResponse, error)
 	UpdateQuote(id uuid.UUID, req UpdateQuoteRequest) (*QuoteResponse, error)
 	DeleteQuote(id uuid.UUID) error
 }
@@ -66,6 +68,20 @@ func (s *service) GetPublishedQuotes() ([]QuoteResponse, error) {
 		res = append(res, *s.mapToResponse(&q))
 	}
 	return res, nil
+}
+
+func (s *service) GetPublishedQuoteByID(id uuid.UUID) (*QuoteResponse, error) {
+	quote, err := s.repo.FindByID(id)
+	if err != nil {
+		return nil, err
+	}
+
+	// Verify it is published (PublishDate <= Now)
+	if quote.PublishDate.After(time.Now()) {
+		return nil, echo.ErrNotFound // Or a custom not published error
+	}
+
+	return s.mapToResponse(quote), nil
 }
 
 func (s *service) UpdateQuote(id uuid.UUID, req UpdateQuoteRequest) (*QuoteResponse, error) {

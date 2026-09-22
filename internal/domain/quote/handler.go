@@ -135,7 +135,6 @@ func (h *Handler) DeleteQuote(c *echo.Context) error {
 // @Description  Retrieve published daily quotes for users
 // @Tags         quotes
 // @Produce      json
-// @Security     BearerAuth
 // @Success      200      {array}   QuoteResponse
 // @Failure      401      {object}  httpresponse.Error
 // @Failure      500      {object}  httpresponse.Error
@@ -144,6 +143,35 @@ func (h *Handler) GetPublicQuotes(c *echo.Context) error {
 	res, err := h.svc.GetPublishedQuotes()
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, httpresponse.NewError(http.StatusInternalServerError, "Failed to fetch quotes", err.Error()))
+	}
+	return c.JSON(http.StatusOK, res)
+}
+
+// GetPublicQuoteDetails godoc
+// @Summary      Get Public Quote Details
+// @Description  Retrieve a specific published daily quote by ID
+// @Tags         quotes
+// @Produce      json
+// @Param        id       path      string  true  "Quote ID"
+// @Success      200      {object}  QuoteResponse
+// @Failure      400      {object}  httpresponse.Error
+// @Failure      401      {object}  httpresponse.Error
+// @Failure      404      {object}  httpresponse.Error
+// @Failure      500      {object}  httpresponse.Error
+// @Router       /api/v1/quotes/{id} [get]
+func (h *Handler) GetPublicQuoteDetails(c *echo.Context) error {
+	idParam := c.Param("id")
+	id, err := uuid.Parse(idParam)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, httpresponse.NewError(http.StatusBadRequest, "Invalid UUID format", err.Error()))
+	}
+
+	res, err := h.svc.GetPublishedQuoteByID(id)
+	if err != nil {
+		if err == echo.ErrNotFound {
+			return c.JSON(http.StatusNotFound, httpresponse.NewError(http.StatusNotFound, "Quote not found or not published", err.Error()))
+		}
+		return c.JSON(http.StatusInternalServerError, httpresponse.NewError(http.StatusInternalServerError, "Failed to fetch quote details", err.Error()))
 	}
 	return c.JSON(http.StatusOK, res)
 }
