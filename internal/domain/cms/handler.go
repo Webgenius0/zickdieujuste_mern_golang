@@ -123,6 +123,29 @@ func (h *Handler) UpdateAdminPage(c *echo.Context) error {
 	return c.JSON(http.StatusOK, res)
 }
 
+// DeleteAdminPage godoc
+// @Summary      Delete CMS Page
+// @Description  Delete an existing CMS page by its slug
+// @Tags         admin, cms
+// @Produce      json
+// @Security     BearerAuth
+// @Param        slug     path      string  true  "CMS Page Slug"
+// @Success      200      {object}  httpresponse.Error
+// @Failure      401      {object}  httpresponse.Error
+// @Failure      404      {object}  httpresponse.Error
+// @Failure      500      {object}  httpresponse.Error
+// @Router       /api/v1/admin/cms/pages/{slug} [delete]
+func (h *Handler) DeleteAdminPage(c *echo.Context) error {
+	slug := c.Param("slug")
+
+	err := h.svc.DeletePage(slug)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, httpresponse.NewError(http.StatusInternalServerError, "Failed to delete page", err.Error()))
+	}
+
+	return c.JSON(http.StatusOK, map[string]string{"message": "Page deleted successfully"})
+}
+
 // Public APIs
 
 // GetPrivacyPolicy godoc

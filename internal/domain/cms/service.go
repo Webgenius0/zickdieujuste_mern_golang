@@ -11,6 +11,7 @@ type Service interface {
 	GetAllPages() ([]dto.CMSPageResponse, error)
 	GetPageBySlug(slug string) (*dto.CMSPageResponse, error)
 	UpdatePage(slug string, req dto.UpdateCMSPageRequest) (*dto.CMSPageResponse, error)
+	DeletePage(slug string) error
 }
 
 type service struct {
@@ -97,6 +98,15 @@ func (s *service) UpdatePage(slug string, req dto.UpdateCMSPageRequest) (*dto.CM
 
 	return s.mapToResponse(updatedPage), nil
 }
+
+func (s *service) DeletePage(slug string) error {
+	_, err := s.repo.FindBySlug(slug)
+	if err != nil {
+		return err // Or return a custom not found error
+	}
+	return s.repo.DeleteBySlug(slug)
+}
+
 
 func (s *service) mapToResponse(page *CMSPage) *dto.CMSPageResponse {
 	sectionRes := make([]dto.CMSPageSectionResponse, 0)

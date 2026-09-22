@@ -9,6 +9,7 @@ type Repository interface {
 	FindAll() ([]CMSPage, error)
 	FindBySlug(slug string) (*CMSPage, error)
 	UpdatePageWithSections(page *CMSPage, sections []CMSPageSection) error
+	DeleteBySlug(slug string) error
 }
 
 type repository struct {
@@ -65,3 +66,8 @@ func (r *repository) UpdatePageWithSections(page *CMSPage, sections []CMSPageSec
 		return nil
 	})
 }
+
+func (r *repository) DeleteBySlug(slug string) error {
+	return r.db.Where("slug = ?", slug).Delete(&CMSPage{}).Error
+}
+

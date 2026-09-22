@@ -18,6 +18,7 @@ func RegisterRoutes(e *echo.Echo, db *gorm.DB, authMW echo.MiddlewareFunc) {
 	adminGroup.GET("", h.GetAdminPages)
 	adminGroup.GET("/:slug", h.GetAdminPageBySlug)
 	adminGroup.PUT("/:slug", h.UpdateAdminPage)
+	adminGroup.DELETE("/:slug", h.DeleteAdminPage)
 
 	// Public Routes (Optional Authentication or No Authentication depending on requirements)
 	// For CMS pages like Privacy Policy, they are typically public
