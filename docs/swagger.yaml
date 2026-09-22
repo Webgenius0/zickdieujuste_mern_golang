@@ -1381,6 +1381,52 @@ definitions:
         example: https://res.cloudinary.com/demo/image/upload/sample.jpg
         type: string
     type: object
+  internal_domain_quote.CreateQuoteRequest:
+    properties:
+      explanation:
+        type: string
+      publish_date:
+        description: Format YYYY-MM-DD
+        type: string
+      quote_text:
+        type: string
+      reference:
+        type: string
+    required:
+    - publish_date
+    - quote_text
+    type: object
+  internal_domain_quote.QuoteResponse:
+    properties:
+      created_at:
+        type: string
+      explanation:
+        type: string
+      id:
+        type: string
+      publish_date:
+        type: string
+      quote_text:
+        type: string
+      reference:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  internal_domain_quote.UpdateQuoteRequest:
+    properties:
+      explanation:
+        type: string
+      publish_date:
+        type: string
+      quote_text:
+        type: string
+      reference:
+        type: string
+    required:
+    - publish_date
+    - quote_text
+    type: object
   internal_server.HealthResponse:
     properties:
       database:
@@ -2614,6 +2660,143 @@ paths:
       summary: Update a proverb
       tags:
       - Proverb
+  /api/v1/admin/quotes:
+    get:
+      description: Retrieve all quotes including future scheduled ones (Admin)
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/internal_domain_quote.QuoteResponse'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Get Admin Quotes
+      tags:
+      - admin
+      - quotes
+    post:
+      consumes:
+      - application/json
+      description: Create a new daily quote (Admin)
+      parameters:
+      - description: Quote Data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_domain_quote.CreateQuoteRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/internal_domain_quote.QuoteResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Create Quote
+      tags:
+      - admin
+      - quotes
+  /api/v1/admin/quotes/{id}:
+    delete:
+      description: Delete a daily quote (Admin)
+      parameters:
+      - description: Quote ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Delete Quote
+      tags:
+      - admin
+      - quotes
+    put:
+      consumes:
+      - application/json
+      description: Update an existing daily quote (Admin)
+      parameters:
+      - description: Quote ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Quote Data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_domain_quote.UpdateQuoteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_domain_quote.QuoteResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Update Quote
+      tags:
+      - admin
+      - quotes
   /api/v1/admin/subcategories:
     get:
       description: Returns a list of subcategories belonging to a specific category.
@@ -3789,6 +3972,31 @@ paths:
       summary: Get today's proverb
       tags:
       - Proverb
+  /api/v1/quotes:
+    get:
+      description: Retrieve published daily quotes for users
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/internal_domain_quote.QuoteResponse'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Get Public Quotes
+      tags:
+      - quotes
   /api/v1/schedules/me:
     get:
       description: Returns the authenticated user's prayer schedule. Creates a default
