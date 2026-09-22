@@ -19,6 +19,7 @@ import (
 	"gotickets/internal/domain/prayer"
 	"gotickets/internal/domain/language"
 	"gotickets/internal/domain/cms"
+	"gotickets/internal/domain/dashboard"
 	"gotickets/internal/upload"
 	"gotickets/internal/middlewares"
 
@@ -112,6 +113,7 @@ func Start(db *gorm.DB, cfg *config.Config, uploader upload.Uploader) {
 	language.RegisterRoutes(e, db, middlewares.AuthMiddleware(jwtSvc))
 	faq.RegisterRoutes(e, db, middlewares.AuthMiddleware(jwtSvc))
 	cms.RegisterRoutes(e, db, middlewares.AuthMiddleware(jwtSvc))
+	dashboard.RegisterRoutes(e, db, middlewares.AuthMiddleware(jwtSvc))
 
 	addr := fmt.Sprintf(":%s", cfg.Port)
 	fmt.Printf("\033[1;32m🚀 Server running on http://localhost:%s\033[0m\n", cfg.Port)
