@@ -9,7 +9,15 @@ const docTemplate = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "contact": {},
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "ZICK API Support",
+            "email": "support@zick.app"
+        },
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        },
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
@@ -3934,6 +3942,43 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/home": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get aggregated data for the mobile home screen (User info, Schedule, Prayers, Quote)",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "home"
+                ],
+                "summary": "Get Home Data",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/internal_domain_home.HomeResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/illustrations": {
             "get": {
                 "description": "Get a paginated list of illustrations",
@@ -7591,6 +7636,73 @@ const docTemplate = `{
                 }
             }
         },
+        "internal_domain_home.DailyQuote": {
+            "type": "object",
+            "properties": {
+                "reference": {
+                    "type": "string"
+                },
+                "text": {
+                    "type": "string"
+                }
+            }
+        },
+        "internal_domain_home.HomeResponse": {
+            "type": "object",
+            "properties": {
+                "quote": {
+                    "$ref": "#/definitions/internal_domain_home.DailyQuote"
+                },
+                "schedule": {
+                    "description": "Returns [] instead of null",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/internal_domain_home.ScheduledPrayer"
+                    }
+                },
+                "user": {
+                    "$ref": "#/definitions/internal_domain_home.UserHome"
+                }
+            }
+        },
+        "internal_domain_home.ScheduledPrayer": {
+            "type": "object",
+            "properties": {
+                "endTime": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "prayerType": {
+                    "description": "\"Morning Prayer\" or \"Night Prayer\"",
+                    "type": "string"
+                },
+                "startTime": {
+                    "type": "string"
+                },
+                "thumbnailUrl": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "internal_domain_home.UserHome": {
+            "type": "object",
+            "properties": {
+                "ageGroup": {
+                    "type": "string"
+                },
+                "avatarUrl": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
         "internal_domain_illustration.CreateIllustrationReq": {
             "type": "object",
             "required": [
@@ -7808,17 +7920,25 @@ const docTemplate = `{
                 }
             }
         }
+    },
+    "securityDefinitions": {
+        "BearerAuth": {
+            "description": "Type \"Bearer\" followed by a space and the JWT access token.",
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
     }
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "",
+	Version:          "2.0",
 	Host:             "",
-	BasePath:         "",
+	BasePath:         "/",
 	Schemes:          []string{},
-	Title:            "",
-	Description:      "",
+	Title:            "ZICK API",
+	Description:      "ZICK — A spiritual-wellness app backend providing auth, content, schedules, and subscriptions.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",
