@@ -9,7 +9,7 @@ import (
 
 type Quote struct {
 	ID          uuid.UUID      `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
-	PublishDate time.Time      `gorm:"type:date;not null"`
+	PublishDate time.Time      `gorm:"not null;index"`
 	QuoteText   string         `gorm:"type:text;not null"`
 	Reference   string         `gorm:"type:varchar(255)"`
 	Explanation string         `gorm:"type:text"`
