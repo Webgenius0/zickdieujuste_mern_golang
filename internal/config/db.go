@@ -32,5 +32,14 @@ func ConnectDatabase(cfg *Config) *gorm.DB {
 	} else {
 		println("Database connection successful")
 	}
+
+	// Setup Connection Pool to reduce remote DB latency (fixes SLOW SQL)
+	sqlDB, err := db.DB()
+	if err == nil {
+		sqlDB.SetMaxIdleConns(10)
+		sqlDB.SetMaxOpenConns(100)
+		sqlDB.SetConnMaxLifetime(time.Hour)
+	}
+
 	return db
 }
