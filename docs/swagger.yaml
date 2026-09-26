@@ -4020,6 +4020,40 @@ paths:
       tags:
       - encouragements
       - admin
+  /api/v1/encouragements/{id}:
+    get:
+      description: Get a specific encouragement by its ID
+      parameters:
+      - description: Encouragement ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_domain_encouragement.EncouragementResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Get Encouragement by ID
+      tags:
+      - admin
+      - encouragements
   /api/v1/faqs:
     get:
       description: Retrieve active FAQs, optionally filtered by a search query
@@ -4071,6 +4105,40 @@ paths:
       tags:
       - illustrations
       - admin
+  /api/v1/illustrations/{id}:
+    get:
+      description: Get a specific illustration by its ID
+      parameters:
+      - description: Illustration ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_domain_illustration.IllustrationResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Get Illustration by ID
+      tags:
+      - admin
+      - illustrations
   /api/v1/languages:
     get:
       description: Retrieves a paginated list of all ACTIVE languages for the frontend/mobile

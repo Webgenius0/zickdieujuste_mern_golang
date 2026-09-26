@@ -16,6 +16,7 @@ func RegisterRoutes(e *echo.Echo, db *gorm.DB, authMW echo.MiddlewareFunc) {
 
 	// Public (Mobile) routes
 	v1.GET("/illustrations", handler.GetAll)
+	v1.GET("/illustrations/:id", handler.GetByID)
 
 	// Admin routes
 	admin := v1.Group("/admin/illustrations", authMW, middlewares.RequireAdmin)

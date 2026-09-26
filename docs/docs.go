@@ -3844,6 +3844,59 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/encouragements/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get a specific encouragement by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "admin",
+                    "encouragements"
+                ],
+                "summary": "Get Encouragement by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Encouragement ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/internal_domain_encouragement.EncouragementResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/faqs": {
             "get": {
                 "description": "Retrieve active FAQs, optionally filtered by a search query",
@@ -3911,6 +3964,59 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/internal_domain_illustration.PaginatedIllustrationResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/illustrations/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get a specific illustration by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "admin",
+                    "illustrations"
+                ],
+                "summary": "Get Illustration by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Illustration ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/internal_domain_illustration.IllustrationResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
                         }
                     },
                     "500": {

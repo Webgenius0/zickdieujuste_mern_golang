@@ -81,6 +81,7 @@ func (h *Handler) GetAll(c *echo.Context) error {
 // @Failure      400  {object}  httpresponse.Error
 // @Failure      401  {object}  httpresponse.Error
 // @Failure      500  {object}  httpresponse.Error
+// @Router       /api/v1/illustrations/{id} [get]
 // @Router       /api/v1/admin/illustrations/{id} [get]
 func (h *Handler) GetByID(c *echo.Context) error {
 	id, err := uuid.Parse(c.Param("id"))
