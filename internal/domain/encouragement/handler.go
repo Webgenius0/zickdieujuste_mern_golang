@@ -17,6 +17,19 @@ func NewHandler(svc Service) *Handler {
 	return &Handler{svc: svc}
 }
 
+// Create godoc
+// @Summary      Create Encouragement
+// @Description  Create a new encouragement (Admin)
+// @Tags         admin, encouragements
+// @Accept       json
+// @Produce      json
+// @Security     BearerAuth
+// @Param        request  body      CreateEncouragementReq  true  "Encouragement Data"
+// @Success      201      {object}  EncouragementResponse
+// @Failure      400      {object}  httpresponse.Error
+// @Failure      401      {object}  httpresponse.Error
+// @Failure      500      {object}  httpresponse.Error
+// @Router       /api/v1/admin/encouragements [post]
 func (h *Handler) Create(c *echo.Context) error {
 	var req CreateEncouragementReq
 	if err := c.Bind(&req); err != nil {
@@ -34,6 +47,17 @@ func (h *Handler) Create(c *echo.Context) error {
 	return c.JSON(http.StatusCreated, res)
 }
 
+// GetAll godoc
+// @Summary      Get All Encouragements
+// @Description  Get a paginated list of encouragements
+// @Tags         encouragements, admin
+// @Produce      json
+// @Param        page     query     int  false  "Page number"
+// @Param        limit    query     int  false  "Items per page"
+// @Success      200      {object}  PaginatedEncouragementResponse
+// @Failure      500      {object}  httpresponse.Error
+// @Router       /api/v1/encouragements [get]
+// @Router       /api/v1/admin/encouragements [get]
 func (h *Handler) GetAll(c *echo.Context) error {
 	page, _ := strconv.Atoi(c.QueryParam("page"))
 	limit, _ := strconv.Atoi(c.QueryParam("limit"))
@@ -46,6 +70,18 @@ func (h *Handler) GetAll(c *echo.Context) error {
 	return c.JSON(http.StatusOK, res)
 }
 
+// GetByID godoc
+// @Summary      Get Encouragement by ID
+// @Description  Get a specific encouragement by its ID
+// @Tags         admin, encouragements
+// @Produce      json
+// @Security     BearerAuth
+// @Param        id   path      string  true  "Encouragement ID"
+// @Success      200  {object}  EncouragementResponse
+// @Failure      400  {object}  httpresponse.Error
+// @Failure      401  {object}  httpresponse.Error
+// @Failure      500  {object}  httpresponse.Error
+// @Router       /api/v1/admin/encouragements/{id} [get]
 func (h *Handler) GetByID(c *echo.Context) error {
 	id, err := uuid.Parse(c.Param("id"))
 	if err != nil {
@@ -60,6 +96,20 @@ func (h *Handler) GetByID(c *echo.Context) error {
 	return c.JSON(http.StatusOK, res)
 }
 
+// Update godoc
+// @Summary      Update Encouragement
+// @Description  Update an existing encouragement (Admin)
+// @Tags         admin, encouragements
+// @Accept       json
+// @Produce      json
+// @Security     BearerAuth
+// @Param        id       path      string                   true  "Encouragement ID"
+// @Param        request  body      UpdateEncouragementReq   true  "Updated Encouragement Data"
+// @Success      200      {object}  EncouragementResponse
+// @Failure      400      {object}  httpresponse.Error
+// @Failure      401      {object}  httpresponse.Error
+// @Failure      500      {object}  httpresponse.Error
+// @Router       /api/v1/admin/encouragements/{id} [put]
 func (h *Handler) Update(c *echo.Context) error {
 	id, err := uuid.Parse(c.Param("id"))
 	if err != nil {
@@ -82,6 +132,18 @@ func (h *Handler) Update(c *echo.Context) error {
 	return c.JSON(http.StatusOK, res)
 }
 
+// Delete godoc
+// @Summary      Delete Encouragement
+// @Description  Delete an encouragement by ID (Admin)
+// @Tags         admin, encouragements
+// @Produce      json
+// @Security     BearerAuth
+// @Param        id   path      string  true  "Encouragement ID"
+// @Success      200  {object}  map[string]string
+// @Failure      400  {object}  httpresponse.Error
+// @Failure      401  {object}  httpresponse.Error
+// @Failure      500  {object}  httpresponse.Error
+// @Router       /api/v1/admin/encouragements/{id} [delete]
 func (h *Handler) Delete(c *echo.Context) error {
 	id, err := uuid.Parse(c.Param("id"))
 	if err != nil {
@@ -92,5 +154,5 @@ func (h *Handler) Delete(c *echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, httpresponse.NewError(http.StatusInternalServerError, "Failed to delete encouragement", err.Error()))
 	}
 
-	return c.JSON(http.StatusOK, map[string]string{"message": "Encouragement deleted successfully"})
+	return c.JSON(http.StatusOK, map[string]string{"message": "encouragement deleted successfully"})
 }

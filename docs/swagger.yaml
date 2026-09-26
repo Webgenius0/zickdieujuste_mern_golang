@@ -1,4 +1,3 @@
-basePath: /
 definitions:
   gotickets_internal_domain_cms_dto.CMSPageResponse:
     properties:
@@ -1358,6 +1357,94 @@ definitions:
         description: TotalPages is the total number of pages.
         type: integer
     type: object
+  internal_domain_encouragement.CreateEncouragementReq:
+    properties:
+      contentText:
+        type: string
+      reference:
+        type: string
+    required:
+    - contentText
+    type: object
+  internal_domain_encouragement.EncouragementResponse:
+    properties:
+      contentText:
+        type: string
+      createdAt:
+        type: string
+      id:
+        type: string
+      reference:
+        type: string
+    type: object
+  internal_domain_encouragement.PaginatedEncouragementResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/internal_domain_encouragement.EncouragementResponse'
+        type: array
+      limit:
+        type: integer
+      page:
+        type: integer
+      totalItems:
+        type: integer
+      totalPages:
+        type: integer
+    type: object
+  internal_domain_encouragement.UpdateEncouragementReq:
+    properties:
+      contentText:
+        type: string
+      reference:
+        type: string
+    required:
+    - contentText
+    type: object
+  internal_domain_illustration.CreateIllustrationReq:
+    properties:
+      contentText:
+        type: string
+      reference:
+        type: string
+    required:
+    - contentText
+    type: object
+  internal_domain_illustration.IllustrationResponse:
+    properties:
+      contentText:
+        type: string
+      createdAt:
+        type: string
+      id:
+        type: string
+      reference:
+        type: string
+    type: object
+  internal_domain_illustration.PaginatedIllustrationResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/internal_domain_illustration.IllustrationResponse'
+        type: array
+      limit:
+        type: integer
+      page:
+        type: integer
+      totalItems:
+        type: integer
+      totalPages:
+        type: integer
+    type: object
+  internal_domain_illustration.UpdateIllustrationReq:
+    properties:
+      contentText:
+        type: string
+      reference:
+        type: string
+    required:
+    - contentText
+    type: object
   internal_domain_media.DeleteRequest:
     properties:
       url:
@@ -1458,17 +1545,7 @@ definitions:
         type: string
     type: object
 info:
-  contact:
-    email: support@zick.app
-    name: ZICK API Support
-  description: ZICK — A spiritual-wellness app backend providing auth, content, schedules,
-    and subscriptions.
-  license:
-    name: MIT
-    url: https://opensource.org/licenses/MIT
-  termsOfService: http://swagger.io/terms/
-  title: ZICK API
-  version: "2.0"
+  contact: {}
 paths:
   /:
     get:
@@ -1806,6 +1883,179 @@ paths:
       tags:
       - admin
       - cms
+  /api/v1/admin/encouragements:
+    get:
+      description: Get a paginated list of encouragements
+      parameters:
+      - description: Page number
+        in: query
+        name: page
+        type: integer
+      - description: Items per page
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_domain_encouragement.PaginatedEncouragementResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      summary: Get All Encouragements
+      tags:
+      - encouragements
+      - admin
+    post:
+      consumes:
+      - application/json
+      description: Create a new encouragement (Admin)
+      parameters:
+      - description: Encouragement Data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_domain_encouragement.CreateEncouragementReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/internal_domain_encouragement.EncouragementResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Create Encouragement
+      tags:
+      - admin
+      - encouragements
+  /api/v1/admin/encouragements/{id}:
+    delete:
+      description: Delete an encouragement by ID (Admin)
+      parameters:
+      - description: Encouragement ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Delete Encouragement
+      tags:
+      - admin
+      - encouragements
+    get:
+      description: Get a specific encouragement by its ID
+      parameters:
+      - description: Encouragement ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_domain_encouragement.EncouragementResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Get Encouragement by ID
+      tags:
+      - admin
+      - encouragements
+    put:
+      consumes:
+      - application/json
+      description: Update an existing encouragement (Admin)
+      parameters:
+      - description: Encouragement ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Updated Encouragement Data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_domain_encouragement.UpdateEncouragementReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_domain_encouragement.EncouragementResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Update Encouragement
+      tags:
+      - admin
+      - encouragements
   /api/v1/admin/faqs:
     get:
       description: Retrieve all FAQs (including inactive ones)
@@ -1941,6 +2191,179 @@ paths:
       tags:
       - admin
       - faqs
+  /api/v1/admin/illustrations:
+    get:
+      description: Get a paginated list of illustrations
+      parameters:
+      - description: Page number
+        in: query
+        name: page
+        type: integer
+      - description: Items per page
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_domain_illustration.PaginatedIllustrationResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      summary: Get All Illustrations
+      tags:
+      - illustrations
+      - admin
+    post:
+      consumes:
+      - application/json
+      description: Create a new illustration (Admin)
+      parameters:
+      - description: Illustration Data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_domain_illustration.CreateIllustrationReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/internal_domain_illustration.IllustrationResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Create Illustration
+      tags:
+      - admin
+      - illustrations
+  /api/v1/admin/illustrations/{id}:
+    delete:
+      description: Delete an illustration by ID (Admin)
+      parameters:
+      - description: Illustration ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Delete Illustration
+      tags:
+      - admin
+      - illustrations
+    get:
+      description: Get a specific illustration by its ID
+      parameters:
+      - description: Illustration ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_domain_illustration.IllustrationResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Get Illustration by ID
+      tags:
+      - admin
+      - illustrations
+    put:
+      consumes:
+      - application/json
+      description: Update an existing illustration (Admin)
+      parameters:
+      - description: Illustration ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Updated Illustration Data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_domain_illustration.UpdateIllustrationReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_domain_illustration.IllustrationResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Update Illustration
+      tags:
+      - admin
+      - illustrations
   /api/v1/admin/languages:
     get:
       description: Retrieves a paginated list of all languages including inactive
@@ -3570,6 +3993,33 @@ paths:
       summary: Register device token
       tags:
       - User
+  /api/v1/encouragements:
+    get:
+      description: Get a paginated list of encouragements
+      parameters:
+      - description: Page number
+        in: query
+        name: page
+        type: integer
+      - description: Items per page
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_domain_encouragement.PaginatedEncouragementResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      summary: Get All Encouragements
+      tags:
+      - encouragements
+      - admin
   /api/v1/faqs:
     get:
       description: Retrieve active FAQs, optionally filtered by a search query
@@ -3594,6 +4044,33 @@ paths:
       summary: Get Public FAQs
       tags:
       - faqs
+  /api/v1/illustrations:
+    get:
+      description: Get a paginated list of illustrations
+      parameters:
+      - description: Page number
+        in: query
+        name: page
+        type: integer
+      - description: Items per page
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_domain_illustration.PaginatedIllustrationResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      summary: Get All Illustrations
+      tags:
+      - illustrations
+      - admin
   /api/v1/languages:
     get:
       description: Retrieves a paginated list of all ACTIVE languages for the frontend/mobile
@@ -4613,10 +5090,4 @@ paths:
       summary: Health Check
       tags:
       - System
-securityDefinitions:
-  BearerAuth:
-    description: Type "Bearer" followed by a space and the JWT access token.
-    in: header
-    name: Authorization
-    type: apiKey
 swagger: "2.0"
