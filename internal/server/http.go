@@ -119,8 +119,8 @@ func Start(db *gorm.DB, cfg *config.Config, uploader upload.Uploader) {
 	cms.RegisterRoutes(e, db, middlewares.AuthMiddleware(jwtSvc))
 	dashboard.RegisterRoutes(e, db, middlewares.AuthMiddleware(jwtSvc))
 	quote.RegisterRoutes(e, db, middlewares.AuthMiddleware(jwtSvc))
-	illustration.RegisterRoutes(e, db, middlewares.AuthMiddleware(jwtSvc))
-	encouragement.RegisterRoutes(e, db, middlewares.AuthMiddleware(jwtSvc))
+	illustration.RegisterRoutes(e, db, middlewares.AuthMiddleware(jwtSvc), uploader)
+	encouragement.RegisterRoutes(e, db, middlewares.AuthMiddleware(jwtSvc), uploader)
 	home.RegisterRoutes(e, db, middlewares.AuthMiddleware(jwtSvc))
 
 	addr := fmt.Sprintf(":%s", cfg.Port)

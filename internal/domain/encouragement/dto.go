@@ -6,19 +6,22 @@ import (
 )
 
 type CreateEncouragementReq struct {
-	ContentText string `json:"contentText" validate:"required"`
-	Reference   string `json:"reference"`
+	ContentText string  `json:"contentText" validate:"required"`
+	Reference   string  `json:"reference"`
+	AudioURL    *string `json:"audioUrl"`
 }
 
 type UpdateEncouragementReq struct {
-	ContentText string `json:"contentText" validate:"required"`
-	Reference   string `json:"reference"`
+	ContentText string  `json:"contentText" validate:"required"`
+	Reference   string  `json:"reference"`
+	AudioURL    *string `json:"audioUrl"`
 }
 
 type EncouragementResponse struct {
 	ID          uuid.UUID `json:"id"`
 	ContentText string    `json:"contentText"`
 	Reference   string    `json:"reference"`
+	AudioURL    *string   `json:"audioUrl"`
 	CreatedAt   time.Time `json:"createdAt"`
 }
 

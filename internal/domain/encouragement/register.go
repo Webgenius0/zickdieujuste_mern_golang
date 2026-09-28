@@ -2,14 +2,15 @@ package encouragement
 
 import (
 	"gotickets/internal/middlewares"
+	"gotickets/internal/upload"
 
 	"github.com/labstack/echo/v5"
 	"gorm.io/gorm"
 )
 
-func RegisterRoutes(e *echo.Echo, db *gorm.DB, authMW echo.MiddlewareFunc) {
+func RegisterRoutes(e *echo.Echo, db *gorm.DB, authMW echo.MiddlewareFunc, uploader upload.Uploader) {
 	repo := NewRepository(db)
-	svc := NewService(repo)
+	svc := NewService(repo, uploader)
 	handler := NewHandler(svc)
 
 	v1 := e.Group("/api/v1")
