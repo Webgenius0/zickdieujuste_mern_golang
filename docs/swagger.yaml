@@ -1,3 +1,4 @@
+basePath: /
 definitions:
   gotickets_internal_domain_cms_dto.CMSPageResponse:
     properties:
@@ -1401,6 +1402,50 @@ definitions:
     required:
     - contentText
     type: object
+  internal_domain_home.DailyQuote:
+    properties:
+      reference:
+        type: string
+      text:
+        type: string
+    type: object
+  internal_domain_home.HomeResponse:
+    properties:
+      quote:
+        $ref: '#/definitions/internal_domain_home.DailyQuote'
+      schedule:
+        description: Returns [] instead of null
+        items:
+          $ref: '#/definitions/internal_domain_home.ScheduledPrayer'
+        type: array
+      user:
+        $ref: '#/definitions/internal_domain_home.UserHome'
+    type: object
+  internal_domain_home.ScheduledPrayer:
+    properties:
+      endTime:
+        type: string
+      id:
+        type: string
+      prayerType:
+        description: '"Morning Prayer" or "Night Prayer"'
+        type: string
+      startTime:
+        type: string
+      thumbnailUrl:
+        type: string
+      title:
+        type: string
+    type: object
+  internal_domain_home.UserHome:
+    properties:
+      ageGroup:
+        type: string
+      avatarUrl:
+        type: string
+      name:
+        type: string
+    type: object
   internal_domain_illustration.CreateIllustrationReq:
     properties:
       contentText:
@@ -1545,7 +1590,17 @@ definitions:
         type: string
     type: object
 info:
-  contact: {}
+  contact:
+    email: support@zick.app
+    name: ZICK API Support
+  description: ZICK — A spiritual-wellness app backend providing auth, content, schedules,
+    and subscriptions.
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  termsOfService: http://swagger.io/terms/
+  title: ZICK API
+  version: "2.0"
 paths:
   /:
     get:
@@ -4078,6 +4133,30 @@ paths:
       summary: Get Public FAQs
       tags:
       - faqs
+  /api/v1/home:
+    get:
+      description: Get aggregated data for the mobile home screen (User info, Schedule,
+        Prayers, Quote)
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_domain_home.HomeResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gotickets_internal_httpresponse.Error'
+      security:
+      - BearerAuth: []
+      summary: Get Home Data
+      tags:
+      - home
   /api/v1/illustrations:
     get:
       description: Get a paginated list of illustrations
@@ -5158,4 +5237,10 @@ paths:
       summary: Health Check
       tags:
       - System
+securityDefinitions:
+  BearerAuth:
+    description: Type "Bearer" followed by a space and the JWT access token.
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

@@ -72,7 +72,7 @@ type Prayer struct {
 	Title         string         `gorm:"type:varchar(255);not null"`
 	CategoryID    uuid.UUID      `gorm:"type:uuid;not null;index"`
 	SubCategoryID *uuid.UUID     `gorm:"type:uuid;index"`
-	AgeGroup      *string        `gorm:"type:varchar(50)"`
+	AgeGroup      *string        `gorm:"type:varchar(50);index"`
 	MediaType     MediaType      `gorm:"type:varchar(20);not null"`
 	PrayerType    PrayerType     `gorm:"type:varchar(20);not null;index"`
 	Module        string         `gorm:"type:varchar(20);default:'Prayer';index"`
