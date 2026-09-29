@@ -125,7 +125,7 @@ func (h *Handler) Update(c *echo.Context) error {
 		return c.JSON(http.StatusBadRequest, httpresponse.NewError(http.StatusBadRequest, "Validation error", err.Error()))
 	}
 
-	res, err := h.svc.Update(id, req)
+	res, err := h.svc.Update(c.Request().Context(), id, req)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, httpresponse.NewError(http.StatusInternalServerError, "Failed to update illustration", err.Error()))
 	}
@@ -151,7 +151,7 @@ func (h *Handler) Delete(c *echo.Context) error {
 		return c.JSON(http.StatusBadRequest, httpresponse.NewError(http.StatusBadRequest, "Invalid ID format", err.Error()))
 	}
 
-	if err := h.svc.Delete(id); err != nil {
+	if err := h.svc.Delete(c.Request().Context(), id); err != nil {
 		return c.JSON(http.StatusInternalServerError, httpresponse.NewError(http.StatusInternalServerError, "Failed to delete illustration", err.Error()))
 	}
 

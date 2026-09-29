@@ -7567,6 +7567,9 @@
                 "contentText"
             ],
             "properties": {
+                "audioUrl": {
+                    "type": "string"
+                },
                 "contentText": {
                     "type": "string"
                 },
@@ -7578,6 +7581,9 @@
         "internal_domain_encouragement.EncouragementResponse": {
             "type": "object",
             "properties": {
+                "audioUrl": {
+                    "type": "string"
+                },
                 "contentText": {
                     "type": "string"
                 },
@@ -7621,6 +7627,9 @@
                 "contentText"
             ],
             "properties": {
+                "audioUrl": {
+                    "type": "string"
+                },
                 "contentText": {
                     "type": "string"
                 },
@@ -7702,6 +7711,9 @@
                 "contentText"
             ],
             "properties": {
+                "audioUrl": {
+                    "type": "string"
+                },
                 "contentText": {
                     "type": "string"
                 },
@@ -7713,6 +7725,9 @@
         "internal_domain_illustration.IllustrationResponse": {
             "type": "object",
             "properties": {
+                "audioUrl": {
+                    "type": "string"
+                },
                 "contentText": {
                     "type": "string"
                 },
@@ -7756,6 +7771,9 @@
                 "contentText"
             ],
             "properties": {
+                "audioUrl": {
+                    "type": "string"
+                },
                 "contentText": {
                     "type": "string"
                 },

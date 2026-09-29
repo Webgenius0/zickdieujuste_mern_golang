@@ -1360,6 +1360,8 @@ definitions:
     type: object
   internal_domain_encouragement.CreateEncouragementReq:
     properties:
+      audioUrl:
+        type: string
       contentText:
         type: string
       reference:
@@ -1369,6 +1371,8 @@ definitions:
     type: object
   internal_domain_encouragement.EncouragementResponse:
     properties:
+      audioUrl:
+        type: string
       contentText:
         type: string
       createdAt:
@@ -1395,6 +1399,8 @@ definitions:
     type: object
   internal_domain_encouragement.UpdateEncouragementReq:
     properties:
+      audioUrl:
+        type: string
       contentText:
         type: string
       reference:
@@ -1448,6 +1454,8 @@ definitions:
     type: object
   internal_domain_illustration.CreateIllustrationReq:
     properties:
+      audioUrl:
+        type: string
       contentText:
         type: string
       reference:
@@ -1457,6 +1465,8 @@ definitions:
     type: object
   internal_domain_illustration.IllustrationResponse:
     properties:
+      audioUrl:
+        type: string
       contentText:
         type: string
       createdAt:
@@ -1483,6 +1493,8 @@ definitions:
     type: object
   internal_domain_illustration.UpdateIllustrationReq:
     properties:
+      audioUrl:
+        type: string
       contentText:
         type: string
       reference:

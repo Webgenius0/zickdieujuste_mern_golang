@@ -7574,6 +7574,9 @@ const docTemplate = `{
                 "contentText"
             ],
             "properties": {
+                "audioUrl": {
+                    "type": "string"
+                },
                 "contentText": {
                     "type": "string"
                 },
@@ -7585,6 +7588,9 @@ const docTemplate = `{
         "internal_domain_encouragement.EncouragementResponse": {
             "type": "object",
             "properties": {
+                "audioUrl": {
+                    "type": "string"
+                },
                 "contentText": {
                     "type": "string"
                 },
@@ -7628,6 +7634,9 @@ const docTemplate = `{
                 "contentText"
             ],
             "properties": {
+                "audioUrl": {
+                    "type": "string"
+                },
                 "contentText": {
                     "type": "string"
                 },
@@ -7709,6 +7718,9 @@ const docTemplate = `{
                 "contentText"
             ],
             "properties": {
+                "audioUrl": {
+                    "type": "string"
+                },
                 "contentText": {
                     "type": "string"
                 },
@@ -7720,6 +7732,9 @@ const docTemplate = `{
         "internal_domain_illustration.IllustrationResponse": {
             "type": "object",
             "properties": {
+                "audioUrl": {
+                    "type": "string"
+                },
                 "contentText": {
                     "type": "string"
                 },
@@ -7763,6 +7778,9 @@ const docTemplate = `{
                 "contentText"
             ],
             "properties": {
+                "audioUrl": {
+                    "type": "string"
+                },
                 "contentText": {
                     "type": "string"
                 },
