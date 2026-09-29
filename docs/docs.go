@@ -37,7 +37,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_server.WelcomeResponse"
+                            "$ref": "#/definitions/server.WelcomeResponse"
                         }
                     }
                 }
@@ -74,7 +74,7 @@ const docTemplate = `{
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -103,7 +103,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.CreateCategoryRequest"
+                            "$ref": "#/definitions/dto.CreateCategoryRequest"
                         }
                     }
                 ],
@@ -117,13 +117,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -158,19 +158,19 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -206,7 +206,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.UpdateCategoryRequest"
+                            "$ref": "#/definitions/dto.UpdateCategoryRequest"
                         }
                     }
                 ],
@@ -220,19 +220,19 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -267,13 +267,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -301,20 +301,20 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/gotickets_internal_domain_cms_dto.CMSPageResponse"
+                                "$ref": "#/definitions/dto.CMSPageResponse"
                             }
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -344,7 +344,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_cms_dto.CreateCMSPageRequest"
+                            "$ref": "#/definitions/dto.CreateCMSPageRequest"
                         }
                     }
                 ],
@@ -352,25 +352,25 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_cms_dto.CMSPageResponse"
+                            "$ref": "#/definitions/dto.CMSPageResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -405,19 +405,19 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_cms_dto.CMSPageResponse"
+                            "$ref": "#/definitions/dto.CMSPageResponse"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -454,7 +454,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_cms_dto.UpdateCMSPageRequest"
+                            "$ref": "#/definitions/dto.UpdateCMSPageRequest"
                         }
                     }
                 ],
@@ -462,31 +462,31 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_cms_dto.CMSPageResponse"
+                            "$ref": "#/definitions/dto.CMSPageResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -519,25 +519,25 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -572,13 +572,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_domain_encouragement.PaginatedEncouragementResponse"
+                            "$ref": "#/definitions/encouragement.PaginatedEncouragementResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -608,7 +608,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_domain_encouragement.CreateEncouragementReq"
+                            "$ref": "#/definitions/encouragement.CreateEncouragementReq"
                         }
                     }
                 ],
@@ -616,25 +616,25 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/internal_domain_encouragement.EncouragementResponse"
+                            "$ref": "#/definitions/encouragement.EncouragementResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -669,25 +669,25 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_domain_encouragement.EncouragementResponse"
+                            "$ref": "#/definitions/encouragement.EncouragementResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -724,7 +724,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_domain_encouragement.UpdateEncouragementReq"
+                            "$ref": "#/definitions/encouragement.UpdateEncouragementReq"
                         }
                     }
                 ],
@@ -732,25 +732,25 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_domain_encouragement.EncouragementResponse"
+                            "$ref": "#/definitions/encouragement.EncouragementResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -792,19 +792,19 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -832,20 +832,20 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/gotickets_internal_domain_faq_dto.FAQResponse"
+                                "$ref": "#/definitions/dto.FAQResponse"
                             }
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -875,7 +875,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_faq_dto.CreateFAQRequest"
+                            "$ref": "#/definitions/dto.CreateFAQRequest"
                         }
                     }
                 ],
@@ -883,25 +883,25 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_faq_dto.FAQResponse"
+                            "$ref": "#/definitions/dto.FAQResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -940,7 +940,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_faq_dto.UpdateFAQRequest"
+                            "$ref": "#/definitions/dto.UpdateFAQRequest"
                         }
                     }
                 ],
@@ -948,25 +948,25 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_faq_dto.FAQResponse"
+                            "$ref": "#/definitions/dto.FAQResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -1008,13 +1008,13 @@ const docTemplate = `{
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -1049,13 +1049,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_domain_illustration.PaginatedIllustrationResponse"
+                            "$ref": "#/definitions/illustration.PaginatedIllustrationResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -1085,7 +1085,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_domain_illustration.CreateIllustrationReq"
+                            "$ref": "#/definitions/illustration.CreateIllustrationReq"
                         }
                     }
                 ],
@@ -1093,25 +1093,25 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/internal_domain_illustration.IllustrationResponse"
+                            "$ref": "#/definitions/illustration.IllustrationResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -1146,25 +1146,25 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_domain_illustration.IllustrationResponse"
+                            "$ref": "#/definitions/illustration.IllustrationResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -1201,7 +1201,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_domain_illustration.UpdateIllustrationReq"
+                            "$ref": "#/definitions/illustration.UpdateIllustrationReq"
                         }
                     }
                 ],
@@ -1209,25 +1209,25 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_domain_illustration.IllustrationResponse"
+                            "$ref": "#/definitions/illustration.IllustrationResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -1269,19 +1269,19 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -1328,25 +1328,25 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_language_dto.PaginatedLanguageResponse"
+                            "$ref": "#/definitions/dto.PaginatedLanguageResponse"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "403": {
                         "description": "Forbidden",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -1375,7 +1375,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_language_dto.CreateLanguageReq"
+                            "$ref": "#/definitions/dto.CreateLanguageReq"
                         }
                     }
                 ],
@@ -1383,37 +1383,37 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_language_dto.LanguageResponse"
+                            "$ref": "#/definitions/dto.LanguageResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "403": {
                         "description": "Forbidden",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "409": {
                         "description": "Conflict",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -1451,7 +1451,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_language_dto.UpdateLanguageReq"
+                            "$ref": "#/definitions/dto.UpdateLanguageReq"
                         }
                     }
                 ],
@@ -1459,43 +1459,43 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_language_dto.LanguageResponse"
+                            "$ref": "#/definitions/dto.LanguageResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "403": {
                         "description": "Forbidden",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "409": {
                         "description": "Conflict",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -1533,31 +1533,31 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "403": {
                         "description": "Forbidden",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -1588,7 +1588,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_library_dto.CreateLibraryReq"
+                            "$ref": "#/definitions/dto.CreateLibraryReq"
                         }
                     }
                 ],
@@ -1596,13 +1596,13 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_library_dto.LibraryResponse"
+                            "$ref": "#/definitions/dto.LibraryResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -1633,7 +1633,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_library_dto.CreateCategoryReq"
+                            "$ref": "#/definitions/dto.CreateCategoryReq"
                         }
                     }
                 ],
@@ -1647,7 +1647,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -1685,7 +1685,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_library_dto.UpdateCategoryReq"
+                            "$ref": "#/definitions/dto.UpdateCategoryReq"
                         }
                     }
                 ],
@@ -1699,7 +1699,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -1766,7 +1766,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_library_dto.UpdateLibraryReq"
+                            "$ref": "#/definitions/dto.UpdateLibraryReq"
                         }
                     }
                 ],
@@ -1774,19 +1774,19 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_library_dto.LibraryResponse"
+                            "$ref": "#/definitions/dto.LibraryResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -1824,7 +1824,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -1855,7 +1855,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_motivation_dto.CreateMotivationReq"
+                            "$ref": "#/definitions/dto.CreateMotivationReq"
                         }
                     }
                 ],
@@ -1863,13 +1863,13 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_motivation_dto.MotivationResponse"
+                            "$ref": "#/definitions/dto.MotivationResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -1907,7 +1907,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_motivation_dto.UpdateMotivationReq"
+                            "$ref": "#/definitions/dto.UpdateMotivationReq"
                         }
                     }
                 ],
@@ -1915,19 +1915,19 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_motivation_dto.MotivationResponse"
+                            "$ref": "#/definitions/dto.MotivationResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -1965,7 +1965,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -2029,13 +2029,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.PaginatedPrayerResponse"
+                            "$ref": "#/definitions/dto.PaginatedPrayerResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -2064,7 +2064,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.CreatePrayerRequest"
+                            "$ref": "#/definitions/dto.CreatePrayerRequest"
                         }
                     }
                 ],
@@ -2072,19 +2072,19 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.PrayerResponse"
+                            "$ref": "#/definitions/dto.PrayerResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -2113,25 +2113,25 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.PrayerResponse"
+                            "$ref": "#/definitions/dto.PrayerResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -2167,7 +2167,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.UpdatePrayerRequest"
+                            "$ref": "#/definitions/dto.UpdatePrayerRequest"
                         }
                     }
                 ],
@@ -2175,25 +2175,25 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.PrayerResponse"
+                            "$ref": "#/definitions/dto.PrayerResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -2228,19 +2228,19 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -2271,7 +2271,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_proverb_dto.CreateProverbReq"
+                            "$ref": "#/definitions/dto.CreateProverbReq"
                         }
                     }
                 ],
@@ -2279,19 +2279,19 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_proverb_dto.ProverbResponse"
+                            "$ref": "#/definitions/dto.ProverbResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -2329,7 +2329,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_proverb_dto.UpdateProverbReq"
+                            "$ref": "#/definitions/dto.UpdateProverbReq"
                         }
                     }
                 ],
@@ -2337,25 +2337,25 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_proverb_dto.ProverbResponse"
+                            "$ref": "#/definitions/dto.ProverbResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -2390,19 +2390,19 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -2430,20 +2430,20 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/internal_domain_quote.QuoteResponse"
+                                "$ref": "#/definitions/quote.QuoteResponse"
                             }
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -2473,7 +2473,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_domain_quote.CreateQuoteRequest"
+                            "$ref": "#/definitions/quote.CreateQuoteRequest"
                         }
                     }
                 ],
@@ -2481,25 +2481,25 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/internal_domain_quote.QuoteResponse"
+                            "$ref": "#/definitions/quote.QuoteResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -2538,7 +2538,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_domain_quote.UpdateQuoteRequest"
+                            "$ref": "#/definitions/quote.UpdateQuoteRequest"
                         }
                     }
                 ],
@@ -2546,25 +2546,25 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_domain_quote.QuoteResponse"
+                            "$ref": "#/definitions/quote.QuoteResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -2597,25 +2597,25 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -2646,20 +2646,20 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.SubCategoryResponse"
+                                "$ref": "#/definitions/dto.SubCategoryResponse"
                             }
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -2688,7 +2688,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.CreateSubCategoryRequest"
+                            "$ref": "#/definitions/dto.CreateSubCategoryRequest"
                         }
                     }
                 ],
@@ -2696,19 +2696,19 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.SubCategoryResponse"
+                            "$ref": "#/definitions/dto.SubCategoryResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -2737,25 +2737,25 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.SubCategoryResponse"
+                            "$ref": "#/definitions/dto.SubCategoryResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -2791,7 +2791,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.UpdateSubCategoryRequest"
+                            "$ref": "#/definitions/dto.UpdateSubCategoryRequest"
                         }
                     }
                 ],
@@ -2799,25 +2799,25 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.SubCategoryResponse"
+                            "$ref": "#/definitions/dto.SubCategoryResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -2852,13 +2852,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -2905,13 +2905,13 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/gotickets_internal_domain_user_dto.StandardResponse"
+                                    "$ref": "#/definitions/dto.StandardResponse"
                                 },
                                 {
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.PaginatedAdminUsersResponse"
+                                            "$ref": "#/definitions/dto.PaginatedAdminUsersResponse"
                                         }
                                     }
                                 }
@@ -2953,7 +2953,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.AdminUpdateUserRequest"
+                            "$ref": "#/definitions/dto.AdminUpdateUserRequest"
                         }
                     }
                 ],
@@ -3024,7 +3024,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_worship_dto.CreateWorshipReq"
+                            "$ref": "#/definitions/dto.CreateWorshipReq"
                         }
                     }
                 ],
@@ -3032,19 +3032,19 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_worship_dto.WorshipResponse"
+                            "$ref": "#/definitions/dto.WorshipResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -3082,7 +3082,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_worship_dto.UpdateWorshipReq"
+                            "$ref": "#/definitions/dto.UpdateWorshipReq"
                         }
                     }
                 ],
@@ -3090,25 +3090,25 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_worship_dto.WorshipResponse"
+                            "$ref": "#/definitions/dto.WorshipResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -3143,19 +3143,19 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -3181,7 +3181,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.AdminLoginRequest"
+                            "$ref": "#/definitions/dto.AdminLoginRequest"
                         }
                     }
                 ],
@@ -3189,19 +3189,19 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.AuthResponse"
+                            "$ref": "#/definitions/dto.AuthResponse"
                         }
                     },
                     "400": {
                         "description": "Validation error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "401": {
                         "description": "Invalid credentials",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -3227,7 +3227,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.ForgotPasswordRequest"
+                            "$ref": "#/definitions/dto.ForgotPasswordRequest"
                         }
                     }
                 ],
@@ -3241,7 +3241,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Validation error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -3267,7 +3267,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.LoginRequest"
+                            "$ref": "#/definitions/dto.LoginRequest"
                         }
                     }
                 ],
@@ -3275,19 +3275,19 @@ const docTemplate = `{
                     "200": {
                         "description": "Login successful",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.StandardAuthResponse"
+                            "$ref": "#/definitions/dto.StandardAuthResponse"
                         }
                     },
                     "400": {
                         "description": "Validation error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "401": {
                         "description": "Invalid credentials",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -3317,7 +3317,7 @@ const docTemplate = `{
                         "name": "request",
                         "in": "body",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.RefreshRequest"
+                            "$ref": "#/definitions/dto.RefreshRequest"
                         }
                     }
                 ],
@@ -3331,7 +3331,7 @@ const docTemplate = `{
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -3356,7 +3356,7 @@ const docTemplate = `{
                         "name": "request",
                         "in": "body",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.RefreshRequest"
+                            "$ref": "#/definitions/dto.RefreshRequest"
                         }
                     }
                 ],
@@ -3364,13 +3364,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.AuthResponse"
+                            "$ref": "#/definitions/dto.AuthResponse"
                         }
                     },
                     "401": {
                         "description": "Invalid or expired refresh token",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -3396,7 +3396,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.RegisterRequest"
+                            "$ref": "#/definitions/dto.RegisterRequest"
                         }
                     }
                 ],
@@ -3404,25 +3404,25 @@ const docTemplate = `{
                     "201": {
                         "description": "Registration successful",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.StandardAuthResponse"
+                            "$ref": "#/definitions/dto.StandardAuthResponse"
                         }
                     },
                     "400": {
                         "description": "Validation error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "409": {
                         "description": "Email already registered",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -3448,7 +3448,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.ResendOTPRequest"
+                            "$ref": "#/definitions/dto.ResendOTPRequest"
                         }
                     }
                 ],
@@ -3462,13 +3462,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Validation error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "429": {
                         "description": "Too many requests",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -3494,7 +3494,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.ResetPasswordRequest"
+                            "$ref": "#/definitions/dto.ResetPasswordRequest"
                         }
                     }
                 ],
@@ -3508,13 +3508,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Invalid or expired reset token",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -3540,7 +3540,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.SocialLoginRequest"
+                            "$ref": "#/definitions/dto.SocialLoginRequest"
                         }
                     }
                 ],
@@ -3548,19 +3548,19 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.AuthResponse"
+                            "$ref": "#/definitions/dto.AuthResponse"
                         }
                     },
                     "400": {
                         "description": "Validation error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "401": {
                         "description": "Invalid token",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -3586,7 +3586,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.VerifyOTPRequest"
+                            "$ref": "#/definitions/dto.VerifyOTPRequest"
                         }
                     }
                 ],
@@ -3596,13 +3596,13 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/gotickets_internal_domain_user_dto.StandardResponse"
+                                    "$ref": "#/definitions/dto.StandardResponse"
                                 },
                                 {
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.VerifyOTPResponse"
+                                            "$ref": "#/definitions/dto.VerifyOTPResponse"
                                         }
                                     }
                                 }
@@ -3612,7 +3612,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Invalid or expired OTP",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -3649,7 +3649,7 @@ const docTemplate = `{
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -3684,19 +3684,19 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -3716,13 +3716,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_cms_dto.CMSPageResponse"
+                            "$ref": "#/definitions/dto.CMSPageResponse"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -3742,13 +3742,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_cms_dto.CMSPageResponse"
+                            "$ref": "#/definitions/dto.CMSPageResponse"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -3779,7 +3779,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.RegisterDeviceRequest"
+                            "$ref": "#/definitions/dto.RegisterDeviceRequest"
                         }
                     }
                 ],
@@ -3793,19 +3793,19 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -3840,13 +3840,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_domain_encouragement.PaginatedEncouragementResponse"
+                            "$ref": "#/definitions/encouragement.PaginatedEncouragementResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -3881,25 +3881,25 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_domain_encouragement.EncouragementResponse"
+                            "$ref": "#/definitions/encouragement.EncouragementResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -3929,14 +3929,14 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/gotickets_internal_domain_faq_dto.FAQResponse"
+                                "$ref": "#/definitions/dto.FAQResponse"
                             }
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -3961,19 +3961,19 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_domain_home.HomeResponse"
+                            "$ref": "#/definitions/home.HomeResponse"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -4008,13 +4008,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_domain_illustration.PaginatedIllustrationResponse"
+                            "$ref": "#/definitions/illustration.PaginatedIllustrationResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -4049,25 +4049,25 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_domain_illustration.IllustrationResponse"
+                            "$ref": "#/definitions/illustration.IllustrationResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -4114,19 +4114,19 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_language_dto.PaginatedLanguageResponse"
+                            "$ref": "#/definitions/dto.PaginatedLanguageResponse"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -4181,7 +4181,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_library_dto.PaginatedLibraryResponse"
+                            "$ref": "#/definitions/dto.PaginatedLibraryResponse"
                         }
                     }
                 }
@@ -4236,19 +4236,19 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_library_dto.LibraryDetailsResponse"
+                            "$ref": "#/definitions/dto.LibraryDetailsResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -4297,7 +4297,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_motivation_dto.PaginatedMotivationResponse"
+                            "$ref": "#/definitions/dto.PaginatedMotivationResponse"
                         }
                     }
                 }
@@ -4329,19 +4329,19 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_motivation_dto.MotivationDetailsResponse"
+                            "$ref": "#/definitions/dto.MotivationDetailsResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -4405,13 +4405,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.PaginatedPrayerResponse"
+                            "$ref": "#/definitions/dto.PaginatedPrayerResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -4440,19 +4440,19 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.MobileMetadataResponse"
+                            "$ref": "#/definitions/dto.MobileMetadataResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -4481,25 +4481,25 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.PrayerResponse"
+                            "$ref": "#/definitions/dto.PrayerResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -4545,13 +4545,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_proverb_dto.PaginatedProverbResponse"
+                            "$ref": "#/definitions/dto.PaginatedProverbResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -4579,19 +4579,19 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_proverb_dto.MobileTodayResponse"
+                            "$ref": "#/definitions/dto.MobileTodayResponse"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -4620,19 +4620,19 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_proverb_dto.ProverbResponse"
+                            "$ref": "#/definitions/dto.ProverbResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -4654,20 +4654,20 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/internal_domain_quote.QuoteResponse"
+                                "$ref": "#/definitions/quote.QuoteResponse"
                             }
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -4696,31 +4696,31 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_domain_quote.QuoteResponse"
+                            "$ref": "#/definitions/quote.QuoteResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -4745,19 +4745,19 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_schedule_dto.ScheduleResponse"
+                            "$ref": "#/definitions/dto.ScheduleResponse"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -4786,7 +4786,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_schedule_dto.UpdateScheduleRequest"
+                            "$ref": "#/definitions/dto.UpdateScheduleRequest"
                         }
                     }
                 ],
@@ -4794,25 +4794,25 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_schedule_dto.ScheduleResponse"
+                            "$ref": "#/definitions/dto.ScheduleResponse"
                         }
                     },
                     "400": {
                         "description": "Validation error or invalid timezone",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -4843,20 +4843,20 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.SubCategoryResponse"
+                                "$ref": "#/definitions/dto.SubCategoryResponse"
                             }
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -4885,25 +4885,25 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.SubCategoryResponse"
+                            "$ref": "#/definitions/dto.SubCategoryResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -4930,20 +4930,20 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/gotickets_internal_domain_subscription_dto.PlanResponse"
+                                "$ref": "#/definitions/dto.PlanResponse"
                             }
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -4974,7 +4974,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_subscription_dto.VerifyReceiptRequest"
+                            "$ref": "#/definitions/dto.VerifyReceiptRequest"
                         }
                     }
                 ],
@@ -4982,25 +4982,25 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_subscription_dto.SubscriptionResponse"
+                            "$ref": "#/definitions/dto.SubscriptionResponse"
                         }
                     },
                     "400": {
                         "description": "Validation error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -5026,7 +5026,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_subscription_dto.WebhookRequest"
+                            "$ref": "#/definitions/dto.WebhookRequest"
                         }
                     }
                 ],
@@ -5040,13 +5040,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -5089,25 +5089,25 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_domain_media.UploadResponse"
+                            "$ref": "#/definitions/media.UploadResponse"
                         }
                     },
                     "400": {
                         "description": "Missing or oversized file",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "503": {
                         "description": "Upload service unavailable",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -5136,7 +5136,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_domain_media.DeleteRequest"
+                            "$ref": "#/definitions/media.DeleteRequest"
                         }
                     }
                 ],
@@ -5144,25 +5144,25 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_domain_media.DeleteResponse"
+                            "$ref": "#/definitions/media.DeleteResponse"
                         }
                     },
                     "400": {
                         "description": "Missing public_id",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "503": {
                         "description": "Upload service unavailable",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -5187,19 +5187,19 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.ProfileResponse"
+                            "$ref": "#/definitions/dto.ProfileResponse"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -5228,7 +5228,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.UpdateProfileRequest"
+                            "$ref": "#/definitions/dto.UpdateProfileRequest"
                         }
                     }
                 ],
@@ -5236,25 +5236,25 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.ProfileResponse"
+                            "$ref": "#/definitions/dto.ProfileResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -5283,13 +5283,13 @@ const docTemplate = `{
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -5326,25 +5326,25 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.AvatarResponse"
+                            "$ref": "#/definitions/dto.AvatarResponse"
                         }
                     },
                     "400": {
                         "description": "Missing or invalid file",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "503": {
                         "description": "Upload service unavailable",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -5369,19 +5369,19 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.NotificationSettingsResponse"
+                            "$ref": "#/definitions/dto.NotificationSettingsResponse"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -5410,7 +5410,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.UpdateNotificationSettingsReq"
+                            "$ref": "#/definitions/dto.UpdateNotificationSettingsReq"
                         }
                     }
                 ],
@@ -5418,25 +5418,25 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.NotificationSettingsResponse"
+                            "$ref": "#/definitions/dto.NotificationSettingsResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -5467,7 +5467,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_user_dto.ChangePasswordRequest"
+                            "$ref": "#/definitions/dto.ChangePasswordRequest"
                         }
                     }
                 ],
@@ -5481,19 +5481,19 @@ const docTemplate = `{
                     "400": {
                         "description": "Wrong current password",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -5538,13 +5538,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_worship_dto.PaginatedWorshipResponse"
+                            "$ref": "#/definitions/dto.PaginatedWorshipResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -5573,19 +5573,19 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_domain_worship_dto.WorshipResponse"
+                            "$ref": "#/definitions/dto.WorshipResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/gotickets_internal_httpresponse.Error"
+                            "$ref": "#/definitions/httpresponse.Error"
                         }
                     }
                 }
@@ -5605,7 +5605,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_server.HealthResponse"
+                            "$ref": "#/definitions/server.HealthResponse"
                         }
                     }
                 }
@@ -5613,7 +5613,116 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "gotickets_internal_domain_cms_dto.CMSPageResponse": {
+        "dto.AdminLoginRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "admin@altar.com"
+                },
+                "language_preference": {
+                    "description": "Language chosen by the user",
+                    "type": "string",
+                    "example": "en"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "Admin1234"
+                }
+            }
+        },
+        "dto.AdminUpdateUserRequest": {
+            "type": "object",
+            "required": [
+                "is_active",
+                "role"
+            ],
+            "properties": {
+                "is_active": {
+                    "type": "boolean",
+                    "example": true
+                },
+                "role": {
+                    "type": "string",
+                    "enum": [
+                        "ADMIN",
+                        "USER"
+                    ],
+                    "example": "ADMIN"
+                }
+            }
+        },
+        "dto.AdminUserResponse": {
+            "type": "object",
+            "properties": {
+                "avatar_url": {
+                    "type": "string",
+                    "example": "https://example.com/avatar.jpg"
+                },
+                "created_at": {
+                    "type": "string",
+                    "example": "2026-08-17T15:00:00Z"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "user@example.com"
+                },
+                "id": {
+                    "type": "string",
+                    "example": "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"
+                },
+                "is_active": {
+                    "type": "boolean",
+                    "example": true
+                },
+                "name": {
+                    "type": "string",
+                    "example": "John Doe"
+                },
+                "role": {
+                    "type": "string",
+                    "example": "USER"
+                }
+            }
+        },
+        "dto.AuthDataResponse": {
+            "type": "object",
+            "properties": {
+                "tokens": {
+                    "$ref": "#/definitions/dto.TokenDTO"
+                },
+                "user": {
+                    "$ref": "#/definitions/dto.UserDTO"
+                }
+            }
+        },
+        "dto.AuthResponse": {
+            "type": "object",
+            "properties": {
+                "access_token": {
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsIn..."
+                },
+                "refresh_token": {
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsIn..."
+                }
+            }
+        },
+        "dto.AvatarResponse": {
+            "type": "object",
+            "properties": {
+                "avatar_url": {
+                    "type": "string",
+                    "example": "https://res.cloudinary.com/demo/image/upload/avatar.jpg"
+                }
+            }
+        },
+        "dto.CMSPageResponse": {
             "type": "object",
             "properties": {
                 "created_at": {
@@ -5628,7 +5737,7 @@ const docTemplate = `{
                 "sections": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/gotickets_internal_domain_cms_dto.CMSPageSectionResponse"
+                        "$ref": "#/definitions/dto.CMSPageSectionResponse"
                     }
                 },
                 "slug": {
@@ -5642,7 +5751,7 @@ const docTemplate = `{
                 }
             }
         },
-        "gotickets_internal_domain_cms_dto.CMSPageSectionRequest": {
+        "dto.CMSPageSectionRequest": {
             "type": "object",
             "required": [
                 "content",
@@ -5660,7 +5769,7 @@ const docTemplate = `{
                 }
             }
         },
-        "gotickets_internal_domain_cms_dto.CMSPageSectionResponse": {
+        "dto.CMSPageSectionResponse": {
             "type": "object",
             "properties": {
                 "content": {
@@ -5677,7 +5786,30 @@ const docTemplate = `{
                 }
             }
         },
-        "gotickets_internal_domain_cms_dto.CreateCMSPageRequest": {
+        "dto.ChangePasswordRequest": {
+            "type": "object",
+            "required": [
+                "confirm_password",
+                "new_password",
+                "old_password"
+            ],
+            "properties": {
+                "confirm_password": {
+                    "type": "string",
+                    "example": "NewSecret123!"
+                },
+                "new_password": {
+                    "type": "string",
+                    "minLength": 8,
+                    "example": "NewSecret123!"
+                },
+                "old_password": {
+                    "type": "string",
+                    "example": "Secret123!"
+                }
+            }
+        },
+        "dto.CreateCMSPageRequest": {
             "type": "object",
             "required": [
                 "slug",
@@ -5690,7 +5822,7 @@ const docTemplate = `{
                 "sections": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/gotickets_internal_domain_cms_dto.CMSPageSectionRequest"
+                        "$ref": "#/definitions/dto.CMSPageSectionRequest"
                     }
                 },
                 "slug": {
@@ -5701,27 +5833,41 @@ const docTemplate = `{
                 }
             }
         },
-        "gotickets_internal_domain_cms_dto.UpdateCMSPageRequest": {
+        "dto.CreateCategoryReq": {
             "type": "object",
             "required": [
-                "title"
+                "name"
             ],
             "properties": {
-                "intro_text": {
+                "name": {
+                    "type": "string",
+                    "maxLength": 100
+                }
+            }
+        },
+        "dto.CreateCategoryRequest": {
+            "type": "object",
+            "required": [
+                "name",
+                "targetAudience"
+            ],
+            "properties": {
+                "module": {
+                    "type": "string",
+                    "enum": [
+                        "Prayer",
+                        "Faith"
+                    ]
+                },
+                "name": {
                     "type": "string"
                 },
-                "sections": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/gotickets_internal_domain_cms_dto.CMSPageSectionRequest"
-                    }
-                },
-                "title": {
+                "targetAudience": {
                     "type": "string"
                 }
             }
         },
-        "gotickets_internal_domain_faq_dto.CreateFAQRequest": {
+        "dto.CreateFAQRequest": {
             "type": "object",
             "required": [
                 "answer",
@@ -5743,50 +5889,7 @@ const docTemplate = `{
                 }
             }
         },
-        "gotickets_internal_domain_faq_dto.FAQResponse": {
-            "type": "object",
-            "properties": {
-                "answer": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "is_active": {
-                    "type": "boolean"
-                },
-                "question": {
-                    "type": "string"
-                },
-                "sort_order": {
-                    "type": "integer"
-                },
-                "updated_at": {
-                    "type": "string"
-                }
-            }
-        },
-        "gotickets_internal_domain_faq_dto.UpdateFAQRequest": {
-            "type": "object",
-            "properties": {
-                "answer": {
-                    "type": "string"
-                },
-                "is_active": {
-                    "type": "boolean"
-                },
-                "question": {
-                    "type": "string"
-                },
-                "sort_order": {
-                    "type": "integer"
-                }
-            }
-        },
-        "gotickets_internal_domain_language_dto.CreateLanguageReq": {
+        "dto.CreateLanguageReq": {
             "type": "object",
             "required": [
                 "code",
@@ -5812,112 +5915,7 @@ const docTemplate = `{
                 }
             }
         },
-        "gotickets_internal_domain_language_dto.LanguageResponse": {
-            "type": "object",
-            "properties": {
-                "code": {
-                    "type": "string",
-                    "example": "en"
-                },
-                "created_at": {
-                    "type": "string",
-                    "example": "2026-08-17T15:00:00Z"
-                },
-                "flag_icon": {
-                    "type": "string",
-                    "example": "https://res.cloudinary.com/demo/image/upload/flag.png"
-                },
-                "id": {
-                    "type": "string",
-                    "example": "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"
-                },
-                "is_active": {
-                    "type": "boolean",
-                    "example": true
-                },
-                "name": {
-                    "type": "string",
-                    "example": "English"
-                }
-            }
-        },
-        "gotickets_internal_domain_language_dto.MessageResponse": {
-            "type": "object",
-            "properties": {
-                "message": {
-                    "type": "string",
-                    "example": "Operation successful"
-                }
-            }
-        },
-        "gotickets_internal_domain_language_dto.PaginatedLanguageResponse": {
-            "type": "object",
-            "properties": {
-                "languages": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/gotickets_internal_domain_language_dto.LanguageResponse"
-                    }
-                },
-                "limit": {
-                    "type": "integer",
-                    "example": 10
-                },
-                "page": {
-                    "type": "integer",
-                    "example": 1
-                },
-                "total_count": {
-                    "type": "integer",
-                    "example": 100
-                }
-            }
-        },
-        "gotickets_internal_domain_language_dto.UpdateLanguageReq": {
-            "type": "object",
-            "properties": {
-                "code": {
-                    "type": "string",
-                    "example": "en"
-                },
-                "flag_icon": {
-                    "type": "string",
-                    "example": "https://res.cloudinary.com/demo/image/upload/flag.png"
-                },
-                "is_active": {
-                    "type": "boolean",
-                    "example": true
-                },
-                "name": {
-                    "type": "string",
-                    "example": "English"
-                }
-            }
-        },
-        "gotickets_internal_domain_library_dto.CategoryResponse": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "gotickets_internal_domain_library_dto.CreateCategoryReq": {
-            "type": "object",
-            "required": [
-                "name"
-            ],
-            "properties": {
-                "name": {
-                    "type": "string",
-                    "maxLength": 100
-                }
-            }
-        },
-        "gotickets_internal_domain_library_dto.CreateLibraryReq": {
+        "dto.CreateLibraryReq": {
             "type": "object",
             "required": [
                 "category",
@@ -5949,111 +5947,7 @@ const docTemplate = `{
                 }
             }
         },
-        "gotickets_internal_domain_library_dto.LibraryDetailsResponse": {
-            "type": "object",
-            "properties": {
-                "library_item": {
-                    "$ref": "#/definitions/gotickets_internal_domain_library_dto.LibraryResponse"
-                },
-                "related": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/gotickets_internal_domain_library_dto.LibraryResponse"
-                    }
-                }
-            }
-        },
-        "gotickets_internal_domain_library_dto.LibraryResponse": {
-            "type": "object",
-            "properties": {
-                "category": {
-                    "type": "string"
-                },
-                "content_text": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "media_url": {
-                    "type": "string"
-                },
-                "short_description": {
-                    "type": "string"
-                },
-                "thumbnail_url": {
-                    "type": "string"
-                },
-                "title": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "string"
-                }
-            }
-        },
-        "gotickets_internal_domain_library_dto.PaginatedLibraryResponse": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/gotickets_internal_domain_library_dto.LibraryResponse"
-                    }
-                },
-                "meta": {
-                    "$ref": "#/definitions/gotickets_internal_querybuilder.Meta"
-                }
-            }
-        },
-        "gotickets_internal_domain_library_dto.UpdateCategoryReq": {
-            "type": "object",
-            "required": [
-                "name"
-            ],
-            "properties": {
-                "name": {
-                    "type": "string",
-                    "maxLength": 100
-                }
-            }
-        },
-        "gotickets_internal_domain_library_dto.UpdateLibraryReq": {
-            "type": "object",
-            "required": [
-                "category",
-                "content_text",
-                "short_description",
-                "thumbnail_url",
-                "title"
-            ],
-            "properties": {
-                "category": {
-                    "type": "string",
-                    "maxLength": 100
-                },
-                "content_text": {
-                    "type": "string"
-                },
-                "media_url": {
-                    "type": "string"
-                },
-                "short_description": {
-                    "type": "string"
-                },
-                "thumbnail_url": {
-                    "type": "string"
-                },
-                "title": {
-                    "type": "string",
-                    "maxLength": 255
-                }
-            }
-        },
-        "gotickets_internal_domain_motivation_dto.CreateMotivationReq": {
+        "dto.CreateMotivationReq": {
             "type": "object",
             "required": [
                 "description",
@@ -6087,146 +5981,7 @@ const docTemplate = `{
                 }
             }
         },
-        "gotickets_internal_domain_motivation_dto.MotivationDetailsResponse": {
-            "type": "object",
-            "properties": {
-                "motivation": {
-                    "$ref": "#/definitions/gotickets_internal_domain_motivation_dto.MotivationResponse"
-                },
-                "related": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/gotickets_internal_domain_motivation_dto.MotivationResponse"
-                    }
-                }
-            }
-        },
-        "gotickets_internal_domain_motivation_dto.MotivationResponse": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "duration": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "speaker_name": {
-                    "type": "string"
-                },
-                "thumbnail_url": {
-                    "type": "string"
-                },
-                "title": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "string"
-                },
-                "video_url": {
-                    "type": "string"
-                }
-            }
-        },
-        "gotickets_internal_domain_motivation_dto.PaginatedMotivationResponse": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/gotickets_internal_domain_motivation_dto.MotivationResponse"
-                    }
-                },
-                "meta": {
-                    "$ref": "#/definitions/gotickets_internal_querybuilder.Meta"
-                }
-            }
-        },
-        "gotickets_internal_domain_motivation_dto.UpdateMotivationReq": {
-            "type": "object",
-            "required": [
-                "description",
-                "duration",
-                "speaker_name",
-                "thumbnail_url",
-                "title",
-                "video_url"
-            ],
-            "properties": {
-                "description": {
-                    "type": "string"
-                },
-                "duration": {
-                    "type": "string",
-                    "maxLength": 20
-                },
-                "speaker_name": {
-                    "type": "string",
-                    "maxLength": 255
-                },
-                "thumbnail_url": {
-                    "type": "string"
-                },
-                "title": {
-                    "type": "string",
-                    "maxLength": 255
-                },
-                "video_url": {
-                    "type": "string"
-                }
-            }
-        },
-        "gotickets_internal_domain_prayer_dto.CategoryResponse": {
-            "type": "object",
-            "properties": {
-                "createdAt": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "module": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "targetAudience": {
-                    "type": "string"
-                },
-                "updatedAt": {
-                    "type": "string"
-                }
-            }
-        },
-        "gotickets_internal_domain_prayer_dto.CreateCategoryRequest": {
-            "type": "object",
-            "required": [
-                "name",
-                "targetAudience"
-            ],
-            "properties": {
-                "module": {
-                    "type": "string",
-                    "enum": [
-                        "Prayer",
-                        "Faith"
-                    ]
-                },
-                "name": {
-                    "type": "string"
-                },
-                "targetAudience": {
-                    "type": "string"
-                }
-            }
-        },
-        "gotickets_internal_domain_prayer_dto.CreatePrayerRequest": {
+        "dto.CreatePrayerRequest": {
             "type": "object",
             "required": [
                 "categoryId",
@@ -6281,7 +6036,59 @@ const docTemplate = `{
                 }
             }
         },
-        "gotickets_internal_domain_prayer_dto.CreateSubCategoryRequest": {
+        "dto.CreateProverbReq": {
+            "type": "object",
+            "required": [
+                "audio_url",
+                "category",
+                "duration",
+                "explanation",
+                "main_text",
+                "publish_date",
+                "scripture_reference",
+                "target_audience",
+                "thumbnail_url",
+                "title"
+            ],
+            "properties": {
+                "audio_url": {
+                    "type": "string"
+                },
+                "category": {
+                    "type": "string"
+                },
+                "duration": {
+                    "type": "string"
+                },
+                "explanation": {
+                    "type": "string"
+                },
+                "main_text": {
+                    "type": "string"
+                },
+                "publish_date": {
+                    "type": "string"
+                },
+                "scripture_reference": {
+                    "type": "string"
+                },
+                "target_audience": {
+                    "type": "string",
+                    "enum": [
+                        "General",
+                        "Kids",
+                        "Teens"
+                    ]
+                },
+                "thumbnail_url": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.CreateSubCategoryRequest": {
             "type": "object",
             "required": [
                 "categoryId",
@@ -6296,7 +6103,182 @@ const docTemplate = `{
                 }
             }
         },
-        "gotickets_internal_domain_prayer_dto.MobileCategoryResponse": {
+        "dto.CreateWorshipReq": {
+            "type": "object",
+            "required": [
+                "artist",
+                "audio_url",
+                "duration",
+                "thumbnail_url",
+                "time_of_day",
+                "title"
+            ],
+            "properties": {
+                "artist": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "audio_url": {
+                    "type": "string"
+                },
+                "duration": {
+                    "type": "string"
+                },
+                "prayer_text": {
+                    "type": "string"
+                },
+                "thumbnail_url": {
+                    "type": "string"
+                },
+                "time_of_day": {
+                    "type": "string",
+                    "enum": [
+                        "Day",
+                        "Night"
+                    ]
+                },
+                "title": {
+                    "type": "string",
+                    "maxLength": 255
+                }
+            }
+        },
+        "dto.FAQResponse": {
+            "type": "object",
+            "properties": {
+                "answer": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_active": {
+                    "type": "boolean"
+                },
+                "question": {
+                    "type": "string"
+                },
+                "sort_order": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.ForgotPasswordRequest": {
+            "type": "object",
+            "required": [
+                "email"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "user@example.com"
+                }
+            }
+        },
+        "dto.LanguageResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "example": "en"
+                },
+                "created_at": {
+                    "type": "string",
+                    "example": "2026-08-17T15:00:00Z"
+                },
+                "flag_icon": {
+                    "type": "string",
+                    "example": "https://res.cloudinary.com/demo/image/upload/flag.png"
+                },
+                "id": {
+                    "type": "string",
+                    "example": "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"
+                },
+                "is_active": {
+                    "type": "boolean",
+                    "example": true
+                },
+                "name": {
+                    "type": "string",
+                    "example": "English"
+                }
+            }
+        },
+        "dto.LibraryDetailsResponse": {
+            "type": "object",
+            "properties": {
+                "library_item": {
+                    "$ref": "#/definitions/dto.LibraryResponse"
+                },
+                "related": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.LibraryResponse"
+                    }
+                }
+            }
+        },
+        "dto.LibraryResponse": {
+            "type": "object",
+            "properties": {
+                "category": {
+                    "type": "string"
+                },
+                "content_text": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "media_url": {
+                    "type": "string"
+                },
+                "short_description": {
+                    "type": "string"
+                },
+                "thumbnail_url": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.LoginRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "user@example.com"
+                },
+                "language_preference": {
+                    "description": "Language chosen by the user",
+                    "type": "string",
+                    "example": "en"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "Secret123!"
+                }
+            }
+        },
+        "dto.MobileCategoryResponse": {
             "type": "object",
             "properties": {
                 "id": {
@@ -6308,7 +6290,7 @@ const docTemplate = `{
                 "subCategories": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.SubCategoryResponse"
+                        "$ref": "#/definitions/dto.SubCategoryResponse"
                     }
                 },
                 "targetAudience": {
@@ -6316,7 +6298,7 @@ const docTemplate = `{
                 }
             }
         },
-        "gotickets_internal_domain_prayer_dto.MobileMetadataResponse": {
+        "dto.MobileMetadataResponse": {
             "type": "object",
             "properties": {
                 "ageGroups": {
@@ -6328,7 +6310,7 @@ const docTemplate = `{
                 "categories": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.MobileCategoryResponse"
+                        "$ref": "#/definitions/dto.MobileCategoryResponse"
                     }
                 },
                 "targetAudience": {
@@ -6336,13 +6318,156 @@ const docTemplate = `{
                 }
             }
         },
-        "gotickets_internal_domain_prayer_dto.PaginatedPrayerResponse": {
+        "dto.MobileTodayResponse": {
+            "type": "object",
+            "properties": {
+                "previous": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.ProverbResponse"
+                    }
+                },
+                "today": {
+                    "$ref": "#/definitions/dto.ProverbResponse"
+                }
+            }
+        },
+        "dto.MotivationDetailsResponse": {
+            "type": "object",
+            "properties": {
+                "motivation": {
+                    "$ref": "#/definitions/dto.MotivationResponse"
+                },
+                "related": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.MotivationResponse"
+                    }
+                }
+            }
+        },
+        "dto.MotivationResponse": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "duration": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "speaker_name": {
+                    "type": "string"
+                },
+                "thumbnail_url": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "video_url": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.NotificationSettingsResponse": {
+            "type": "object",
+            "properties": {
+                "push_notification": {
+                    "type": "boolean",
+                    "example": true
+                }
+            }
+        },
+        "dto.PaginatedAdminUsersResponse": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "integer",
+                    "example": 10
+                },
+                "page": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "total_count": {
+                    "type": "integer",
+                    "example": 100
+                },
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.AdminUserResponse"
+                    }
+                }
+            }
+        },
+        "dto.PaginatedLanguageResponse": {
+            "type": "object",
+            "properties": {
+                "languages": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.LanguageResponse"
+                    }
+                },
+                "limit": {
+                    "type": "integer",
+                    "example": 10
+                },
+                "page": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "total_count": {
+                    "type": "integer",
+                    "example": 100
+                }
+            }
+        },
+        "dto.PaginatedLibraryResponse": {
             "type": "object",
             "properties": {
                 "data": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.PrayerResponse"
+                        "$ref": "#/definitions/dto.LibraryResponse"
+                    }
+                },
+                "meta": {
+                    "$ref": "#/definitions/querybuilder.Meta"
+                }
+            }
+        },
+        "dto.PaginatedMotivationResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.MotivationResponse"
+                    }
+                },
+                "meta": {
+                    "$ref": "#/definitions/querybuilder.Meta"
+                }
+            }
+        },
+        "dto.PaginatedPrayerResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.PrayerResponse"
                     }
                 },
                 "limit": {
@@ -6359,7 +6484,82 @@ const docTemplate = `{
                 }
             }
         },
-        "gotickets_internal_domain_prayer_dto.PrayerResponse": {
+        "dto.PaginatedProverbResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.ProverbResponse"
+                    }
+                },
+                "limit": {
+                    "type": "integer"
+                },
+                "page": {
+                    "type": "integer"
+                },
+                "total_items": {
+                    "type": "integer"
+                },
+                "total_pages": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.PaginatedWorshipResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.WorshipResponse"
+                    }
+                },
+                "limit": {
+                    "type": "integer"
+                },
+                "page": {
+                    "type": "integer"
+                },
+                "total_items": {
+                    "type": "integer"
+                },
+                "total_pages": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.PlanResponse": {
+            "type": "object",
+            "properties": {
+                "billing_interval": {
+                    "type": "string",
+                    "example": "MONTHLY"
+                },
+                "code": {
+                    "type": "string",
+                    "example": "PREMIUM_REQUIRED"
+                },
+                "currency": {
+                    "type": "string",
+                    "example": "USD"
+                },
+                "id": {
+                    "type": "string",
+                    "example": "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "John Doe"
+                },
+                "price_amount": {
+                    "type": "number",
+                    "example": 9.99
+                }
+            }
+        },
+        "dto.PrayerResponse": {
             "type": "object",
             "properties": {
                 "ageGroup": {
@@ -6404,7 +6604,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "subCategory": {
-                    "$ref": "#/definitions/gotickets_internal_domain_prayer_dto.SubCategoryResponse"
+                    "$ref": "#/definitions/dto.SubCategoryResponse"
                 },
                 "subCategoryId": {
                     "type": "string"
@@ -6420,7 +6620,279 @@ const docTemplate = `{
                 }
             }
         },
-        "gotickets_internal_domain_prayer_dto.SubCategoryResponse": {
+        "dto.ProfileResponse": {
+            "type": "object",
+            "properties": {
+                "age": {
+                    "type": "integer",
+                    "example": 25
+                },
+                "avatar_url": {
+                    "type": "string",
+                    "example": "https://res.cloudinary.com/demo/image/upload/avatar.jpg"
+                },
+                "country": {
+                    "type": "string",
+                    "example": "USA"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "user@example.com"
+                },
+                "id": {
+                    "type": "string",
+                    "example": "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"
+                },
+                "location": {
+                    "type": "string",
+                    "example": "New York, USA"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "John Doe"
+                }
+            }
+        },
+        "dto.ProverbResponse": {
+            "type": "object",
+            "properties": {
+                "audio_url": {
+                    "type": "string"
+                },
+                "category": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "duration": {
+                    "type": "string"
+                },
+                "explanation": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "main_text": {
+                    "type": "string"
+                },
+                "publish_date": {
+                    "type": "string"
+                },
+                "scripture_reference": {
+                    "type": "string"
+                },
+                "target_audience": {
+                    "type": "string"
+                },
+                "thumbnail_url": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.RefreshRequest": {
+            "type": "object",
+            "properties": {
+                "refresh_token": {
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsIn..."
+                }
+            }
+        },
+        "dto.RegisterDeviceRequest": {
+            "type": "object",
+            "required": [
+                "platform",
+                "token"
+            ],
+            "properties": {
+                "platform": {
+                    "type": "string",
+                    "enum": [
+                        "IOS",
+                        "ANDROID"
+                    ],
+                    "example": "IOS"
+                },
+                "token": {
+                    "type": "string",
+                    "example": "fcm-token-123"
+                }
+            }
+        },
+        "dto.RegisterRequest": {
+            "type": "object",
+            "required": [
+                "age",
+                "agreeTermsAndConditions",
+                "email",
+                "name",
+                "password"
+            ],
+            "properties": {
+                "age": {
+                    "type": "integer",
+                    "maximum": 120,
+                    "minimum": 0,
+                    "example": 25
+                },
+                "agreeTermsAndConditions": {
+                    "type": "boolean",
+                    "example": true
+                },
+                "email": {
+                    "type": "string",
+                    "example": "user@example.com"
+                },
+                "language_preference": {
+                    "description": "Language chosen by the user",
+                    "type": "string",
+                    "example": "en"
+                },
+                "name": {
+                    "type": "string",
+                    "maxLength": 100,
+                    "minLength": 2,
+                    "example": "John Doe"
+                },
+                "password": {
+                    "type": "string",
+                    "minLength": 8,
+                    "example": "Secret123!"
+                }
+            }
+        },
+        "dto.ResendOTPRequest": {
+            "type": "object",
+            "required": [
+                "email"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "user@example.com"
+                }
+            }
+        },
+        "dto.ResetPasswordRequest": {
+            "type": "object",
+            "required": [
+                "new_password",
+                "reset_token"
+            ],
+            "properties": {
+                "new_password": {
+                    "type": "string",
+                    "minLength": 8,
+                    "example": "NewSecret123!"
+                },
+                "reset_token": {
+                    "type": "string",
+                    "example": "eyJhb..."
+                }
+            }
+        },
+        "dto.ScheduleResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "example": "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"
+                },
+                "morning_prayer_time": {
+                    "type": "string",
+                    "example": "08:00"
+                },
+                "night_prayer_time": {
+                    "type": "string",
+                    "example": "22:00"
+                },
+                "push_enabled": {
+                    "type": "boolean",
+                    "example": true
+                },
+                "timezone": {
+                    "type": "string",
+                    "example": "America/New_York"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "example": "2026-08-17T15:00:00Z"
+                },
+                "user_id": {
+                    "type": "string",
+                    "example": "b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e"
+                }
+            }
+        },
+        "dto.SocialLoginRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "id_token",
+                "provider"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "user@example.com"
+                },
+                "id_token": {
+                    "type": "string",
+                    "example": "eyJhbGciOi..."
+                },
+                "name": {
+                    "type": "string",
+                    "example": "John Doe"
+                },
+                "provider": {
+                    "type": "string",
+                    "enum": [
+                        "google",
+                        "apple"
+                    ],
+                    "example": "google"
+                }
+            }
+        },
+        "dto.StandardAuthResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/dto.AuthDataResponse"
+                },
+                "message": {
+                    "type": "string",
+                    "example": "Login successful"
+                },
+                "success": {
+                    "type": "boolean",
+                    "example": true
+                }
+            }
+        },
+        "dto.StandardResponse": {
+            "type": "object",
+            "properties": {
+                "data": {},
+                "message": {
+                    "type": "string",
+                    "example": "Operation successful"
+                },
+                "success": {
+                    "type": "boolean",
+                    "example": true
+                }
+            }
+        },
+        "dto.SubCategoryResponse": {
             "type": "object",
             "properties": {
                 "categoryId": {
@@ -6440,7 +6912,88 @@ const docTemplate = `{
                 }
             }
         },
-        "gotickets_internal_domain_prayer_dto.UpdateCategoryRequest": {
+        "dto.SubscriptionResponse": {
+            "type": "object",
+            "properties": {
+                "expires_at": {
+                    "type": "string",
+                    "example": "2026-09-17T15:00:00Z"
+                },
+                "external_transaction_id": {
+                    "type": "string",
+                    "example": "1000000123456"
+                },
+                "id": {
+                    "type": "string",
+                    "example": "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"
+                },
+                "plan": {
+                    "$ref": "#/definitions/dto.PlanResponse"
+                },
+                "start_date": {
+                    "type": "string",
+                    "example": "2026-08-17T15:00:00Z"
+                },
+                "status": {
+                    "type": "string",
+                    "example": "ACTIVE"
+                },
+                "store": {
+                    "type": "string",
+                    "example": "APPLE"
+                },
+                "user_id": {
+                    "type": "string",
+                    "example": "b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e"
+                }
+            }
+        },
+        "dto.TokenDTO": {
+            "type": "object",
+            "properties": {
+                "access_token": {
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsIn..."
+                },
+                "refresh_token": {
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsIn..."
+                }
+            }
+        },
+        "dto.UpdateCMSPageRequest": {
+            "type": "object",
+            "required": [
+                "title"
+            ],
+            "properties": {
+                "intro_text": {
+                    "type": "string"
+                },
+                "sections": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.CMSPageSectionRequest"
+                    }
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.UpdateCategoryReq": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "maxLength": 100
+                }
+            }
+        },
+        "dto.UpdateCategoryRequest": {
             "type": "object",
             "required": [
                 "name",
@@ -6462,7 +7015,122 @@ const docTemplate = `{
                 }
             }
         },
-        "gotickets_internal_domain_prayer_dto.UpdatePrayerRequest": {
+        "dto.UpdateFAQRequest": {
+            "type": "object",
+            "properties": {
+                "answer": {
+                    "type": "string"
+                },
+                "is_active": {
+                    "type": "boolean"
+                },
+                "question": {
+                    "type": "string"
+                },
+                "sort_order": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.UpdateLanguageReq": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "example": "en"
+                },
+                "flag_icon": {
+                    "type": "string",
+                    "example": "https://res.cloudinary.com/demo/image/upload/flag.png"
+                },
+                "is_active": {
+                    "type": "boolean",
+                    "example": true
+                },
+                "name": {
+                    "type": "string",
+                    "example": "English"
+                }
+            }
+        },
+        "dto.UpdateLibraryReq": {
+            "type": "object",
+            "required": [
+                "category",
+                "content_text",
+                "short_description",
+                "thumbnail_url",
+                "title"
+            ],
+            "properties": {
+                "category": {
+                    "type": "string",
+                    "maxLength": 100
+                },
+                "content_text": {
+                    "type": "string"
+                },
+                "media_url": {
+                    "type": "string"
+                },
+                "short_description": {
+                    "type": "string"
+                },
+                "thumbnail_url": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string",
+                    "maxLength": 255
+                }
+            }
+        },
+        "dto.UpdateMotivationReq": {
+            "type": "object",
+            "required": [
+                "description",
+                "duration",
+                "speaker_name",
+                "thumbnail_url",
+                "title",
+                "video_url"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "duration": {
+                    "type": "string",
+                    "maxLength": 20
+                },
+                "speaker_name": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "thumbnail_url": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "video_url": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.UpdateNotificationSettingsReq": {
+            "type": "object",
+            "required": [
+                "push_notification"
+            ],
+            "properties": {
+                "push_notification": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "dto.UpdatePrayerRequest": {
             "type": "object",
             "required": [
                 "categoryId",
@@ -6517,22 +7185,36 @@ const docTemplate = `{
                 }
             }
         },
-        "gotickets_internal_domain_prayer_dto.UpdateSubCategoryRequest": {
+        "dto.UpdateProfileRequest": {
             "type": "object",
-            "required": [
-                "categoryId",
-                "name"
-            ],
             "properties": {
-                "categoryId": {
-                    "type": "string"
+                "age": {
+                    "type": "integer",
+                    "maximum": 120,
+                    "minimum": 0,
+                    "example": 25
+                },
+                "country": {
+                    "type": "string",
+                    "example": "USA"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "user@example.com"
+                },
+                "location": {
+                    "type": "string",
+                    "example": "New York, USA"
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "maxLength": 100,
+                    "minLength": 2,
+                    "example": "John Doe"
                 }
             }
         },
-        "gotickets_internal_domain_proverb_dto.CreateProverbReq": {
+        "dto.UpdateProverbReq": {
             "type": "object",
             "required": [
                 "audio_url",
@@ -6584,173 +7266,7 @@ const docTemplate = `{
                 }
             }
         },
-        "gotickets_internal_domain_proverb_dto.MobileTodayResponse": {
-            "type": "object",
-            "properties": {
-                "previous": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/gotickets_internal_domain_proverb_dto.ProverbResponse"
-                    }
-                },
-                "today": {
-                    "$ref": "#/definitions/gotickets_internal_domain_proverb_dto.ProverbResponse"
-                }
-            }
-        },
-        "gotickets_internal_domain_proverb_dto.PaginatedProverbResponse": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/gotickets_internal_domain_proverb_dto.ProverbResponse"
-                    }
-                },
-                "limit": {
-                    "type": "integer"
-                },
-                "page": {
-                    "type": "integer"
-                },
-                "total_items": {
-                    "type": "integer"
-                },
-                "total_pages": {
-                    "type": "integer"
-                }
-            }
-        },
-        "gotickets_internal_domain_proverb_dto.ProverbResponse": {
-            "type": "object",
-            "properties": {
-                "audio_url": {
-                    "type": "string"
-                },
-                "category": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "duration": {
-                    "type": "string"
-                },
-                "explanation": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "main_text": {
-                    "type": "string"
-                },
-                "publish_date": {
-                    "type": "string"
-                },
-                "scripture_reference": {
-                    "type": "string"
-                },
-                "target_audience": {
-                    "type": "string"
-                },
-                "thumbnail_url": {
-                    "type": "string"
-                },
-                "title": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "string"
-                }
-            }
-        },
-        "gotickets_internal_domain_proverb_dto.UpdateProverbReq": {
-            "type": "object",
-            "required": [
-                "audio_url",
-                "category",
-                "duration",
-                "explanation",
-                "main_text",
-                "publish_date",
-                "scripture_reference",
-                "target_audience",
-                "thumbnail_url",
-                "title"
-            ],
-            "properties": {
-                "audio_url": {
-                    "type": "string"
-                },
-                "category": {
-                    "type": "string"
-                },
-                "duration": {
-                    "type": "string"
-                },
-                "explanation": {
-                    "type": "string"
-                },
-                "main_text": {
-                    "type": "string"
-                },
-                "publish_date": {
-                    "type": "string"
-                },
-                "scripture_reference": {
-                    "type": "string"
-                },
-                "target_audience": {
-                    "type": "string",
-                    "enum": [
-                        "General",
-                        "Kids",
-                        "Teens"
-                    ]
-                },
-                "thumbnail_url": {
-                    "type": "string"
-                },
-                "title": {
-                    "type": "string"
-                }
-            }
-        },
-        "gotickets_internal_domain_schedule_dto.ScheduleResponse": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "string",
-                    "example": "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"
-                },
-                "morning_prayer_time": {
-                    "type": "string",
-                    "example": "08:00"
-                },
-                "night_prayer_time": {
-                    "type": "string",
-                    "example": "22:00"
-                },
-                "push_enabled": {
-                    "type": "boolean",
-                    "example": true
-                },
-                "timezone": {
-                    "type": "string",
-                    "example": "America/New_York"
-                },
-                "updated_at": {
-                    "type": "string",
-                    "example": "2026-08-17T15:00:00Z"
-                },
-                "user_id": {
-                    "type": "string",
-                    "example": "b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e"
-                }
-            }
-        },
-        "gotickets_internal_domain_schedule_dto.UpdateScheduleRequest": {
+        "dto.UpdateScheduleRequest": {
             "type": "object",
             "required": [
                 "morning_prayer_time",
@@ -6780,571 +7296,62 @@ const docTemplate = `{
                 }
             }
         },
-        "gotickets_internal_domain_subscription_dto.MessageResponse": {
-            "type": "object",
-            "properties": {
-                "message": {
-                    "type": "string",
-                    "example": "Operation successful"
-                }
-            }
-        },
-        "gotickets_internal_domain_subscription_dto.PlanResponse": {
-            "type": "object",
-            "properties": {
-                "billing_interval": {
-                    "type": "string",
-                    "example": "MONTHLY"
-                },
-                "code": {
-                    "type": "string",
-                    "example": "PREMIUM_REQUIRED"
-                },
-                "currency": {
-                    "type": "string",
-                    "example": "USD"
-                },
-                "id": {
-                    "type": "string",
-                    "example": "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"
-                },
-                "name": {
-                    "type": "string",
-                    "example": "John Doe"
-                },
-                "price_amount": {
-                    "type": "number",
-                    "example": 9.99
-                }
-            }
-        },
-        "gotickets_internal_domain_subscription_dto.SubscriptionResponse": {
-            "type": "object",
-            "properties": {
-                "expires_at": {
-                    "type": "string",
-                    "example": "2026-09-17T15:00:00Z"
-                },
-                "external_transaction_id": {
-                    "type": "string",
-                    "example": "1000000123456"
-                },
-                "id": {
-                    "type": "string",
-                    "example": "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"
-                },
-                "plan": {
-                    "$ref": "#/definitions/gotickets_internal_domain_subscription_dto.PlanResponse"
-                },
-                "start_date": {
-                    "type": "string",
-                    "example": "2026-08-17T15:00:00Z"
-                },
-                "status": {
-                    "type": "string",
-                    "example": "ACTIVE"
-                },
-                "store": {
-                    "type": "string",
-                    "example": "APPLE"
-                },
-                "user_id": {
-                    "type": "string",
-                    "example": "b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e"
-                }
-            }
-        },
-        "gotickets_internal_domain_subscription_dto.VerifyReceiptRequest": {
+        "dto.UpdateSubCategoryRequest": {
             "type": "object",
             "required": [
-                "receipt_payload",
-                "store"
+                "categoryId",
+                "name"
             ],
             "properties": {
-                "receipt_payload": {
-                    "description": "Raw receipt string / token from the store",
-                    "type": "string",
-                    "example": "MIIT7wYJKoZIhvcNAQcCoIIT4D..."
+                "categoryId": {
+                    "type": "string"
                 },
-                "store": {
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.UpdateWorshipReq": {
+            "type": "object",
+            "required": [
+                "artist",
+                "audio_url",
+                "duration",
+                "thumbnail_url",
+                "time_of_day",
+                "title"
+            ],
+            "properties": {
+                "artist": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "audio_url": {
+                    "type": "string"
+                },
+                "duration": {
+                    "type": "string"
+                },
+                "prayer_text": {
+                    "type": "string"
+                },
+                "thumbnail_url": {
+                    "type": "string"
+                },
+                "time_of_day": {
                     "type": "string",
                     "enum": [
-                        "APPLE",
-                        "GOOGLE"
-                    ],
-                    "example": "APPLE"
+                        "Day",
+                        "Night"
+                    ]
+                },
+                "title": {
+                    "type": "string",
+                    "maxLength": 255
                 }
             }
         },
-        "gotickets_internal_domain_subscription_dto.WebhookRequest": {
-            "type": "object",
-            "properties": {
-                "payload": {
-                    "type": "object",
-                    "additionalProperties": true
-                },
-                "store": {
-                    "type": "string",
-                    "example": "APPLE"
-                }
-            }
-        },
-        "gotickets_internal_domain_user_dto.AdminLoginRequest": {
-            "type": "object",
-            "required": [
-                "email",
-                "password"
-            ],
-            "properties": {
-                "email": {
-                    "type": "string",
-                    "example": "admin@altar.com"
-                },
-                "language_preference": {
-                    "description": "Language chosen by the user",
-                    "type": "string",
-                    "example": "en"
-                },
-                "password": {
-                    "type": "string",
-                    "example": "Admin1234"
-                }
-            }
-        },
-        "gotickets_internal_domain_user_dto.AdminUpdateUserRequest": {
-            "type": "object",
-            "required": [
-                "is_active",
-                "role"
-            ],
-            "properties": {
-                "is_active": {
-                    "type": "boolean",
-                    "example": true
-                },
-                "role": {
-                    "type": "string",
-                    "enum": [
-                        "ADMIN",
-                        "USER"
-                    ],
-                    "example": "ADMIN"
-                }
-            }
-        },
-        "gotickets_internal_domain_user_dto.AdminUserResponse": {
-            "type": "object",
-            "properties": {
-                "avatar_url": {
-                    "type": "string",
-                    "example": "https://example.com/avatar.jpg"
-                },
-                "created_at": {
-                    "type": "string",
-                    "example": "2026-08-17T15:00:00Z"
-                },
-                "email": {
-                    "type": "string",
-                    "example": "user@example.com"
-                },
-                "id": {
-                    "type": "string",
-                    "example": "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"
-                },
-                "is_active": {
-                    "type": "boolean",
-                    "example": true
-                },
-                "name": {
-                    "type": "string",
-                    "example": "John Doe"
-                },
-                "role": {
-                    "type": "string",
-                    "example": "USER"
-                }
-            }
-        },
-        "gotickets_internal_domain_user_dto.AuthDataResponse": {
-            "type": "object",
-            "properties": {
-                "tokens": {
-                    "$ref": "#/definitions/gotickets_internal_domain_user_dto.TokenDTO"
-                },
-                "user": {
-                    "$ref": "#/definitions/gotickets_internal_domain_user_dto.UserDTO"
-                }
-            }
-        },
-        "gotickets_internal_domain_user_dto.AuthResponse": {
-            "type": "object",
-            "properties": {
-                "access_token": {
-                    "type": "string",
-                    "example": "eyJhbGciOiJIUzI1NiIsIn..."
-                },
-                "refresh_token": {
-                    "type": "string",
-                    "example": "eyJhbGciOiJIUzI1NiIsIn..."
-                }
-            }
-        },
-        "gotickets_internal_domain_user_dto.AvatarResponse": {
-            "type": "object",
-            "properties": {
-                "avatar_url": {
-                    "type": "string",
-                    "example": "https://res.cloudinary.com/demo/image/upload/avatar.jpg"
-                }
-            }
-        },
-        "gotickets_internal_domain_user_dto.ChangePasswordRequest": {
-            "type": "object",
-            "required": [
-                "confirm_password",
-                "new_password",
-                "old_password"
-            ],
-            "properties": {
-                "confirm_password": {
-                    "type": "string",
-                    "example": "NewSecret123!"
-                },
-                "new_password": {
-                    "type": "string",
-                    "minLength": 8,
-                    "example": "NewSecret123!"
-                },
-                "old_password": {
-                    "type": "string",
-                    "example": "Secret123!"
-                }
-            }
-        },
-        "gotickets_internal_domain_user_dto.ForgotPasswordRequest": {
-            "type": "object",
-            "required": [
-                "email"
-            ],
-            "properties": {
-                "email": {
-                    "type": "string",
-                    "example": "user@example.com"
-                }
-            }
-        },
-        "gotickets_internal_domain_user_dto.LoginRequest": {
-            "type": "object",
-            "required": [
-                "email",
-                "password"
-            ],
-            "properties": {
-                "email": {
-                    "type": "string",
-                    "example": "user@example.com"
-                },
-                "language_preference": {
-                    "description": "Language chosen by the user",
-                    "type": "string",
-                    "example": "en"
-                },
-                "password": {
-                    "type": "string",
-                    "example": "Secret123!"
-                }
-            }
-        },
-        "gotickets_internal_domain_user_dto.MessageResponse": {
-            "type": "object",
-            "properties": {
-                "message": {
-                    "type": "string",
-                    "example": "Operation successful"
-                }
-            }
-        },
-        "gotickets_internal_domain_user_dto.NotificationSettingsResponse": {
-            "type": "object",
-            "properties": {
-                "push_notification": {
-                    "type": "boolean",
-                    "example": true
-                }
-            }
-        },
-        "gotickets_internal_domain_user_dto.PaginatedAdminUsersResponse": {
-            "type": "object",
-            "properties": {
-                "limit": {
-                    "type": "integer",
-                    "example": 10
-                },
-                "page": {
-                    "type": "integer",
-                    "example": 1
-                },
-                "total_count": {
-                    "type": "integer",
-                    "example": 100
-                },
-                "users": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/gotickets_internal_domain_user_dto.AdminUserResponse"
-                    }
-                }
-            }
-        },
-        "gotickets_internal_domain_user_dto.ProfileResponse": {
-            "type": "object",
-            "properties": {
-                "age": {
-                    "type": "integer",
-                    "example": 25
-                },
-                "avatar_url": {
-                    "type": "string",
-                    "example": "https://res.cloudinary.com/demo/image/upload/avatar.jpg"
-                },
-                "country": {
-                    "type": "string",
-                    "example": "USA"
-                },
-                "email": {
-                    "type": "string",
-                    "example": "user@example.com"
-                },
-                "id": {
-                    "type": "string",
-                    "example": "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"
-                },
-                "location": {
-                    "type": "string",
-                    "example": "New York, USA"
-                },
-                "name": {
-                    "type": "string",
-                    "example": "John Doe"
-                }
-            }
-        },
-        "gotickets_internal_domain_user_dto.RefreshRequest": {
-            "type": "object",
-            "properties": {
-                "refresh_token": {
-                    "type": "string",
-                    "example": "eyJhbGciOiJIUzI1NiIsIn..."
-                }
-            }
-        },
-        "gotickets_internal_domain_user_dto.RegisterDeviceRequest": {
-            "type": "object",
-            "required": [
-                "platform",
-                "token"
-            ],
-            "properties": {
-                "platform": {
-                    "type": "string",
-                    "enum": [
-                        "IOS",
-                        "ANDROID"
-                    ],
-                    "example": "IOS"
-                },
-                "token": {
-                    "type": "string",
-                    "example": "fcm-token-123"
-                }
-            }
-        },
-        "gotickets_internal_domain_user_dto.RegisterRequest": {
-            "type": "object",
-            "required": [
-                "age",
-                "agreeTermsAndConditions",
-                "email",
-                "name",
-                "password"
-            ],
-            "properties": {
-                "age": {
-                    "type": "integer",
-                    "maximum": 120,
-                    "minimum": 0,
-                    "example": 25
-                },
-                "agreeTermsAndConditions": {
-                    "type": "boolean",
-                    "example": true
-                },
-                "email": {
-                    "type": "string",
-                    "example": "user@example.com"
-                },
-                "language_preference": {
-                    "description": "Language chosen by the user",
-                    "type": "string",
-                    "example": "en"
-                },
-                "name": {
-                    "type": "string",
-                    "maxLength": 100,
-                    "minLength": 2,
-                    "example": "John Doe"
-                },
-                "password": {
-                    "type": "string",
-                    "minLength": 8,
-                    "example": "Secret123!"
-                }
-            }
-        },
-        "gotickets_internal_domain_user_dto.ResendOTPRequest": {
-            "type": "object",
-            "required": [
-                "email"
-            ],
-            "properties": {
-                "email": {
-                    "type": "string",
-                    "example": "user@example.com"
-                }
-            }
-        },
-        "gotickets_internal_domain_user_dto.ResetPasswordRequest": {
-            "type": "object",
-            "required": [
-                "new_password",
-                "reset_token"
-            ],
-            "properties": {
-                "new_password": {
-                    "type": "string",
-                    "minLength": 8,
-                    "example": "NewSecret123!"
-                },
-                "reset_token": {
-                    "type": "string",
-                    "example": "eyJhb..."
-                }
-            }
-        },
-        "gotickets_internal_domain_user_dto.SocialLoginRequest": {
-            "type": "object",
-            "required": [
-                "email",
-                "id_token",
-                "provider"
-            ],
-            "properties": {
-                "email": {
-                    "type": "string",
-                    "example": "user@example.com"
-                },
-                "id_token": {
-                    "type": "string",
-                    "example": "eyJhbGciOi..."
-                },
-                "name": {
-                    "type": "string",
-                    "example": "John Doe"
-                },
-                "provider": {
-                    "type": "string",
-                    "enum": [
-                        "google",
-                        "apple"
-                    ],
-                    "example": "google"
-                }
-            }
-        },
-        "gotickets_internal_domain_user_dto.StandardAuthResponse": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "$ref": "#/definitions/gotickets_internal_domain_user_dto.AuthDataResponse"
-                },
-                "message": {
-                    "type": "string",
-                    "example": "Login successful"
-                },
-                "success": {
-                    "type": "boolean",
-                    "example": true
-                }
-            }
-        },
-        "gotickets_internal_domain_user_dto.StandardResponse": {
-            "type": "object",
-            "properties": {
-                "data": {},
-                "message": {
-                    "type": "string",
-                    "example": "Operation successful"
-                },
-                "success": {
-                    "type": "boolean",
-                    "example": true
-                }
-            }
-        },
-        "gotickets_internal_domain_user_dto.TokenDTO": {
-            "type": "object",
-            "properties": {
-                "access_token": {
-                    "type": "string",
-                    "example": "eyJhbGciOiJIUzI1NiIsIn..."
-                },
-                "refresh_token": {
-                    "type": "string",
-                    "example": "eyJhbGciOiJIUzI1NiIsIn..."
-                }
-            }
-        },
-        "gotickets_internal_domain_user_dto.UpdateNotificationSettingsReq": {
-            "type": "object",
-            "required": [
-                "push_notification"
-            ],
-            "properties": {
-                "push_notification": {
-                    "type": "boolean"
-                }
-            }
-        },
-        "gotickets_internal_domain_user_dto.UpdateProfileRequest": {
-            "type": "object",
-            "properties": {
-                "age": {
-                    "type": "integer",
-                    "maximum": 120,
-                    "minimum": 0,
-                    "example": 25
-                },
-                "country": {
-                    "type": "string",
-                    "example": "USA"
-                },
-                "email": {
-                    "type": "string",
-                    "example": "user@example.com"
-                },
-                "location": {
-                    "type": "string",
-                    "example": "New York, USA"
-                },
-                "name": {
-                    "type": "string",
-                    "maxLength": 100,
-                    "minLength": 2,
-                    "example": "John Doe"
-                }
-            }
-        },
-        "gotickets_internal_domain_user_dto.UserDTO": {
+        "dto.UserDTO": {
             "type": "object",
             "properties": {
                 "avatar_url": {
@@ -7369,7 +7376,7 @@ const docTemplate = `{
                 }
             }
         },
-        "gotickets_internal_domain_user_dto.VerifyOTPRequest": {
+        "dto.VerifyOTPRequest": {
             "type": "object",
             "required": [
                 "email",
@@ -7386,7 +7393,7 @@ const docTemplate = `{
                 }
             }
         },
-        "gotickets_internal_domain_user_dto.VerifyOTPResponse": {
+        "dto.VerifyOTPResponse": {
             "type": "object",
             "properties": {
                 "reset_token": {
@@ -7395,110 +7402,42 @@ const docTemplate = `{
                 }
             }
         },
-        "gotickets_internal_domain_worship_dto.CreateWorshipReq": {
+        "dto.VerifyReceiptRequest": {
             "type": "object",
             "required": [
-                "artist",
-                "audio_url",
-                "duration",
-                "thumbnail_url",
-                "time_of_day",
-                "title"
+                "receipt_payload",
+                "store"
             ],
             "properties": {
-                "artist": {
+                "receipt_payload": {
+                    "description": "Raw receipt string / token from the store",
                     "type": "string",
-                    "maxLength": 255
+                    "example": "MIIT7wYJKoZIhvcNAQcCoIIT4D..."
                 },
-                "audio_url": {
-                    "type": "string"
-                },
-                "duration": {
-                    "type": "string"
-                },
-                "prayer_text": {
-                    "type": "string"
-                },
-                "thumbnail_url": {
-                    "type": "string"
-                },
-                "time_of_day": {
+                "store": {
                     "type": "string",
                     "enum": [
-                        "Day",
-                        "Night"
-                    ]
-                },
-                "title": {
-                    "type": "string",
-                    "maxLength": 255
+                        "APPLE",
+                        "GOOGLE"
+                    ],
+                    "example": "APPLE"
                 }
             }
         },
-        "gotickets_internal_domain_worship_dto.PaginatedWorshipResponse": {
+        "dto.WebhookRequest": {
             "type": "object",
             "properties": {
-                "data": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/gotickets_internal_domain_worship_dto.WorshipResponse"
-                    }
+                "payload": {
+                    "type": "object",
+                    "additionalProperties": true
                 },
-                "limit": {
-                    "type": "integer"
-                },
-                "page": {
-                    "type": "integer"
-                },
-                "total_items": {
-                    "type": "integer"
-                },
-                "total_pages": {
-                    "type": "integer"
+                "store": {
+                    "type": "string",
+                    "example": "APPLE"
                 }
             }
         },
-        "gotickets_internal_domain_worship_dto.UpdateWorshipReq": {
-            "type": "object",
-            "required": [
-                "artist",
-                "audio_url",
-                "duration",
-                "thumbnail_url",
-                "time_of_day",
-                "title"
-            ],
-            "properties": {
-                "artist": {
-                    "type": "string",
-                    "maxLength": 255
-                },
-                "audio_url": {
-                    "type": "string"
-                },
-                "duration": {
-                    "type": "string"
-                },
-                "prayer_text": {
-                    "type": "string"
-                },
-                "thumbnail_url": {
-                    "type": "string"
-                },
-                "time_of_day": {
-                    "type": "string",
-                    "enum": [
-                        "Day",
-                        "Night"
-                    ]
-                },
-                "title": {
-                    "type": "string",
-                    "maxLength": 255
-                }
-            }
-        },
-        "gotickets_internal_domain_worship_dto.WorshipResponse": {
+        "dto.WorshipResponse": {
             "type": "object",
             "properties": {
                 "artist": {
@@ -7533,42 +7472,7 @@ const docTemplate = `{
                 }
             }
         },
-        "gotickets_internal_httpresponse.Error": {
-            "type": "object",
-            "properties": {
-                "code": {
-                    "type": "integer"
-                },
-                "details": {
-                    "type": "string"
-                },
-                "message": {
-                    "type": "string"
-                }
-            }
-        },
-        "gotickets_internal_querybuilder.Meta": {
-            "type": "object",
-            "properties": {
-                "limit": {
-                    "description": "Limit is the number of items per page.",
-                    "type": "integer"
-                },
-                "page": {
-                    "description": "Page is the current page number (1-indexed).",
-                    "type": "integer"
-                },
-                "total": {
-                    "description": "Total is the total number of matching records.",
-                    "type": "integer"
-                },
-                "total_pages": {
-                    "description": "TotalPages is the total number of pages.",
-                    "type": "integer"
-                }
-            }
-        },
-        "internal_domain_encouragement.CreateEncouragementReq": {
+        "encouragement.CreateEncouragementReq": {
             "type": "object",
             "required": [
                 "contentText"
@@ -7585,7 +7489,7 @@ const docTemplate = `{
                 }
             }
         },
-        "internal_domain_encouragement.EncouragementResponse": {
+        "encouragement.EncouragementResponse": {
             "type": "object",
             "properties": {
                 "audioUrl": {
@@ -7605,13 +7509,13 @@ const docTemplate = `{
                 }
             }
         },
-        "internal_domain_encouragement.PaginatedEncouragementResponse": {
+        "encouragement.PaginatedEncouragementResponse": {
             "type": "object",
             "properties": {
                 "data": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/internal_domain_encouragement.EncouragementResponse"
+                        "$ref": "#/definitions/encouragement.EncouragementResponse"
                     }
                 },
                 "limit": {
@@ -7628,7 +7532,7 @@ const docTemplate = `{
                 }
             }
         },
-        "internal_domain_encouragement.UpdateEncouragementReq": {
+        "encouragement.UpdateEncouragementReq": {
             "type": "object",
             "required": [
                 "contentText"
@@ -7645,7 +7549,68 @@ const docTemplate = `{
                 }
             }
         },
-        "internal_domain_home.DailyQuote": {
+        "gotickets_internal_domain_language_dto.MessageResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Operation successful"
+                }
+            }
+        },
+        "gotickets_internal_domain_library_dto.CategoryResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "gotickets_internal_domain_prayer_dto.CategoryResponse": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "module": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "targetAudience": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "gotickets_internal_domain_subscription_dto.MessageResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Operation successful"
+                }
+            }
+        },
+        "gotickets_internal_domain_user_dto.MessageResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Operation successful"
+                }
+            }
+        },
+        "home.DailyQuote": {
             "type": "object",
             "properties": {
                 "reference": {
@@ -7656,25 +7621,25 @@ const docTemplate = `{
                 }
             }
         },
-        "internal_domain_home.HomeResponse": {
+        "home.HomeResponse": {
             "type": "object",
             "properties": {
                 "quote": {
-                    "$ref": "#/definitions/internal_domain_home.DailyQuote"
+                    "$ref": "#/definitions/home.DailyQuote"
                 },
                 "schedule": {
                     "description": "Returns [] instead of null",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/internal_domain_home.ScheduledPrayer"
+                        "$ref": "#/definitions/home.ScheduledPrayer"
                     }
                 },
                 "user": {
-                    "$ref": "#/definitions/internal_domain_home.UserHome"
+                    "$ref": "#/definitions/home.UserHome"
                 }
             }
         },
-        "internal_domain_home.ScheduledPrayer": {
+        "home.ScheduledPrayer": {
             "type": "object",
             "properties": {
                 "endTime": {
@@ -7698,7 +7663,7 @@ const docTemplate = `{
                 }
             }
         },
-        "internal_domain_home.UserHome": {
+        "home.UserHome": {
             "type": "object",
             "properties": {
                 "ageGroup": {
@@ -7712,7 +7677,21 @@ const docTemplate = `{
                 }
             }
         },
-        "internal_domain_illustration.CreateIllustrationReq": {
+        "httpresponse.Error": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "details": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "illustration.CreateIllustrationReq": {
             "type": "object",
             "required": [
                 "contentText"
@@ -7729,7 +7708,7 @@ const docTemplate = `{
                 }
             }
         },
-        "internal_domain_illustration.IllustrationResponse": {
+        "illustration.IllustrationResponse": {
             "type": "object",
             "properties": {
                 "audioUrl": {
@@ -7749,13 +7728,13 @@ const docTemplate = `{
                 }
             }
         },
-        "internal_domain_illustration.PaginatedIllustrationResponse": {
+        "illustration.PaginatedIllustrationResponse": {
             "type": "object",
             "properties": {
                 "data": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/internal_domain_illustration.IllustrationResponse"
+                        "$ref": "#/definitions/illustration.IllustrationResponse"
                     }
                 },
                 "limit": {
@@ -7772,7 +7751,7 @@ const docTemplate = `{
                 }
             }
         },
-        "internal_domain_illustration.UpdateIllustrationReq": {
+        "illustration.UpdateIllustrationReq": {
             "type": "object",
             "required": [
                 "contentText"
@@ -7789,7 +7768,7 @@ const docTemplate = `{
                 }
             }
         },
-        "internal_domain_media.DeleteRequest": {
+        "media.DeleteRequest": {
             "type": "object",
             "required": [
                 "url"
@@ -7801,7 +7780,7 @@ const docTemplate = `{
                 }
             }
         },
-        "internal_domain_media.DeleteResponse": {
+        "media.DeleteResponse": {
             "type": "object",
             "properties": {
                 "message": {
@@ -7810,7 +7789,7 @@ const docTemplate = `{
                 }
             }
         },
-        "internal_domain_media.UploadResponse": {
+        "media.UploadResponse": {
             "type": "object",
             "properties": {
                 "public_id": {
@@ -7823,7 +7802,28 @@ const docTemplate = `{
                 }
             }
         },
-        "internal_domain_quote.CreateQuoteRequest": {
+        "querybuilder.Meta": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "description": "Limit is the number of items per page.",
+                    "type": "integer"
+                },
+                "page": {
+                    "description": "Page is the current page number (1-indexed).",
+                    "type": "integer"
+                },
+                "total": {
+                    "description": "Total is the total number of matching records.",
+                    "type": "integer"
+                },
+                "total_pages": {
+                    "description": "TotalPages is the total number of pages.",
+                    "type": "integer"
+                }
+            }
+        },
+        "quote.CreateQuoteRequest": {
             "type": "object",
             "required": [
                 "publish_date",
@@ -7845,7 +7845,7 @@ const docTemplate = `{
                 }
             }
         },
-        "internal_domain_quote.QuoteResponse": {
+        "quote.QuoteResponse": {
             "type": "object",
             "properties": {
                 "created_at": {
@@ -7871,7 +7871,7 @@ const docTemplate = `{
                 }
             }
         },
-        "internal_domain_quote.UpdateQuoteRequest": {
+        "quote.UpdateQuoteRequest": {
             "type": "object",
             "required": [
                 "publish_date",
@@ -7892,7 +7892,7 @@ const docTemplate = `{
                 }
             }
         },
-        "internal_server.HealthResponse": {
+        "server.HealthResponse": {
             "type": "object",
             "properties": {
                 "database": {
@@ -7918,7 +7918,7 @@ const docTemplate = `{
                 }
             }
         },
-        "internal_server.WelcomeResponse": {
+        "server.WelcomeResponse": {
             "type": "object",
             "properties": {
                 "docs_url": {
