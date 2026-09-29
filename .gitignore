@@ -12,6 +12,7 @@ build/
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
+temp_auto_push.bat
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
@@ -21,8 +22,10 @@ go.work
 go.work.sum
 
 # env file
-.env
 
 
 *.json
-tmp/
+tmp/.gitignore
+branch_structure.json
+config.bat
+node_modules
