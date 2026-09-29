@@ -56,7 +56,7 @@ jobs:
 
             # Health check with retry
             HEALTH_URL="http://localhost:${{ secrets.APP_PORT }}/health"
-            MAX_RETRIES=12
+            MAX_RETRIES=60
             RETRY_DELAY=5
             ATTEMPT=0
 
