@@ -21,12 +21,13 @@ go.work
 go.work.sum
 
 # env file
-.env
 
 
 *.json
 tmp/
 branch_structure.json
+.gitignore
 temp_auto_push.bat
 temp_interactive_push.bat
-.gitignore
+config.bat
+node_modules
